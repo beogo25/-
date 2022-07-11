@@ -4,28 +4,20 @@ using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private static T m_oInstance = null;
+    public static T instance = null;
 
-    public static T Instance
+   
+    public virtual void Awake()
     {
-        get
+        if (instance == null)
         {
-            if (m_oInstance == null)
-            {
-                var oGameObject = new GameObject(typeof(T).ToString());
-                m_oInstance     = Function.AddComponent<T>(oGameObject);
+            instance = this.GetComponent<T>();
 
-                DontDestroyOnLoad(oGameObject);
-            }
-
-            return m_oInstance;
+            DontDestroyOnLoad(gameObject);
         }
-    }
-
-    //인스턴스 생성
-
-    public static T create()
-    {
-        return Singleton<T>.Instance;
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -23,7 +23,6 @@ public class UseItem : Item
     public int         maxStack;
     public int         stack = 1;
 }
-
 public class Equipment : Item
 {
     public EquipmentType equipmentType;
