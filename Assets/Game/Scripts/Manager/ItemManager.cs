@@ -36,16 +36,13 @@ public class UseItemData
     public List<int> maxStack    = new List<int>();
 }
 
-public class ItemManager : MonoBehaviour
+public class ItemManager : Singleton<ItemManager>
 {
-    ScriptableMaterialItem[] itemData;
-    static public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
-    static public Dictionary<string, Equipment> equipmentDic    = new Dictionary<string, Equipment>();
-    static public Dictionary<string, UseItem> UseItemDic        = new Dictionary<string, UseItem>();
+    //ScriptableMaterialItem[] itemData;
+    public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
+    public Dictionary<string, Equipment> equipmentDic    = new Dictionary<string, Equipment>();
+    public Dictionary<string, UseItem> UseItemDic        = new Dictionary<string, UseItem>();
 
-    private void Awake()
-    {
-    }
     void Start()
     {
         LoadItemListData();
@@ -105,19 +102,19 @@ public class ItemManager : MonoBehaviour
                 equipment.value         = loadData.value[i];
                 equipment.equipmentType = (EquipmentType)loadData.itemtype[i];
                 equipment.itemType      = ItemType.EQUIPMENT;
-                Debug.LogFormat($"{equipment.contents} {equipment.value} {equipment.itemName}");
                 equipment.sprite        = Resources.Load<Texture2D>("Image/Equipment/" + loadData.imageNum[i]).ToSprite();
                 equipmentDic.Add(equipment.itemName, equipment);
             }
         }
 
         //사용 아이템
-        string UseItemData = Resources.Load<TextAsset>("Json/Equipment").text;
+        string UseItemData = Resources.Load<TextAsset>("Json/UseItemJson").text;
         if (UseItemData != null)
         {
             UseItemData loadData = JsonUtility.FromJson<UseItemData>(UseItemData);
             for (int i = 0; i < loadData.itemname.Count; i++)
             {
+                Debug.Log(UseItemData);
                 UseItem useItem  = new UseItem();
                 useItem.itemName = loadData.itemname[i];
                 useItem.contents = loadData.contents[i];
@@ -125,7 +122,8 @@ public class ItemManager : MonoBehaviour
                 useItem.effectValue =loadData.effectValue[i];
                 useItem.maxStack = loadData.maxStack[i];    
                 useItem.itemType = ItemType.USEITEM;
-                useItem.sprite   = Resources.Load<Texture2D>("Image/Equipment/" + loadData.imageNum[i]).ToSprite();
+                Debug.LogFormat($"{useItem.contents} {useItem.value} {useItem.itemName}");
+                useItem.sprite   = Resources.Load<Texture2D>("Image/UseItem/" + loadData.imageNum[i]).ToSprite();
                 UseItemDic.Add(useItem.itemName, useItem);
             }
         }

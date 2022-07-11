@@ -1,7 +1,7 @@
 {
-  "itemname": [ "철검" ],
-  "contents": [ "철로 만들어진 일반 검" ],
-  "value": [ 50 ],
-  "imageNum": [ 1 ],
-  "itemtype": [ 0 ]
+  "itemname": [ "철검","강철검" ],
+  "contents": [ "철로 만들어진 일반 검", "강철로 만들어진 일반 검" ],
+  "value": [ 50,100 ],
+  "imageNum": [ 1,2 ],
+  "itemtype": [ 0,0 ]
 }
