@@ -4,31 +4,30 @@
   "properties": {
     "itemname": {
       "type": "array",
-      "items": 
-        {
-          "type": "string"
-        }
+      "items": {
+        "type": "string",
+        "maxLength": 10,
+        "uniqueItems": true
+      }
     },
     "contents": {
       "type": "array",
-      "items": 
-        {
-          "type": "string"
-        }
+      "items": {
+        "type": "string",
+        "uniqueItems": true
+      }
     },
     "value": {
       "type": "array",
-      "items": 
-        {
-          "type": "integer"
-        }
+      "items": {
+        "type": "integer"
+      }
     },
     "imageNum": {
       "type": "array",
-      "items": 
-        {
-          "type": "integer"
-        }
+      "items": {
+        "type": "integer"
+      }
     }
   },
   "required": [

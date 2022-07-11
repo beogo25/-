@@ -1,8 +1,8 @@
 {
-  "itemname": [],
-  "contents": [],
-  "value": [],
-  "imageNum": [],
-  "effectValue": [],
-  "maxStack": []
+  "itemname": [ "포션" ],
+  "contents": [ "체력을 50채워주는 일반적인 포션" ],
+  "value": [ 100 ],
+  "imageNum": [ 1 ],
+  "effectValue": [ 50 ],
+  "maxStack": [ 10 ]
 }

@@ -7,8 +7,11 @@ public class WarehouseManager : Singleton<WarehouseManager>
     public List<Equipment> equipmentList = new List<Equipment>();
     public List<UseItem> useItemList = new List<UseItem>();
     //UseItem[] useItemList = new UseItem[15];
+    public override void Awake()
+    {
+        base.Awake();
+    }
 
-    
 
     public void AddItem(Item input)
     {
