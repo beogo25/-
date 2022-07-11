@@ -120,7 +120,7 @@ public class ItemManager : Singleton<ItemManager>
                 useItem.effectValue = loadData.effectValue[i];
                 useItem.maxStack    = loadData.maxStack[i];    
                 useItem.itemType    = ItemType.USEITEM;
-                useItem.sprite      = Resources.Load<Texture2D>("Image/Equipment/" + loadData.imageNum[i]).ToSprite();
+                useItem.sprite      = Resources.Load<Texture2D>("Image/UseItem/" + loadData.imageNum[i]).ToSprite();
 
                 UseItemDic.Add(useItem.itemName, useItem);
             }
