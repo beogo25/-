@@ -5,8 +5,8 @@ using UnityEngine;
 public class MaterialWarehouse : Warehouse
 {
     public ItemInformation itemInformation;
-    public int selectSlot = 0;
-    public Slot[] slots;
+    public int             selectSlot = 0;
+    public Slot[]          slots;
     public int SelectSlot
     {
         get { return selectSlot; }
@@ -28,9 +28,9 @@ public class MaterialWarehouse : Warehouse
     private void OnEnable()
     {
         int num = slots.Length;
-        if(num > WarehouseManager.Instance.materialItemList.Count)
+        if (num > WarehouseManager.Instance.materialItemList.Count)
             num = WarehouseManager.Instance.materialItemList.Count;
-        for(int i = 0; i < num; i++)
+        for (int i = 0; i < num; i++)
         {
             slots[i].image.sprite = WarehouseManager.Instance.materialItemList[i].sprite;
             slots[i].stack.text = WarehouseManager.Instance.materialItemList[i].stack.ToString();
@@ -45,9 +45,9 @@ public class MaterialWarehouse : Warehouse
     public override void ItemInformationChange(int num)
     {
         Debug.Log(num);
-        itemInformation.image.sprite = WarehouseManager.Instance.materialItemList[num].sprite;
+        itemInformation.image.sprite  = WarehouseManager.Instance.materialItemList[num].sprite;
         itemInformation.itemName.text = WarehouseManager.Instance.materialItemList[num].itemName;
-        itemInformation.stack.text = WarehouseManager.Instance.materialItemList[num].stack.ToString();
+        itemInformation.stack.text    = WarehouseManager.Instance.materialItemList[num].stack.ToString();
         itemInformation.contents.text = WarehouseManager.Instance.materialItemList[num].contents;
     }
 }
