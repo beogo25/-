@@ -9,13 +9,13 @@ public class Item
     public int      value;
     public Sprite   sprite;
     public ItemType itemType;
+    public int      itemNumber;
 }
 
 public class MaterialItem : Item
 {
     public int stack = 1;
 }
-
 public class UseItem : Item
 {
     public UseItemType useItemType;

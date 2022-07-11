@@ -13,7 +13,7 @@ public class TestShop : MonoBehaviour
     private int      num = 0;
     private void Awake()
     {
-        target = new string[2] { "철검","강철검" };
+        target = new string[3] { "포션","비약","해독제" };
     }
     void Start()
     {
@@ -36,16 +36,14 @@ public class TestShop : MonoBehaviour
 
     void UiChange(string input)
     {
-        textname.text    = ItemManager.instance.equipmentDic[input].itemName;
-        textvalue.text   = ItemManager.instance.equipmentDic[input].value.ToString();
-        textcontent.text = ItemManager.instance.equipmentDic[input].contents;
-        image.sprite     = ItemManager.instance.equipmentDic[input].sprite;
+        textname.text    = ItemListManager.instance.UseItemDic[input].itemName;
+        textvalue.text   = ItemListManager.instance.UseItemDic[input].value.ToString();
+        textcontent.text = ItemListManager.instance.UseItemDic[input].contents;
+        image.sprite     = ItemListManager.instance.UseItemDic[input].sprite;
     }
 
     public void InputItem()
     {
-        //WarehouseManager.Instance.AddItem(ItemManager.materialsDic[target[num]]);
-        //WarehouseManager.Instance.AddItem(ItemManager.UseItemDic[target[num]]);
-        WarehouseManager.instance.AddItem(ItemManager.instance.equipmentDic[target[num]]);
+        WarehouseManager.instance.AddItem(ItemListManager.instance.UseItemDic[target[num]]);
     }
 }
