@@ -6,7 +6,7 @@ public abstract class Warehouse : MonoBehaviour
 {
     public ItemInformation itemInformation;
     public int selectSlot = 0;
-    public Slot[] slots;
+    public WarehouseSlot[] slots;
     public int SelectSlot
     {
         get { return selectSlot; }
@@ -23,7 +23,7 @@ public abstract class Warehouse : MonoBehaviour
     }
     private void OnValidate()
     {
-        slots = transform.GetComponentsInChildren<Slot>();
+        slots = transform.GetComponentsInChildren<WarehouseSlot>();
     }
     public abstract void ItemInformationChange(int num);
 }
