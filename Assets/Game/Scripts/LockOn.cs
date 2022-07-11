@@ -12,6 +12,6 @@ public class LockOn : MonoBehaviour
     {
         transform.LookAt(cameraTransform.position);
         transform.eulerAngles = cameraTransform.eulerAngles;
-        transform.position = targetTransform.position;
+        transform.position    = targetTransform.position;
     }
 }

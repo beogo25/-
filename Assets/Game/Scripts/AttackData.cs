@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class AttackData : ScriptableObject
 {
-    public string attackName;
+    public string    attackName;
     public EnumKey[] attackCommand;
-    public float attackDelay;
+    public float     attackDelay;
 }

@@ -5,14 +5,15 @@ public class CameraMove : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
-    private float cameraX;
-    private float cameraY;
-    private bool isFocused;
+    private float      cameraX;
+    private float      cameraY;
+    private bool       isFocused;
     [SerializeField][Range(0f, 10f)]
-    private float cameraZ;
-    private Vector3 offset;
+    private float      cameraZ;
+    private Vector3    offset;
     [SerializeField]
-    private float cameraSpeed;
+    private float      cameraSpeed;
+
     private void Update()
     {
         offset = new Vector3(0, -3, cameraZ);
@@ -27,7 +28,7 @@ public class CameraMove : MonoBehaviour
         {
             cameraX += Input.GetAxis("Mouse X");
             cameraY -= Input.GetAxis("Mouse Y");
-            cameraY = Mathf.Clamp(cameraY, -20, 50);                                      // 위 아래의 각도 제한
+            cameraY  = Mathf.Clamp(cameraY, -20, 50);                                     // 위 아래의 각도 제한
             transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                   // 이동량에 따라 카메라의 바라보는 방향을 조정(실질적인 값 조정이 필요한 영역)
             transform.position = player.transform.position - transform.rotation * offset; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감
         }
@@ -36,7 +37,7 @@ public class CameraMove : MonoBehaviour
     private IEnumerator CameraFocus()
     {
 
-        GameObject target = player.GetComponent<Player>().lockOnObject;                                 //타겟 대상 선정                  
+        GameObject target = player.GetComponent<Player>().lockOnObject;                                 //타겟 대상 선정
         isFocused = true;
 
         if (Player.isLockedOn)                                                                           //락온이 되었다면
