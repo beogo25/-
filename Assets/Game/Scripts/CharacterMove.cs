@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CharacterMove : MonoBehaviour
 {
-    public float movementSpeed;
-    public float jumpPower;
+    public  float     movementSpeed;
+    public  float     jumpPower;
 
     private Rigidbody characterRigidbody;
     private Transform characterBody;
@@ -13,7 +13,7 @@ public class CharacterMove : MonoBehaviour
     private void Start()
     {
         characterRigidbody = transform.GetChild(0).GetComponent<Rigidbody>();
-        characterBody = transform.GetChild(0).transform;
+        characterBody      = transform.GetChild(0).transform;
     }
 
     void Update()

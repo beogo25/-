@@ -4,93 +4,59 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int attackValue;
-    public static bool isLockedOn = false;
+    public  int           attackValue;
+    public  static bool   isLockedOn = false;
+                          
+    private Animator      animator;
+    public  static bool   isMoveAble = true;
+    public  Transform     particleParent;
+                          
+    public  GameObject    lockOnPrefab;
+    public  GameObject    lockOnObject = null;
+                          
+    public  bool          isGround = true;
+    private float         jumpInputTime;
+    private CharacterMove characterMove;
+    private Rigidbody     characterRigidbody;
 
-    public Animator animator;
-    public static bool isMoveAble = true;
-    public Transform particleParent;
+    public  ComboSystem   combo;
 
-    public GameObject lockOnPrifab;
-    public GameObject lockOnObject = null;
-
-    public bool isGround = true;
-    private float jumpInputTime;
-    private CharacterMove characterMove;    
-    private Rigidbody characterRigidbody;      
-
-    public ComboSystem combo;
-    
     [SerializeField]
-    private AttackData[] attackDatas;
+    private AttackData[]  attackDatas;
 
-    private Vector3 moveDir;
-    private bool isClickAble;
+    private Vector3       moveDir;
+    private bool          isClickAble;
 
-    
+
     void Start()
     {
+        Player player      = this;
+        characterMove      = transform.parent.GetComponent<CharacterMove>();
         characterRigidbody = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
-        animator.SetBool("Land", true);
+        animator           = GetComponent<Animator>();
+        attackDatas        = Resources.LoadAll<AttackData>("AttackData");
 
-        attackDatas = Resources.LoadAll<AttackData>("AttackData");
+        animator.SetBool("Land", true);
 
         foreach (AttackData attack in attackDatas)
             combo.Insert(attack.attackCommand, attack.attackName, attack.attackDelay);
-
-        characterMove = transform.parent.GetComponent<CharacterMove>();
-        Player player = this;
     }
 
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.B))
-            StartCoroutine(HitDown(3));
-
-        
+        InputSetting();
         CheckOnGround();
         LockOn();
         PlayerMove();
-
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop")
-           || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Loop"))
-            isMoveAble = true;
-        else
-            isMoveAble = false;
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            StartCoroutine(TriggerCheck(combo.Input(EnumKey.PUNCH, Time.time)));
-        }
-
-        if (Input.GetButtonDown("Fire2"))
-        {
-            StartCoroutine(TriggerCheck(combo.Input(EnumKey.POWERPUNCH, Time.time)));
-        }
-
-        if (Input.GetButtonDown("Jump") && isGround)
-        {
-            isGround = false;
-            animator.SetBool("Jump", true);
-            animator.SetBool("Land", false);
-        }
-
-        if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade"))
-        {
-            StartCoroutine(TriggerCheck("Evade"));
-        }
-
-
     }
+
     IEnumerator DashReset()
     {
         yield return new WaitForSeconds(0.1f);
         if (moveDir == Vector3.zero)
             animator.SetBool("Dash", false);
     }
-   
+
     //애니메이터 트리거 체크
     IEnumerator TriggerCheck(string skillName)
     {
@@ -106,7 +72,32 @@ public class Player : MonoBehaviour
         else
         { }
     }
+    private void InputSetting()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+            StartCoroutine(HitDown(3));
 
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Loop"))
+            isMoveAble = true;
+        else
+            isMoveAble = false;
+
+        if (Input.GetButtonDown("Fire1"))
+            StartCoroutine(TriggerCheck(combo.Input(EnumKey.PUNCH, Time.time)));
+
+        if (Input.GetButtonDown("Fire2"))
+            StartCoroutine(TriggerCheck(combo.Input(EnumKey.POWERPUNCH, Time.time)));
+
+        if (Input.GetButtonDown("Jump") && isGround)
+        {
+            isGround = false;
+            animator.SetBool("Jump", true);
+            animator.SetBool("Land", false);
+        }
+
+        if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade"))
+            StartCoroutine(TriggerCheck("Evade"));
+    }
 
     #region 애니메이션 이벤트
     public void Jump()
@@ -203,14 +194,14 @@ public class Player : MonoBehaviour
                 {
                     if (lockOnObject == null)
                     {
-                        lockOnObject = Instantiate(lockOnPrifab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
+                        lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
                         lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
                         isLockedOn = true;
                     }
                     else
                     {
                         Destroy(lockOnObject);
-                        lockOnObject = Instantiate(lockOnPrifab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
+                        lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
                         lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
                         isLockedOn = false;
                     }

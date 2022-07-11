@@ -3,18 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-//플레이어 방향 
-enum PlayerDirection
-{
-    NORTH,
-    NORTH_EAST,
-    EAST,
-    EAST_SOUTH,
-    SOUTH,
-    SOUTH_WEST,
-    WEST,
-    WEST_NORTH,
-}
 
 //입력 키
 public enum EnumKey
