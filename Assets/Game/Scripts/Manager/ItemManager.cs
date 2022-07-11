@@ -82,7 +82,6 @@ public class ItemManager : MonoBehaviour
                 materialItem.itemName     = loadData.itemname[i];
                 materialItem.itemType     = ItemType.MATERIAL;
 
-
                 materialItem.sprite       = Resources.Load<Texture2D>("Image/Material/" + loadData.imageNum[i]).ToSprite();
 
 
@@ -118,14 +117,14 @@ public class ItemManager : MonoBehaviour
             UseItemData loadData = JsonUtility.FromJson<UseItemData>(UseItemData);
             for (int i = 0; i < loadData.itemname.Count; i++)
             {
-                UseItem useItem  = new UseItem();
-                useItem.itemName = loadData.itemname[i];
-                useItem.contents = loadData.contents[i];
-                useItem.value    = loadData.value[i];
-                useItem.effectValue =loadData.effectValue[i];
-                useItem.maxStack = loadData.maxStack[i];    
-                useItem.itemType = ItemType.USEITEM;
-                useItem.sprite   = Resources.Load<Texture2D>("Image/Equipment/" + loadData.imageNum[i]).ToSprite();
+                UseItem useItem     = new UseItem();
+                useItem.itemName    = loadData.itemname[i];
+                useItem.contents    = loadData.contents[i];
+                useItem.value       = loadData.value[i];
+                useItem.effectValue = loadData.effectValue[i];
+                useItem.maxStack    = loadData.maxStack[i];    
+                useItem.itemType    = ItemType.USEITEM;
+                useItem.sprite      = Resources.Load<Texture2D>("Image/Equipment/" + loadData.imageNum[i]).ToSprite();
                 UseItemDic.Add(useItem.itemName, useItem);
             }
         }
