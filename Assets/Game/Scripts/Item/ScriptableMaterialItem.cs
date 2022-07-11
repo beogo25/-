@@ -8,7 +8,7 @@ public class ScriptableMaterialItem : ScriptableObject
 {
     public string itemName;
     public string contents;
-    public int value;
+    public int    value;
     public Sprite sprite;
 }
 

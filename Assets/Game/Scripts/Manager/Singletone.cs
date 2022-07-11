@@ -13,7 +13,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             if (m_oInstance == null)
             {
                 var oGameObject = new GameObject(typeof(T).ToString());
-                m_oInstance = Function.AddComponent<T>(oGameObject);
+                m_oInstance     = Function.AddComponent<T>(oGameObject);
 
                 DontDestroyOnLoad(oGameObject);
             }
