@@ -29,11 +29,11 @@ public class UseItemData
 {
     public List<string> itemname = new List<string>();
     public List<string> contents = new List<string>();
-    public List<int> value = new List<int>();
-    public List<int> imageNum = new List<int>();
-    public List<int> itemtype = new List<int>();
+    public List<int> value       = new List<int>();
+    public List<int> imageNum    = new List<int>();
+    public List<int> itemtype    = new List<int>();
     public List<int> effectValue = new List<int>();
-    public List<int> maxStack = new List<int>();
+    public List<int> maxStack    = new List<int>();
 }
 
 public class ItemManager : MonoBehaviour
@@ -41,7 +41,7 @@ public class ItemManager : MonoBehaviour
     ScriptableMaterialItem[] itemData;
     static public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
     static public Dictionary<string, Equipment> equipmentDic    = new Dictionary<string, Equipment>();
-    static public Dictionary<string, UseItem> UseItemDic = new Dictionary<string, UseItem>();
+    static public Dictionary<string, UseItem> UseItemDic        = new Dictionary<string, UseItem>();
 
     private void Awake()
     {
@@ -53,7 +53,7 @@ public class ItemManager : MonoBehaviour
     /*
     void SaveItemListData()
     {
-        itemData = Resources.LoadAll<ScriptableMaterialItem>("Item/MaterialItem");
+        itemData  = Resources.LoadAll<ScriptableMaterialItem>("Item/MaterialItem");
         Data data = new Data();
         for (int i = 0; i < itemData.Length; i++)
         {
@@ -67,8 +67,8 @@ public class ItemManager : MonoBehaviour
 
     public void LoadItemListData()
     {
-        //∏∂≈◊∏ÆæÛ æ∆¿Ã≈€
-        string materialData = Resources.Load<TextAsset>("Json/MaterialItemJson").text;
+        //ÎßàÌÖåÎ¶¨Ïñº ÏïÑÏù¥ÌÖú
+        string materialData   = Resources.Load<TextAsset>("Json/MaterialItemJson").text;
         //string materialData = File.ReadAllText(Application.dataPath + "/Game/Resources/Json/MaterialItemJson.json");
 
         if (materialData != null)
@@ -91,7 +91,7 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        //¿Â∫Ò æ∆¿Ã≈€
+        //Ïû•ÎπÑ ÏïÑÏù¥ÌÖú
         string equipmentData = Resources.Load<TextAsset>("Json/Equipment").text;
         //string equipmentData = File.ReadAllText(Application.dataPath + "/Game/Resources/Json/Equipment.json");
         if (equipmentData != null)
@@ -111,21 +111,21 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        //ªÁøÎ æ∆¿Ã≈€
+        //ÏÇ¨Ïö© ÏïÑÏù¥ÌÖú
         string UseItemData = Resources.Load<TextAsset>("Json/Equipment").text;
         if (UseItemData != null)
         {
             UseItemData loadData = JsonUtility.FromJson<UseItemData>(UseItemData);
             for (int i = 0; i < loadData.itemname.Count; i++)
             {
-                UseItem useItem = new UseItem();
+                UseItem useItem  = new UseItem();
                 useItem.itemName = loadData.itemname[i];
                 useItem.contents = loadData.contents[i];
-                useItem.value = loadData.value[i];
+                useItem.value    = loadData.value[i];
                 useItem.effectValue =loadData.effectValue[i];
                 useItem.maxStack = loadData.maxStack[i];    
                 useItem.itemType = ItemType.USEITEM;
-                useItem.sprite = Resources.Load<Texture2D>("Image/Equipment/" + loadData.imageNum[i]).ToSprite();
+                useItem.sprite   = Resources.Load<Texture2D>("Image/Equipment/" + loadData.imageNum[i]).ToSprite();
                 UseItemDic.Add(useItem.itemName, useItem);
             }
         }
