@@ -79,7 +79,6 @@ public class ItemManager : Singleton<ItemManager>
                 materialItem.itemName     = loadData.itemname[i];
                 materialItem.itemType     = ItemType.MATERIAL;
 
-
                 materialItem.sprite       = Resources.Load<Texture2D>("Image/Material/" + loadData.imageNum[i]).ToSprite();
 
 
@@ -114,16 +113,15 @@ public class ItemManager : Singleton<ItemManager>
             UseItemData loadData = JsonUtility.FromJson<UseItemData>(UseItemData);
             for (int i = 0; i < loadData.itemname.Count; i++)
             {
-                Debug.Log(UseItemData);
-                UseItem useItem  = new UseItem();
-                useItem.itemName = loadData.itemname[i];
-                useItem.contents = loadData.contents[i];
-                useItem.value    = loadData.value[i];
-                useItem.effectValue =loadData.effectValue[i];
-                useItem.maxStack = loadData.maxStack[i];    
-                useItem.itemType = ItemType.USEITEM;
-                Debug.LogFormat($"{useItem.contents} {useItem.value} {useItem.itemName}");
-                useItem.sprite   = Resources.Load<Texture2D>("Image/UseItem/" + loadData.imageNum[i]).ToSprite();
+                UseItem useItem     = new UseItem();
+                useItem.itemName    = loadData.itemname[i];
+                useItem.contents    = loadData.contents[i];
+                useItem.value       = loadData.value[i];
+                useItem.effectValue = loadData.effectValue[i];
+                useItem.maxStack    = loadData.maxStack[i];    
+                useItem.itemType    = ItemType.USEITEM;
+                useItem.sprite      = Resources.Load<Texture2D>("Image/UseItem/" + loadData.imageNum[i]).ToSprite();
+
                 UseItemDic.Add(useItem.itemName, useItem);
             }
         }
