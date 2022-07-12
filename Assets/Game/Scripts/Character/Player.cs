@@ -90,6 +90,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGround)
         {
+            jumpInputTime = Time.time;
             isGround = false;
             animator.SetBool("Jump", true);
             animator.SetBool("Land", false);

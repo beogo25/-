@@ -25,5 +25,14 @@ public abstract class Warehouse : MonoBehaviour
     {
         slots = transform.GetComponentsInChildren<WarehouseSlot>();
     }
-    public abstract void ItemInformationChange(int num);
+    private void OnEnable()
+    {
+        Refresh();
+    }
+    public virtual void ItemInformationChange(int num)
+    {
+        itemInformation.WareHouseBool = true;
+        itemInformation.targetNum = num;
+    }
+    public abstract void Refresh();
 }
