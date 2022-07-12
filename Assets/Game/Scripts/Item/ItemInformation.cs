@@ -30,6 +30,7 @@ public class ItemInformation : MonoBehaviour
                 itemName.text = item.itemName;
                 contents.text = item.contents;
                 image.sprite = item.sprite;
+                //아이템  타입에 따라 다른 행동
             }
         }
     }

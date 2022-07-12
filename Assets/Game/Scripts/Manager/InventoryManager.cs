@@ -9,11 +9,12 @@ public class InventoryManager : Singleton<InventoryManager>
     private List<UseItem> tempList = new List<UseItem>();
     private int itemcount = 0;
 
-    public EquipmentItem[] equipmentList = new EquipmentItem[5];
+    public EquipmentItem[] equipmentList = new EquipmentItem[6];
 
 
     public Inventory inventory;
     public EquipmentInventory equipmentInventory;
+    public PlayerStatus status;
 
     public int ItemCount
     {
@@ -149,10 +150,18 @@ public class InventoryManager : Singleton<InventoryManager>
             UnEquip(target.equipmentType);
             equipmentList[(int)target.equipmentType] = target;
         }
+        if (target.equipmentType == EquipmentType.WEAPON)
+            status.atk += target.equipmentValue;
+        else
+            status.def += target.equipmentValue;
         equipmentInventory.Refresh();
     }
     public void UnEquip(EquipmentType target)
     {
+        if (target == EquipmentType.WEAPON)
+            status.atk -= equipmentList[(int)target].equipmentValue;
+        else
+            status.def -= equipmentList[(int)target].equipmentValue;
         WarehouseManager.instance.AddItem(equipmentList[(int)target]);
         equipmentList[(int)target]=null;
         equipmentInventory.Refresh();
