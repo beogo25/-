@@ -5,26 +5,54 @@ public class CameraMove : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
+
     private float      cameraX;
     private float      cameraY;
+
     private bool       isFocused;
-    [SerializeField][Range(0f, 10f)]
+
+    [SerializeField]
+    [Range(0f, 10f)]
+    private float      ControllerZ;
     private float      cameraZ;
-    private Vector3    offset;
     [SerializeField]
     private float      cameraSpeed;
 
-    private void Update()
+    private Vector3    offset;
+    private Vector3    offsetCam;
+    private RaycastHit hit;
+
+
+    private void LateUpdate()
     {
-        offset = new Vector3(0, -3, cameraZ);
         CameraMovement();
-        if (Input.GetKeyDown(KeyCode.Q))
-            StartCoroutine(CameraFocus());
     }
 
     private void CameraMovement()
     {
-        if (!isFocused)                                                                    //카메라를 앞이나 타켓에게 돌리는 동안은 isFocused 로 명시
+        offset    = new Vector3(0, 0, ControllerZ);
+        offsetCam = new Vector3(0, 0, cameraZ);
+
+
+        Debug.DrawRay(player.transform.position, transform.position - player.transform.position);
+        //카메라의 대한 무브먼트, 물체가 있을 시 카메라가 앞에 배치된다
+        if (Physics.Raycast(player.transform.position, transform.position - player.transform.position, out hit))
+        {
+            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
+            {
+                Debug.Log("막힘");
+                cameraZ = -hit.point.z;
+                Camera.main.transform.position = player.transform.position - Camera.main.transform.rotation * offsetCam;
+            }
+            else
+            {
+                Debug.Log("안막힘");
+                Camera.main.transform.position = transform.position;
+            }
+        }
+
+        //카메라 컨트롤러의 움직임
+        if (!isFocused)                                                                   // 카메라를 앞이나 타켓에게 돌리는 동안은 isFocused 로 명시
         {
             cameraX += Input.GetAxis("Mouse X");
             cameraY -= Input.GetAxis("Mouse Y");
@@ -34,13 +62,12 @@ public class CameraMove : MonoBehaviour
         }
     }
 
-    private IEnumerator CameraFocus()
+    public IEnumerator CameraFocus()
     {
-
-        GameObject target = player.GetComponent<Player>().lockOnObject;                                 //타겟 대상 선정
+        GameObject target = player.transform.parent.GetComponent<Player>().lockOnObject;                //타겟 대상 선정
         isFocused = true;
 
-        if (Player.isLockedOn)                                                                           //락온이 되었다면
+        if (Player.isLockedOn)                                                                          //락온이 되었다면
         {
             Vector3 angleToTargetVec = target.transform.position - player.transform.position;           //타겟에서 플레이어의 벡터를 구하고
             float angleToTarget = Mathf.Atan2(angleToTargetVec.x, angleToTargetVec.z) * Mathf.Rad2Deg;  //아크 탄젠트로 각도(angle)를 구함
@@ -75,3 +102,4 @@ public class CameraMove : MonoBehaviour
 
 
 }
+
