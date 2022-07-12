@@ -42,7 +42,7 @@ public class ItemListManager : Singleton<ItemListManager>
     //ScriptableMaterialItem[] itemData;
     public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
     public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
-    public Dictionary<string, UseItem> UseItemDic        = new Dictionary<string, UseItem>();
+    public Dictionary<string, UseItem> useItemDic        = new Dictionary<string, UseItem>();
 
     void Start()
     {
@@ -120,7 +120,7 @@ public class ItemListManager : Singleton<ItemListManager>
                 useItem.itemType    = ItemType.USEITEM;
                 useItem.itemNumber  = loadData.imageNum[i];
                 useItem.sprite      = Resources.Load<Texture2D>("Image/UseItem/" + loadData.imageNum[i]).ToSprite();
-                UseItemDic.Add(useItem.itemName, useItem);
+                useItemDic.Add(useItem.itemName, useItem);
             }
         }
     }

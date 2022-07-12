@@ -40,13 +40,11 @@ public class CameraMove : MonoBehaviour
         {
             if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
             {
-                Debug.Log("¸·Èû");
                 cameraZ = -hit.point.z;
                 Camera.main.transform.position = player.transform.position - Camera.main.transform.rotation * offsetCam;
             }
             else
             {
-                Debug.Log("¾È¸·Èû");
                 Camera.main.transform.position = transform.position;
             }
         }

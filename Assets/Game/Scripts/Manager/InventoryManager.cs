@@ -15,6 +15,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public Inventory inventory;
     public EquipmentInventory equipmentInventory;
     public PlayerStatus status;
+    public UseItemUI itemUI;
 
     public int ItemCount
     {
@@ -30,9 +31,9 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         if(Input.GetKeyDown(KeyCode.Z))
         {
-            AddItem(ItemListManager.instance.UseItemDic["비약"]);
-            AddItem(ItemListManager.instance.UseItemDic["해독제"]);
-            AddItem(ItemListManager.instance.UseItemDic["포션"]);
+            AddItem(ItemListManager.instance.useItemDic["비약"]);
+            AddItem(ItemListManager.instance.useItemDic["해독제"]);
+            AddItem(ItemListManager.instance.useItemDic["포션"]);
         }
         if(Input.GetKeyDown(KeyCode.X))
         {
@@ -80,9 +81,9 @@ public class InventoryManager : Singleton<InventoryManager>
             }
         }
         if (inventory.gameObject.activeInHierarchy)
-        {
             inventory.Refresh();
-        }
+        if (itemUI.gameObject.activeInHierarchy)
+            itemUI.SelectNum = itemUI.SelectNum;
         return addCount;
     }
 
