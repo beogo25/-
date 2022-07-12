@@ -4,8 +4,15 @@ using UnityEngine;
 public class WarehouseManager : Singleton<WarehouseManager>
 {
     public List<MaterialItem> materialItemList = new List<MaterialItem>();
+    public List<int> materialIndex = new List<int>();
     public List<Equipment> equipmentList = new List<Equipment>();
+    public List<int> equipmentIndex = new List<int>();  
     public List<UseItem> useItemList = new List<UseItem>();
+    public List<int> useIndex = new List<int>();    
+
+    public UseItemWarehouse useItemWarehouse;
+    public EquipmentWarehouse equipmentWarehouse;
+    public MaterialWarehouse materialWarehouse;
     
     public override void Awake()
     {
@@ -44,7 +51,10 @@ public class WarehouseManager : Singleton<WarehouseManager>
             }
         }
         if(!inputCheck)
+        {
+            input.stack = 1;
             materialItemList.Add(input);
+        }
     }
     void EquipmentAdd(Equipment input)
     {
@@ -63,6 +73,30 @@ public class WarehouseManager : Singleton<WarehouseManager>
             }
         }
         if (!inputCheck)
-            useItemList.Add(input);
+        {
+            input.stack = 1;
+            useItemList.Add(new UseItem(input));
+        }
+        if(useItemWarehouse.gameObject.activeInHierarchy)
+            useItemWarehouse.Refresh();
+    }
+    
+    public void MinusItem(int target,ItemType itemType)
+    {
+        switch (itemType)
+        {
+            case ItemType.MATERIAL:
+                break;
+            case ItemType.EQUIPMENT:
+                break;
+            case ItemType.USEITEM:
+                useItemList[target].stack--;
+                if(useItemList[target].stack <= 0)
+                    useItemList.RemoveAt(target);
+                useItemWarehouse.Refresh();
+                break;
+            default:
+                break;
+        }
     }
 }
