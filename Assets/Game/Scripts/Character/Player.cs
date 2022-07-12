@@ -19,7 +19,10 @@ public class Player : MonoBehaviour
     private CharacterMove characterMove;
     private Rigidbody     characterRigidbody;
 
-    public  ComboSystem   combo;
+    [SerializeField]
+    private ComboSystem   combo;
+    [SerializeField]
+    private CameraMove    cameraMove;
 
     [SerializeField]
     private AttackData[]  attackDatas;
@@ -46,7 +49,11 @@ public class Player : MonoBehaviour
     {
         InputSetting();
         CheckOnGround();
-        LockOn();
+        
+    }
+
+    private void FixedUpdate()
+    {
         PlayerMove();
     }
 
@@ -72,6 +79,8 @@ public class Player : MonoBehaviour
         else
         { }
     }
+
+    //캐릭터가 받는 모든 인풋
     private void InputSetting()
     {
         if (Input.GetKeyDown(KeyCode.B))
@@ -90,13 +99,22 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGround)
         {
+            jumpInputTime = Time.time;
             isGround = false;
             animator.SetBool("Jump", true);
             animator.SetBool("Land", false);
         }
 
+
         if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade"))
             StartCoroutine(TriggerCheck("Evade"));
+
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            StartCoroutine(cameraMove.CameraFocus());
+
+        if (Input.GetKeyDown(KeyCode.E))
+            LockOn();
     }
 
     #region 애니메이션 이벤트
@@ -179,35 +197,32 @@ public class Player : MonoBehaviour
 
     private void LockOn()
     {
-
-        if (Input.GetKeyDown(KeyCode.E))
+        if (isLockedOn)
         {
-            if (isLockedOn)
+            Destroy(lockOnObject);
+            isLockedOn = false;
+        }
+        else
+        {
+            Collider[] tempColliders = Physics.OverlapSphere(transform.position, 40, 1 << LayerMask.NameToLayer("LockOn"));
+            if (tempColliders.Length > 0)
             {
-                Destroy(lockOnObject);
-                isLockedOn = false;
-            }
-            else
-            {
-                Collider[] tempColliders = Physics.OverlapSphere(transform.position, 40, 1 << LayerMask.NameToLayer("LockOn"));
-                if (tempColliders.Length > 0)
+                if (lockOnObject == null)
                 {
-                    if (lockOnObject == null)
-                    {
-                        lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
-                        lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
-                        isLockedOn = true;
-                    }
-                    else
-                    {
-                        Destroy(lockOnObject);
-                        lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
-                        lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
-                        isLockedOn = false;
-                    }
+                    lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
+                    lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
+                    isLockedOn   = true;
+                }
+                else
+                {
+                    Destroy(lockOnObject);
+                    lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
+                    lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
+                    isLockedOn   = false;
                 }
             }
         }
+
     }
 
     private void PlayerMove()
