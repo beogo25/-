@@ -24,7 +24,6 @@ public class Inventory : Warehouse
 
     public override void ItemInformationChange(int num)
     {
-        Debug.Log(num);
         itemInformation.Item = InventoryManager.instance.useItemList[num];
         itemInformation.WareHouseBool = false;
         itemInformation.targetNum = num;
