@@ -4,6 +4,7 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     [SerializeField]
+    private GameObject playerPoint;
     private GameObject player;
 
     private float      cameraX;
@@ -13,15 +14,17 @@ public class CameraMove : MonoBehaviour
 
     [SerializeField]
     [Range(0f, 10f)]
-    private float      ControllerZ;
     private float      cameraZ;
     [SerializeField]
     private float      cameraSpeed;
 
     private Vector3    offset;
-    private Vector3    offsetCam;
     private RaycastHit hit;
 
+    private void Start()
+    {
+        player = playerPoint.transform.parent.gameObject;
+    }
 
     private void LateUpdate()
     {
@@ -30,26 +33,18 @@ public class CameraMove : MonoBehaviour
 
     private void CameraMovement()
     {
-        offset    = new Vector3(0, 0, ControllerZ);
-        offsetCam = new Vector3(0, 0, cameraZ);
+        offset    = new Vector3(0, 0, cameraZ);
 
 
-        Debug.DrawRay(player.transform.position, transform.position - player.transform.position);
         //카메라의 대한 무브먼트, 물체가 있을 시 카메라가 앞에 배치된다
-        if (Physics.Raycast(player.transform.position, transform.position - player.transform.position, out hit))
+        if (Physics.Raycast(playerPoint.transform.position, transform.position - playerPoint.transform.position, out hit))
         {
             if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
-            {
-                Debug.Log("막힘");
-                cameraZ = -hit.point.z;
-                Camera.main.transform.position = player.transform.position - Camera.main.transform.rotation * offsetCam;
-            }
+                Camera.main.transform.position = hit.point;
             else
-            {
-                Debug.Log("안막힘");
                 Camera.main.transform.position = transform.position;
-            }
         }
+
 
         //카메라 컨트롤러의 움직임
         if (!isFocused)                                                                   // 카메라를 앞이나 타켓에게 돌리는 동안은 isFocused 로 명시
@@ -58,18 +53,18 @@ public class CameraMove : MonoBehaviour
             cameraY -= Input.GetAxis("Mouse Y");
             cameraY  = Mathf.Clamp(cameraY, -20, 50);                                     // 위 아래의 각도 제한
             transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                   // 이동량에 따라 카메라의 바라보는 방향을 조정(실질적인 값 조정이 필요한 영역)
-            transform.position = player.transform.position - transform.rotation * offset; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감
+            transform.position = playerPoint.transform.position - transform.rotation * offset; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감
         }
     }
 
     public IEnumerator CameraFocus()
     {
-        GameObject target = player.transform.parent.GetComponent<Player>().lockOnObject;                //타겟 대상 선정
+        GameObject target = playerPoint.transform.parent.GetComponent<Player>().lockOnObject;                //타겟 대상 선정
         isFocused = true;
 
         if (Player.isLockedOn)                                                                          //락온이 되었다면
         {
-            Vector3 angleToTargetVec = target.transform.position - player.transform.position;           //타겟에서 플레이어의 벡터를 구하고
+            Vector3 angleToTargetVec = target.transform.position - playerPoint.transform.position;           //타겟에서 플레이어의 벡터를 구하고
             float angleToTarget = Mathf.Atan2(angleToTargetVec.x, angleToTargetVec.z) * Mathf.Rad2Deg;  //아크 탄젠트로 각도(angle)를 구함
 
             cameraX = angleToTarget;                                                                    //그 각도를 cameraX값에 넣어주고,
@@ -77,7 +72,7 @@ public class CameraMove : MonoBehaviour
             while (Mathf.Abs(angleToTarget - transform.rotation.eulerAngles.y) > 0.5)                   //angle이 카메라의 각도와 같아질때까지 돌려준다
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, angleToTarget, 0), cameraSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(transform.position, player.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, playerPoint.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
                 if (Mathf.Abs(angleToTarget - transform.rotation.eulerAngles.y) > 359)                  //angle이 360가 되는 경우도 있기에 이를 빼준다
                     break;
                 yield return new WaitForSeconds(0.005f);
@@ -86,13 +81,13 @@ public class CameraMove : MonoBehaviour
         }
         else
         {
-            cameraX = player.transform.rotation.eulerAngles.y;
-            cameraY = player.transform.rotation.eulerAngles.x;
+            cameraX = playerPoint.transform.rotation.eulerAngles.y;
+            cameraY = playerPoint.transform.rotation.eulerAngles.x;
 
-            while (Mathf.Abs(player.transform.rotation.eulerAngles.y - transform.rotation.eulerAngles.y) > 0.5)
+            while (Mathf.Abs(playerPoint.transform.rotation.eulerAngles.y - transform.rotation.eulerAngles.y) > 0.5)
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(cameraY, cameraX, 0), cameraSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(transform.position, player.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, playerPoint.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
                 yield return new WaitForSeconds(0.005f);
             }
         }
