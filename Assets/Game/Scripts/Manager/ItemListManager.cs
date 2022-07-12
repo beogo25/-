@@ -22,6 +22,7 @@ public class EquipmentData
     public List<int> value       = new List<int>();
     public List<int> imageNum    = new List<int>();
     public List<int> itemtype    = new List<int>();
+    public List<int> equipmentValue = new List<int>();
 }
 
 [System.Serializable]
@@ -40,7 +41,7 @@ public class ItemListManager : Singleton<ItemListManager>
 {
     //ScriptableMaterialItem[] itemData;
     public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
-    public Dictionary<string, Equipment> equipmentDic    = new Dictionary<string, Equipment>();
+    public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
     public Dictionary<string, UseItem> UseItemDic        = new Dictionary<string, UseItem>();
 
     void Start()
@@ -66,7 +67,6 @@ public class ItemListManager : Singleton<ItemListManager>
     {
         //마테리얼 아이템
         string materialData   = Resources.Load<TextAsset>("Json/MaterialItemJson").text;
-        //string materialData = File.ReadAllText(Application.dataPath + "/Game/Resources/Json/MaterialItemJson.json");
 
         if (materialData != null)
         {
@@ -80,28 +80,25 @@ public class ItemListManager : Singleton<ItemListManager>
                 materialItem.itemType     = ItemType.MATERIAL;
                 materialItem.itemNumber   = loadData.imageNum[i];
                 materialItem.sprite       = Resources.Load<Texture2D>("Image/Material/" + loadData.imageNum[i]).ToSprite();
-
-
-                //Debug.LogFormat($"{materialItem.contents} {materialItem.value} {materialItem.itemName}");
                 materialsDic.Add(materialItem.itemName, materialItem);
             }
         }
 
         //장비 아이템
         string equipmentData = Resources.Load<TextAsset>("Json/Equipment").text;
-        //string equipmentData = File.ReadAllText(Application.dataPath + "/Game/Resources/Json/Equipment.json");
         if (equipmentData != null)
         {
             EquipmentData loadData = JsonUtility.FromJson<EquipmentData>(equipmentData);
             for (int i = 0; i < loadData.itemname.Count; i++)
             {
-                Equipment equipment     = new Equipment();
+                EquipmentItem equipment     = new EquipmentItem();
                 equipment.itemName      = loadData.itemname[i];
                 equipment.contents      = loadData.contents[i];
                 equipment.value         = loadData.value[i];
                 equipment.equipmentType = (EquipmentType)loadData.itemtype[i];
                 equipment.itemType      = ItemType.EQUIPMENT;
                 equipment.itemNumber    = loadData.imageNum[i];
+                equipment.equipmentValue= loadData.equipmentValue[i];
                 equipment.sprite        = Resources.Load<Texture2D>("Image/Equipment/" + loadData.imageNum[i]).ToSprite();
                 equipmentDic.Add(equipment.itemName, equipment);
             }
@@ -123,7 +120,6 @@ public class ItemListManager : Singleton<ItemListManager>
                 useItem.itemType    = ItemType.USEITEM;
                 useItem.itemNumber  = loadData.imageNum[i];
                 useItem.sprite      = Resources.Load<Texture2D>("Image/UseItem/" + loadData.imageNum[i]).ToSprite();
-
                 UseItemDic.Add(useItem.itemName, useItem);
             }
         }

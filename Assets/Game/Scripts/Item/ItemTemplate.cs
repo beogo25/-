@@ -54,8 +54,9 @@ public class UseItem : Item
         this.maxStack = useItem.maxStack;   
     }
 }
-public class Equipment : Item
+public class EquipmentItem : Item
 {
     public EquipmentType equipmentType;
+    public int equipmentValue;
 }
 
