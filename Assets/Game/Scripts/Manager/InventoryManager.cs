@@ -9,15 +9,16 @@ public class InventoryManager : Singleton<InventoryManager>
     private List<UseItem> tempList = new List<UseItem>();
     private int itemcount = 0;
 
+    public Inventory inventory;
+
     public int ItemCount
     {
         get { return itemcount; }
         set { itemcount = value; }  
     }
-
-    void Start()
+    public override void Awake()
     {
-        
+        base.Awake();
     }
 
     void Update()
@@ -65,13 +66,17 @@ public class InventoryManager : Singleton<InventoryManager>
             {
                 if(useItemList[i]==null)
                 {
-                    useItemList[i] = target;
+                    useItemList[i] = new UseItem(target);
                     useItemList[i].stack = 1;
                     addCount = true;
                     ItemCount++;
                     break;
                 }
             }
+        }
+        if (inventory.gameObject.activeInHierarchy)
+        {
+            inventory.Refresh();
         }
         return addCount;
     }
@@ -91,6 +96,10 @@ public class InventoryManager : Singleton<InventoryManager>
                 useItemList[i] = useItemList[i + 1];
             }
             ItemCount--;
+        }
+        if(inventory.gameObject.activeInHierarchy)
+        {
+            inventory.Refresh();
         }
     }
 

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Inventory : Warehouse
 {
-    private void OnEnable()
+    public override void Refresh()
     {
         int num = slots.Length;
         for (int i = 0; i < slots.Length; i++)
         {
-            if(InventoryManager.instance.useItemList[i]==null)
-            { 
+            if (InventoryManager.instance.useItemList[i] == null)
+            {
                 slots[i].gameObject.SetActive(false);
             }
             else
@@ -25,9 +25,8 @@ public class Inventory : Warehouse
     public override void ItemInformationChange(int num)
     {
         Debug.Log(num);
-        itemInformation.image.sprite = InventoryManager.instance.useItemList[num].sprite;
-        itemInformation.itemName.text = InventoryManager.instance.useItemList[num].itemName;
-        itemInformation.stack.text = InventoryManager.instance.useItemList[num].stack.ToString()+" / "+ InventoryManager.instance.useItemList[num].maxStack.ToString();
-        itemInformation.contents.text = InventoryManager.instance.useItemList[num].contents;
+        itemInformation.Item = InventoryManager.instance.useItemList[num];
+        itemInformation.WareHouseBool = false;
+        itemInformation.targetNum = num;
     }
 }

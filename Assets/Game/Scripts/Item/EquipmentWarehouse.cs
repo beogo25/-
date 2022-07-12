@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class EquipmentWarehouse : Warehouse
 {
-    private void OnEnable()
+    public override void ItemInformationChange(int num)
+    {
+        itemInformation.Item = WarehouseManager.instance.equipmentList[num];
+        base.ItemInformationChange(num);
+    }
+    public override void Refresh()
     {
         int num = slots.Length;
         if (num > WarehouseManager.instance.equipmentList.Count)
@@ -18,12 +23,5 @@ public class EquipmentWarehouse : Warehouse
         {
             slots[i].gameObject.SetActive(false);
         }
-    }
-
-    public override void ItemInformationChange(int num)
-    {
-        itemInformation.image.sprite = WarehouseManager.instance.equipmentList[num].sprite;
-        itemInformation.itemName.text = WarehouseManager.instance.equipmentList[num].itemName;
-        itemInformation.contents.text = WarehouseManager.instance.equipmentList[num].contents;
     }
 }
