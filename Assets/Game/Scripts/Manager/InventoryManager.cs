@@ -9,7 +9,11 @@ public class InventoryManager : Singleton<InventoryManager>
     private List<UseItem> tempList = new List<UseItem>();
     private int itemcount = 0;
 
+    public EquipmentItem[] equipmentList = new EquipmentItem[5];
+
+
     public Inventory inventory;
+    public EquipmentInventory equipmentInventory;
 
     public int ItemCount
     {
@@ -132,5 +136,25 @@ public class InventoryManager : Singleton<InventoryManager>
         }
         for (int i = 0; i < ItemCount; i++)
             useItemList[i] = (tempList[i]);
+    }
+
+    public void Equip(EquipmentItem target)
+    {
+        if(equipmentList[(int)target.equipmentType] == null)
+        {
+            equipmentList[(int)target.equipmentType] = target;
+        }
+        else
+        {
+            UnEquip(target.equipmentType);
+            equipmentList[(int)target.equipmentType] = target;
+        }
+        equipmentInventory.Refresh();
+    }
+    public void UnEquip(EquipmentType target)
+    {
+        WarehouseManager.instance.AddItem(equipmentList[(int)target]);
+        equipmentList[(int)target]=null;
+        equipmentInventory.Refresh();
     }
 }

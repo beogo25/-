@@ -4,11 +4,8 @@ using UnityEngine;
 public class WarehouseManager : Singleton<WarehouseManager>
 {
     public List<MaterialItem> materialItemList = new List<MaterialItem>();
-    public List<int> materialIndex = new List<int>();
-    public List<Equipment> equipmentList = new List<Equipment>();
-    public List<int> equipmentIndex = new List<int>();  
+    public List<EquipmentItem> equipmentList = new List<EquipmentItem>();
     public List<UseItem> useItemList = new List<UseItem>();
-    public List<int> useIndex = new List<int>();    
 
     public UseItemWarehouse useItemWarehouse;
     public EquipmentWarehouse equipmentWarehouse;
@@ -28,7 +25,7 @@ public class WarehouseManager : Singleton<WarehouseManager>
                 MaterialAdd((MaterialItem)input);
                 break;
             case ItemType.EQUIPMENT:
-                EquipmentAdd((Equipment)input);
+                EquipmentAdd((EquipmentItem)input);
                 break;
             case ItemType.USEITEM:
                 UseItemAdd((UseItem)input);
@@ -56,9 +53,11 @@ public class WarehouseManager : Singleton<WarehouseManager>
             materialItemList.Add(input);
         }
     }
-    void EquipmentAdd(Equipment input)
+    void EquipmentAdd(EquipmentItem input)
     {
         equipmentList.Add(input);
+        if (equipmentWarehouse.gameObject.activeInHierarchy)
+            equipmentWarehouse.Refresh();
     }
     void UseItemAdd(UseItem input)
     {
@@ -88,6 +87,8 @@ public class WarehouseManager : Singleton<WarehouseManager>
             case ItemType.MATERIAL:
                 break;
             case ItemType.EQUIPMENT:
+                equipmentList.RemoveAt(target);
+                equipmentWarehouse.Refresh();
                 break;
             case ItemType.USEITEM:
                 useItemList[target].stack--;
