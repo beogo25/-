@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Warehouse : MonoBehaviour
+public abstract class WarehouseUI : MonoBehaviour
 {
     public ItemInformation itemInformation;
     public int selectSlot = 0;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EquipmentWarehouse : Warehouse
+public class EquipmentWarehouseUI : WarehouseUI
 {
     public override void ItemInformationChange(int num)
     {
