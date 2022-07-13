@@ -15,6 +15,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public Inventory inventory;
     public EquipmentInventory equipmentInventory;
     public PlayerStatus status;
+    public BattleItemSystem itemUI;
 
     public int ItemCount
     {
@@ -30,9 +31,9 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         if(Input.GetKeyDown(KeyCode.Z))
         {
-            AddItem(ItemListManager.instance.UseItemDic["비약"]);
-            AddItem(ItemListManager.instance.UseItemDic["해독제"]);
-            AddItem(ItemListManager.instance.UseItemDic["포션"]);
+            AddItem(ItemListManager.instance.useItemDic["비약"]);
+            AddItem(ItemListManager.instance.useItemDic["해독제"]);
+            AddItem(ItemListManager.instance.useItemDic["포션"]);
         }
         if(Input.GetKeyDown(KeyCode.X))
         {
@@ -48,13 +49,14 @@ public class InventoryManager : Singleton<InventoryManager>
     public bool AddItem(UseItem target)
     {
         bool addCount = false;
+        bool pass = false;
         for(int i = 0; i < itemcount; i++)
         {
             if(useItemList[i].itemName==target.itemName)
             {
                 if(useItemList[i].stack== useItemList[i].maxStack)
                 {
-                    addCount = true;
+                    pass = true;
                     break;
                 }
                 else
@@ -65,7 +67,7 @@ public class InventoryManager : Singleton<InventoryManager>
                 }
             }
         }
-        if(addCount == false)
+        if(addCount == false && pass == false)
         {
             for(int i = 0; i < useItemList.Length; i++)
             {
@@ -80,9 +82,9 @@ public class InventoryManager : Singleton<InventoryManager>
             }
         }
         if (inventory.gameObject.activeInHierarchy)
-        {
             inventory.Refresh();
-        }
+        if (itemUI.gameObject.activeInHierarchy)
+            itemUI.SelectNum = itemUI.SelectNum;
         return addCount;
     }
 
@@ -102,10 +104,10 @@ public class InventoryManager : Singleton<InventoryManager>
             }
             ItemCount--;
         }
-        if(inventory.gameObject.activeInHierarchy)
-        {
+        if (inventory.gameObject.activeInHierarchy)
             inventory.Refresh();
-        }
+        if (itemUI.gameObject.activeInHierarchy)
+            itemUI.SelectNum = itemUI.SelectNum;
     }
 
     public void SortItem(bool ascend = true)
@@ -137,6 +139,10 @@ public class InventoryManager : Singleton<InventoryManager>
         }
         for (int i = 0; i < ItemCount; i++)
             useItemList[i] = (tempList[i]);
+        if (inventory.gameObject.activeInHierarchy)
+            inventory.Refresh();
+        if (itemUI.gameObject.activeInHierarchy)
+            itemUI.SelectNum = itemUI.SelectNum;
     }
 
     public void Equip(EquipmentItem target)

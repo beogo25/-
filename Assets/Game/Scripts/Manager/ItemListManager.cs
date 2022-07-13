@@ -35,6 +35,7 @@ public class UseItemData
     public List<int> itemtype    = new List<int>();
     public List<int> effectValue = new List<int>();
     public List<int> maxStack    = new List<int>();
+    public List<int> useItemType = new List<int>();
 }
 
 public class ItemListManager : Singleton<ItemListManager>
@@ -42,10 +43,11 @@ public class ItemListManager : Singleton<ItemListManager>
     //ScriptableMaterialItem[] itemData;
     public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
     public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
-    public Dictionary<string, UseItem> UseItemDic        = new Dictionary<string, UseItem>();
+    public Dictionary<string, UseItem> useItemDic        = new Dictionary<string, UseItem>();
 
-    void Start()
+    public override void Awake()
     {
+        base.Awake();
         LoadItemListData();
     }
     /*
@@ -118,9 +120,10 @@ public class ItemListManager : Singleton<ItemListManager>
                 useItem.effectValue = loadData.effectValue[i];
                 useItem.maxStack    = loadData.maxStack[i];    
                 useItem.itemType    = ItemType.USEITEM;
+                useItem.useItemType = (UseItemType)loadData.useItemType[i];
                 useItem.itemNumber  = loadData.imageNum[i];
                 useItem.sprite      = Resources.Load<Texture2D>("Image/UseItem/" + loadData.imageNum[i]).ToSprite();
-                UseItemDic.Add(useItem.itemName, useItem);
+                useItemDic.Add(useItem.itemName, useItem);
             }
         }
     }
