@@ -59,10 +59,12 @@ public class ItemInformation : MonoBehaviour
         switch(item.itemType)
         {
             case ItemType.USEITEM:
-                if (WarehouseManager.instance.useItemList[targetNum].stack == 1)
-                    outWarehouseButton.SetActive(false);
-                WarehouseManager.instance.MinusItem(targetNum, ItemType.USEITEM);
-                InventoryManager.instance.AddItem(ItemListManager.instance.useItemDic[Item.itemName]);
+                if(InventoryManager.instance.AddItem(ItemListManager.instance.useItemDic[Item.itemName]))
+                {
+                    if (WarehouseManager.instance.useItemList[targetNum].stack == 1)
+                        outWarehouseButton.SetActive(false);
+                    WarehouseManager.instance.MinusItem(targetNum, ItemType.USEITEM);
+                }
                 break;
             case ItemType.EQUIPMENT:
                 outWarehouseButton.SetActive(false);

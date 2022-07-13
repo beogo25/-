@@ -15,15 +15,6 @@ public class TestShop : MonoBehaviour
     {
         target = new string[3] { "포션","비약","해독제" };
     }
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-
-    }
     public void ButtonEvent(int input)
     {
         num += input;
