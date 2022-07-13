@@ -20,51 +20,53 @@ public class CameraMove : MonoBehaviour
 
     private Vector3    offset;
     private RaycastHit hit;
+    private int        layerMask;
+    
 
     private void Start()
     {
         player = playerPoint.transform.parent.gameObject;
+        layerMask = (1 << LayerMask.NameToLayer("Wall") | LayerMask.NameToLayer("Ground"));
+        
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         CameraMovement();
     }
 
     private void CameraMovement()
     {
-        offset    = new Vector3(0, 0, cameraZ);
-
-
-        //카메라의 대한 무브먼트, 물체가 있을 시 카메라가 앞에 배치된다
-        if (Physics.Raycast(playerPoint.transform.position, transform.position - playerPoint.transform.position, out hit))
-        {
-            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
-                Camera.main.transform.position = hit.point;
-            else
-                Camera.main.transform.position = transform.position;
-        }
-
 
         //카메라 컨트롤러의 움직임
-        if (!isFocused)                                                                   // 카메라를 앞이나 타켓에게 돌리는 동안은 isFocused 로 명시
+        if (!isFocused)                                                                                 // 카메라를 앞이나 타켓에게 돌리는 동안은 isFocused 로 명시
         {
+            offset = new Vector3(0, 0, cameraZ);
+
+            Debug.DrawRay(playerPoint.transform.position, transform.position - playerPoint.transform.position, Color.red);
+            //카메라의 대한 무브먼트, 물체가 있을 시 카메라가 앞에 배치된다
+            if (Physics.Raycast(playerPoint.transform.position, transform.position - playerPoint.transform.position, out hit, Vector3.Distance(transform.position, playerPoint.transform.position), layerMask))
+                Camera.main.transform.position = hit.point + (playerPoint.transform.position - hit.point).normalized * 0.5f;
+
+            else
+                Camera.main.transform.position = transform.position;
+
             cameraX += Input.GetAxis("Mouse X");
             cameraY -= Input.GetAxis("Mouse Y");
-            cameraY  = Mathf.Clamp(cameraY, -20, 50);                                     // 위 아래의 각도 제한
-            transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                   // 이동량에 따라 카메라의 바라보는 방향을 조정(실질적인 값 조정이 필요한 영역)
-            transform.position = playerPoint.transform.position - transform.rotation * offset; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감
+            cameraY  = Mathf.Clamp(cameraY, -20, 50);                                                   // 위 아래의 각도 제한
+            transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                                 // 이동량에 따라 카메라의 바라보는 방향을 조정(실질적인 값 조정이 필요한 영역)
+            transform.position = playerPoint.transform.position - transform.rotation * offset;          // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감
         }
     }
 
     public IEnumerator CameraFocus()
     {
-        GameObject target = playerPoint.transform.parent.GetComponent<Player>().lockOnObject;                //타겟 대상 선정
+        GameObject target = playerPoint.transform.parent.GetComponent<Player>().lockOnObject;           //타겟 대상 선정
         isFocused = true;
 
         if (Player.isLockedOn)                                                                          //락온이 되었다면
         {
-            Vector3 angleToTargetVec = target.transform.position - playerPoint.transform.position;           //타겟에서 플레이어의 벡터를 구하고
+            Vector3 angleToTargetVec = target.transform.position - playerPoint.transform.position;      //타겟에서 플레이어의 벡터를 구하고
             float angleToTarget = Mathf.Atan2(angleToTargetVec.x, angleToTargetVec.z) * Mathf.Rad2Deg;  //아크 탄젠트로 각도(angle)를 구함
 
             cameraX = angleToTarget;                                                                    //그 각도를 cameraX값에 넣어주고,
