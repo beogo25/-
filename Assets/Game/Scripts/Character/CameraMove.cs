@@ -4,6 +4,7 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     [SerializeField]
+    private GameObject playerPoint;
     private GameObject player;
 
     private float      cameraX;
@@ -13,70 +14,66 @@ public class CameraMove : MonoBehaviour
 
     [SerializeField]
     [Range(0f, 10f)]
-    private float      ControllerZ;
     private float      cameraZ;
     [SerializeField]
     private float      cameraSpeed;
 
     private Vector3    offset;
-    private Vector3    offsetCam;
     private RaycastHit hit;
+    private int        layerMask;
+    
 
+    private void Start()
+    {
+        player    = playerPoint.transform.parent.gameObject;
+        layerMask = (1 << LayerMask.NameToLayer("Wall") | LayerMask.NameToLayer("Ground"));
+        
+    }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         CameraMovement();
     }
 
     private void CameraMovement()
     {
-        offset    = new Vector3(0, 0, ControllerZ);
-        offsetCam = new Vector3(0, 0, cameraZ);
 
-
-        Debug.DrawRay(player.transform.position, transform.position - player.transform.position);
-        //Ä«¸Þ¶óÀÇ ´ëÇÑ ¹«ºê¸ÕÆ®, ¹°Ã¼°¡ ÀÖÀ» ½Ã Ä«¸Þ¶ó°¡ ¾Õ¿¡ ¹èÄ¡µÈ´Ù
-        if (Physics.Raycast(player.transform.position, transform.position - player.transform.position, out hit))
+        //ì¹´ë©”ë¼ ì»¨íŠ¸ë¡¤ëŸ¬ì˜ ì›€ì§ìž„
+        if (!isFocused)                                                                                 // ì¹´ë©”ë¼ë¥¼ ì•žì´ë‚˜ íƒ€ì¼“ì—ê²Œ ëŒë¦¬ëŠ” ë™ì•ˆì€ isFocused ë¡œ ëª…ì‹œ
         {
-            if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Player"))
-            {
-                cameraZ = -hit.point.z;
-                Camera.main.transform.position = player.transform.position - Camera.main.transform.rotation * offsetCam;
-            }
+            offset = new Vector3(0, 0, cameraZ);
+           
+            //ì¹´ë©”ë¼ì˜ ëŒ€í•œ ë¬´ë¸Œë¨¼íŠ¸, ë¬¼ì²´ê°€ ìžˆì„ ì‹œ ì¹´ë©”ë¼ê°€ ì•žì— ë°°ì¹˜ëœë‹¤
+            if (Physics.Raycast(playerPoint.transform.position, transform.position - playerPoint.transform.position, out hit, Vector3.Distance(transform.position, playerPoint.transform.position), layerMask))
+                Camera.main.transform.position = hit.point + (playerPoint.transform.position - hit.point).normalized * 0.5f;
             else
-            {
                 Camera.main.transform.position = transform.position;
-            }
-        }
 
-        //Ä«¸Þ¶ó ÄÁÆ®·Ñ·¯ÀÇ ¿òÁ÷ÀÓ
-        if (!isFocused)                                                                   // Ä«¸Þ¶ó¸¦ ¾ÕÀÌ³ª Å¸ÄÏ¿¡°Ô µ¹¸®´Â µ¿¾ÈÀº isFocused ·Î ¸í½Ã
-        {
             cameraX += Input.GetAxis("Mouse X");
             cameraY -= Input.GetAxis("Mouse Y");
-            cameraY  = Mathf.Clamp(cameraY, -20, 50);                                     // À§ ¾Æ·¡ÀÇ °¢µµ Á¦ÇÑ
-            transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                   // ÀÌµ¿·®¿¡ µû¶ó Ä«¸Þ¶óÀÇ ¹Ù¶óº¸´Â ¹æÇâÀ» Á¶Á¤(½ÇÁúÀûÀÎ °ª Á¶Á¤ÀÌ ÇÊ¿äÇÑ ¿µ¿ª)
-            transform.position = player.transform.position - transform.rotation * offset; // ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿¡¼­ Ä«¸Þ¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâ¿¡ º¤ÅÍ°ªÀ» Àû¿ëÇÑ »ó´ë ÁÂÇ¥¸¦ Â÷°¨
+            cameraY  = Mathf.Clamp(cameraY, -20, 50);                                                   // ìœ„ ì•„ëž˜ì˜ ê°ë„ ì œí•œ
+            transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                                 // ì´ë™ëŸ‰ì— ë”°ë¼ ì¹´ë©”ë¼ì˜ ë°”ë¼ë³´ëŠ” ë°©í–¥ì„ ì¡°ì •(ì‹¤ì§ˆì ì¸ ê°’ ì¡°ì •ì´ í•„ìš”í•œ ì˜ì—­)
+            transform.position = playerPoint.transform.position - transform.rotation * offset;          // í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì—ì„œ ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ì— ë²¡í„°ê°’ì„ ì ìš©í•œ ìƒëŒ€ ì¢Œí‘œë¥¼ ì°¨ê°
         }
     }
 
     public IEnumerator CameraFocus()
     {
-        GameObject target = player.transform.parent.GetComponent<Player>().lockOnObject;                //Å¸°Ù ´ë»ó ¼±Á¤
+        GameObject target = playerPoint.transform.parent.GetComponent<Player>().lockOnObject;           // íƒ€ê²Ÿ ëŒ€ìƒ ì„ ì •
         isFocused = true;
 
-        if (Player.isLockedOn)                                                                          //¶ô¿ÂÀÌ µÇ¾ú´Ù¸é
+        if (Player.isLockedOn)                                                                          // ë½ì˜¨ì´ ë˜ì—ˆë‹¤ë©´
         {
-            Vector3 angleToTargetVec = target.transform.position - player.transform.position;           //Å¸°Ù¿¡¼­ ÇÃ·¹ÀÌ¾îÀÇ º¤ÅÍ¸¦ ±¸ÇÏ°í
-            float angleToTarget = Mathf.Atan2(angleToTargetVec.x, angleToTargetVec.z) * Mathf.Rad2Deg;  //¾ÆÅ© ÅºÁ¨Æ®·Î °¢µµ(angle)¸¦ ±¸ÇÔ
+            Vector3 angleToTargetVec = target.transform.position - playerPoint.transform.position;      // íƒ€ê²Ÿì—ì„œ í”Œë ˆì´ì–´ì˜ ë²¡í„°ë¥¼ êµ¬í•˜ê³ 
+            float angleToTarget = Mathf.Atan2(angleToTargetVec.x, angleToTargetVec.z) * Mathf.Rad2Deg;  // ì•„í¬ íƒ„ì  íŠ¸ë¡œ ê°ë„(angle)ë¥¼ êµ¬í•¨
 
-            cameraX = angleToTarget;                                                                    //±× °¢µµ¸¦ cameraX°ª¿¡ ³Ö¾îÁÖ°í,
+            cameraX = angleToTarget;                                                                    // ê·¸ ê°ë„ë¥¼ cameraXê°’ì— ë„£ì–´ì£¼ê³ ,
 
-            while (Mathf.Abs(angleToTarget - transform.rotation.eulerAngles.y) > 0.5)                   //angleÀÌ Ä«¸Þ¶óÀÇ °¢µµ¿Í °°¾ÆÁú¶§±îÁö µ¹·ÁÁØ´Ù
+            while (Mathf.Abs(angleToTarget - transform.rotation.eulerAngles.y) > 0.5)                   // angleì´ ì¹´ë©”ë¼ì˜ ê°ë„ì™€ ê°™ì•„ì§ˆë•Œê¹Œì§€ ëŒë ¤ì¤€ë‹¤
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, angleToTarget, 0), cameraSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(transform.position, player.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
-                if (Mathf.Abs(angleToTarget - transform.rotation.eulerAngles.y) > 359)                  //angleÀÌ 360°¡ µÇ´Â °æ¿ìµµ ÀÖ±â¿¡ ÀÌ¸¦ »©ÁØ´Ù
+                transform.position = Vector3.Lerp(transform.position, playerPoint.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
+                if (Mathf.Abs(angleToTarget - transform.rotation.eulerAngles.y) > 359)                  // angleì´ 360ê°€ ë˜ëŠ” ê²½ìš°ë„ ìžˆê¸°ì— ì´ë¥¼ ë¹¼ì¤€ë‹¤
                     break;
                 yield return new WaitForSeconds(0.005f);
             }
@@ -84,13 +81,13 @@ public class CameraMove : MonoBehaviour
         }
         else
         {
-            cameraX = player.transform.rotation.eulerAngles.y;
-            cameraY = player.transform.rotation.eulerAngles.x;
+            cameraX = playerPoint.transform.rotation.eulerAngles.y;
+            cameraY = playerPoint.transform.rotation.eulerAngles.x;
 
-            while (Mathf.Abs(player.transform.rotation.eulerAngles.y - transform.rotation.eulerAngles.y) > 0.5)
+            while (Mathf.Abs(playerPoint.transform.rotation.eulerAngles.y - transform.rotation.eulerAngles.y) > 0.5)
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(cameraY, cameraX, 0), cameraSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(transform.position, player.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, playerPoint.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
                 yield return new WaitForSeconds(0.005f);
             }
         }
