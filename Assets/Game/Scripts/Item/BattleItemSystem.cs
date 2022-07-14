@@ -72,6 +72,8 @@ public class BattleItemSystem : MonoBehaviour
     {
         selectNum = 0;
     }
+
+    //사용 아이템들 효과 적용
     public void UseItemTrigger()
     {
         if (InventoryManager.instance.useItemList[selectNum] != null)

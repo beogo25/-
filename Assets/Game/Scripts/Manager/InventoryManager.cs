@@ -12,8 +12,8 @@ public class InventoryManager : Singleton<InventoryManager>
     public EquipmentItem[] equipmentList = new EquipmentItem[6];
 
 
-    public Inventory inventory;
-    public EquipmentInventory equipmentInventory;
+    public InventoryUI inventory;
+    public EquipmentInventoryUI equipmentInventory;
     public PlayerStatus status;
     public BattleItemSystem itemUI;
 
