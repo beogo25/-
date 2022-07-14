@@ -38,12 +38,27 @@ public class UseItemData
     public List<int>    useItemType    = new List<int>();
 }
 
+[System.Serializable]
+public class UseItemRecipeData
+{
+    public List<string> materialA = new List<string>();
+    public List<string> materialB = new List<string>();
+    public List<string> result = new List<string>();
+}
+
 public class ItemListManager : Singleton<ItemListManager>
 {
     //ScriptableMaterialItem[] itemData;
+<<<<<<< HEAD
     public Dictionary<string, MaterialItem>  materialsDic = new Dictionary<string, MaterialItem>();
     public Dictionary<string, EquipmentItem> equipmentDic = new Dictionary<string, EquipmentItem>();
     public Dictionary<string, UseItem>       useItemDic   = new Dictionary<string, UseItem>();
+=======
+    public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
+    public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
+    public Dictionary<string, UseItem> useItemDic        = new Dictionary<string, UseItem>();
+    public List<UseItemRecipe> useItemRecipeList = new List<UseItemRecipe>();
+>>>>>>> master
 
     public override void Awake()
     {
@@ -124,6 +139,21 @@ public class ItemListManager : Singleton<ItemListManager>
                 useItem.itemNumber        = loadData.imageNum[i];
                 useItem.sprite            = Resources.Load<Texture2D>("Image/UseItem/" + loadData.imageNum[i]).ToSprite();
                 useItemDic.Add(useItem.itemName, useItem);
+            }
+        }
+
+        //사용아이템 레시피
+        string UseItemRecipeData = Resources.Load<TextAsset>("Json/UseItemRecipeJson").text;
+        if (UseItemRecipeData != null)
+        {
+            UseItemRecipeData loadData = JsonUtility.FromJson<UseItemRecipeData>(UseItemRecipeData);
+            for (int i = 0; i < loadData.materialA.Count; i++)
+            {
+                UseItemRecipe useItemRecipe = new UseItemRecipe();
+                useItemRecipe.result = loadData.result[i];
+                useItemRecipe.materialA = loadData.materialA[i];
+                useItemRecipe.materialB = loadData.materialB[i];
+                useItemRecipeList.Add(useItemRecipe);
             }
         }
     }

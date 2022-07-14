@@ -6,6 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Game/Scenes/YJ Test.unity
     guid: 18a18fd20463ced4089a130bc0ac59db
+=======
+    path: Assets/Game/Scenes/test.unity
+    guid: e2562ebdf98ddff43bb164bdd157da66
+>>>>>>> master
   m_configObjects: {}

@@ -100,4 +100,70 @@ public class WarehouseManager : Singleton<WarehouseManager>
                 break;
         }
     }
+
+    public void MinusItem(Item input)
+    {
+        switch (input.itemType)
+        {
+            case ItemType.MATERIAL:
+                for (int i = 0; i < materialItemList.Count; i++)
+                {
+                    if (materialItemList[i].itemName == input.itemName)
+                    {
+                        materialItemList[i].stack--;
+                        if (materialItemList[i].stack <= 0)
+                            materialItemList.RemoveAt(i);
+                        break;
+                    }
+                }
+                break;
+            case ItemType.EQUIPMENT:
+                break;
+            case ItemType.USEITEM:
+                for (int i = 0; i < useItemList.Count; i++)
+                {
+                    if (useItemList[i].itemName == input.itemName)
+                    {
+                        useItemList[i].stack--;
+                        if (useItemList[i].stack <= 0)
+                            useItemList.RemoveAt(i);
+                        break;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public int FindItem(Item input)
+    {
+        switch (input.itemType)
+        {
+            case ItemType.MATERIAL:
+                for (int i = 0; i < materialItemList.Count; i++)
+                {
+                    if (materialItemList[i].itemName == input.itemName)
+                    {
+                        return materialItemList[i].stack;
+                    }
+                }
+                break;
+            case ItemType.EQUIPMENT:
+                break;
+            case ItemType.USEITEM:
+                for (int i = 0; i < useItemList.Count; i++)
+                {
+                    if (useItemList[i].itemName == input.itemName)
+                    {
+                        return useItemList[i].stack;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        
+        return 0;
+    }
 }
