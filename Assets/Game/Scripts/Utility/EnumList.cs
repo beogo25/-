@@ -39,8 +39,7 @@ public enum UseItemType
     HP_HEALTH
 }
 
-<<<<<<< HEAD
-=======
+
 //NPC의 UI 기능 분류
 public enum UIType
 {
@@ -49,4 +48,3 @@ public enum UIType
     MaterialUI,
     UseItemConbinationUI
 }
->>>>>>> master

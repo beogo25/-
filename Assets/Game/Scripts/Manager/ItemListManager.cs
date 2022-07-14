@@ -49,16 +49,13 @@ public class UseItemRecipeData
 public class ItemListManager : Singleton<ItemListManager>
 {
     //ScriptableMaterialItem[] itemData;
-<<<<<<< HEAD
+
     public Dictionary<string, MaterialItem>  materialsDic = new Dictionary<string, MaterialItem>();
     public Dictionary<string, EquipmentItem> equipmentDic = new Dictionary<string, EquipmentItem>();
     public Dictionary<string, UseItem>       useItemDic   = new Dictionary<string, UseItem>();
-=======
-    public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
-    public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
-    public Dictionary<string, UseItem> useItemDic        = new Dictionary<string, UseItem>();
-    public List<UseItemRecipe> useItemRecipeList = new List<UseItemRecipe>();
->>>>>>> master
+
+    public List<UseItemRecipe> useItemRecipeList          = new List<UseItemRecipe>();
+
 
     public override void Awake()
     {
