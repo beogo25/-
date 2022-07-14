@@ -46,13 +46,26 @@ public class UseItemRecipeData
     public List<string> result = new List<string>();
 }
 
+[System.Serializable]
+public class EquipmentItemRecipeData
+{
+    public List<string> materialA = new List<string>();
+    public List<int> numA = new List<int>();
+    public List<string> materialB = new List<string>();
+    public List<int> numB = new List<int>();
+    public List<int> gold = new List<int>();
+    public List<string> result = new List<string>();
+}
+
 public class ItemListManager : Singleton<ItemListManager>
 {
     //ScriptableMaterialItem[] itemData;
     public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
     public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
     public Dictionary<string, UseItem> useItemDic        = new Dictionary<string, UseItem>();
+
     public List<UseItemRecipe> useItemRecipeList = new List<UseItemRecipe>();
+    public List<EqiupmentItemRecipe> eqiupmentItemRecipeList = new List<EqiupmentItemRecipe>();
 
     public override void Awake()
     {
@@ -148,6 +161,24 @@ public class ItemListManager : Singleton<ItemListManager>
                 useItemRecipe.materialA = loadData.materialA[i];
                 useItemRecipe.materialB = loadData.materialB[i];
                 useItemRecipeList.Add(useItemRecipe);
+            }
+        }
+
+        //장비아이템 레시피
+        string EquipmentItemRecipeData = Resources.Load<TextAsset>("Json/EquipmentItemRecipeJson").text;
+        if (EquipmentItemRecipeData != null)
+        {
+            EquipmentItemRecipeData loadData = JsonUtility.FromJson<EquipmentItemRecipeData>(EquipmentItemRecipeData);
+            for (int i = 0; i < loadData.materialA.Count; i++)
+            {
+                EqiupmentItemRecipe eqiupmentItemRecipe = new EqiupmentItemRecipe();
+                eqiupmentItemRecipe.result = loadData.result[i];
+                eqiupmentItemRecipe.materialA = loadData.materialA[i];
+                eqiupmentItemRecipe.materialB = loadData.materialB[i];
+                eqiupmentItemRecipe.numA = loadData.numA[i];
+                eqiupmentItemRecipe.numB = loadData.numB[i];
+                eqiupmentItemRecipe.gold = loadData.gold[i];
+                eqiupmentItemRecipeList.Add(eqiupmentItemRecipe);
             }
         }
     }

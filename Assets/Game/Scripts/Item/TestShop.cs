@@ -21,6 +21,10 @@ public class TestShop : MonoBehaviour
         WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿»Ô"]);
         WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿»Ô"]);
         WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿°¡Á×"]);
     }
     public void ButtonEvent(int input)
     {
