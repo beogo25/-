@@ -7,9 +7,9 @@ public class WarehouseManager : Singleton<WarehouseManager>
     public List<EquipmentItem> equipmentList = new List<EquipmentItem>();
     public List<UseItem> useItemList = new List<UseItem>();
 
-    public UseItemWarehouse useItemWarehouse;
-    public EquipmentWarehouse equipmentWarehouse;
-    public MaterialWarehouse materialWarehouse;
+    public UseItemWarehouseUI useItemWarehouse;
+    public EquipmentWarehouseUI equipmentWarehouse;
+    public MaterialWarehouseUI materialWarehouse;
     
     public override void Awake()
     {
