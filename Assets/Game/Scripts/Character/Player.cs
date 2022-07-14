@@ -52,6 +52,29 @@ public class Player : MonoBehaviour
     {
         InputSetting();
         CheckOnGround();
+
+
+        Collider[] nearTarget = Physics.OverlapSphere(transform.position, 2f, 1<<LayerMask.NameToLayer("Collective"));
+        if (nearTarget.Length > 0)
+        {
+            Transform nearestTarget = nearTarget[0].transform;
+            float nearestDis = 2;
+
+            for (int i = 0; i < nearTarget.Length; i++)
+            {
+                float tempDis = Vector3.Distance(nearTarget[i].transform.position, transform.position);
+                if (tempDis <= nearestDis)
+                {
+                    nearestDis = tempDis;
+                    nearestTarget = nearTarget[i].transform;
+                }
+            }
+            if(Input.GetKeyDown (KeyCode.F))
+            {
+                if(nearestTarget.GetComponent<InteractionNatureObject>() != null)
+                nearestTarget.GetComponent<InteractionNatureObject>().Interaction();
+            }
+        }
     }
 
     private void FixedUpdate()
