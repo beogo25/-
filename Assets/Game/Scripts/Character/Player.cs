@@ -5,18 +5,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int            attackValue;
-    public static bool    isLockedOn = false;
+    public  int           attackValue;
+    public  static bool   isLockedOn = false;
                           
     private Animator      animator;
-    public static bool    isMoveAble = true;
-    public Transform      particleParent;
+    public  static bool   isMoveAble = true;
+    public  Transform     particleParent;
                           
-    public GameObject     lockOnPrefab;
-    public GameObject     lockOnObject = null;
+    public  GameObject    lockOnPrefab;
+    public  GameObject    lockOnObject = null;
                           
-    public bool           isGround = true;
+    public  bool          isGround = true;
     private float         jumpInputTime;
+    private float         movementSpeed;
     private CharacterMove characterMove;
     private Rigidbody     characterRigidbody;
 
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
     {
         Player player      = this;
         characterMove      = transform.parent.GetComponent<CharacterMove>();
+        movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         characterRigidbody = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator>();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
@@ -177,7 +179,7 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < 35; i++)
             {
-                transform.position += transform.forward * 0.14f;
+                transform.position += transform.forward * movementSpeed * 0.02f;
                 yield return new WaitForSeconds(0.01f);
             }
 
@@ -187,7 +189,7 @@ public class Player : MonoBehaviour
             transform.forward = rollDir;
             for (int i = 0; i < 35; i++)
             {
-                transform.position += rollDir * 0.14f;
+                transform.position += rollDir * movementSpeed * 0.02f;
                 yield return new WaitForSeconds(0.01f);
             }
         }

@@ -34,7 +34,6 @@ public class InteractionNatureObject: MonoBehaviour, IGlow, IInteraction
     {
         if (!isLoop)
         {
-            Debug.Log("루프 시작");
             isLoop = true;
             for (float i = 0; i < 1;)
             {
@@ -52,7 +51,6 @@ public class InteractionNatureObject: MonoBehaviour, IGlow, IInteraction
             }
             yield return new WaitForSeconds(0.4f);
             isLoop = false;
-            Debug.Log("루프 끝");
         }
     }
 
