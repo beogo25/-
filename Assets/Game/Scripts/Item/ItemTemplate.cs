@@ -60,3 +60,10 @@ public class EquipmentItem : Item
     public int equipmentValue;
 }
 
+public class UseItemRecipe
+{
+    public string result;
+    public string materialA;
+    public string materialB;
+}
+

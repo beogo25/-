@@ -44,5 +44,6 @@ public enum UIType
 {
     EquipmentUI,
     UseItemUI,
-    MaterialUI
+    MaterialUI,
+    UseItemConbinationUI
 }

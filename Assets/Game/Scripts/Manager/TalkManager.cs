@@ -20,6 +20,7 @@ public class TalkManager : Singleton<TalkManager>
     public GameObject useItemWarehouseButton;
     public GameObject equipmentItemWarehouseButton;
     public GameObject materialItemWarehouseButton;
+    public GameObject UseItemConbinationButton;
     public GameObject exitButton;
 
 
@@ -32,9 +33,9 @@ public class TalkManager : Singleton<TalkManager>
     }
     public void TalkStart(string name, string[] talk, Sprite sprite = null, UIType[] inputUITypes = null)
     {
-        uiTypes = inputUITypes; 
         num = 0;
         talkUI.SetActive(true);
+        uiTypes = inputUITypes; 
         npcName = name;
         talkText = talk;
         if(sprite != null)
@@ -71,6 +72,9 @@ public class TalkManager : Singleton<TalkManager>
                                 break;
                             case UIType.UseItemUI:
                                 useItemWarehouseButton.SetActive(true);
+                                break;
+                            case UIType.UseItemConbinationUI:
+                                UseItemConbinationButton.SetActive(true);
                                 break;
                             default:
                                 break;

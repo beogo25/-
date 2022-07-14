@@ -15,6 +15,13 @@ public class TestShop : MonoBehaviour
     {
         target = new string[3] { "Æ÷¼Ç","ºñ¾à","ÇØµ¶Á¦" };
     }
+    private void Start()
+    {
+        WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(ItemListManager.instance.materialsDic["»ç½¿»Ô"]);
+    }
     public void ButtonEvent(int input)
     {
         num += input;

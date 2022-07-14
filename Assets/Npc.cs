@@ -5,11 +5,10 @@ using UnityEngine;
 public class Npc : MonoBehaviour, IInteraction
 {
     public string npcName;
+    [Multiline]
     public string[] talkText;
     public Sprite standing;
     public UIType[] uiTypes;
-
-    private int num = 0;
     private void Start()
     {
         Interaction();
