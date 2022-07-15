@@ -48,7 +48,7 @@ public class ItemManager : MonoBehaviour
     }
     void Start()
     {
-        LoadItemListData();
+        //LoadItemListData();
     }
     /*
     void SaveItemListData()
