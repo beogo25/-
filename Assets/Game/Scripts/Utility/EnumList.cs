@@ -42,9 +42,10 @@ public enum UseItemType
 //NPC의 UI 기능 분류
 public enum UIType
 {
-    EquipmentUI,
-    UseItemUI,
-    MaterialUI,
-    UseItemConbinationUI,
-    EquipmentItemConbinationUI
+    EQIUPMENT_WAREHOUSE_UI,
+    USEITEM_WAREHOUSE_UI,
+    MATERIAL_WAREHOUSE_UI,
+    USEITEM_COMBINATION_UI,
+    EQIUPMENT_COMBINATION_UI,
+    SHOP_UI
 }

@@ -31,11 +31,11 @@ public class UseItemCombinationSystem : MonoBehaviour
     }
     private void Start()
     {
-        for(int i = 0; i < ItemListManager.instance.useItemRecipeList.Count; i++)
+        for(int i = 0; i < JsonManager.instance.useItemRecipeList.Count; i++)
         {
             CombiContentsUI temp = Instantiate(contentsPrifab, contents.transform).GetComponent<CombiContentsUI>();
-            temp.image.sprite = ItemListManager.instance.useItemDic[ItemListManager.instance.useItemRecipeList[i].result].sprite;
-            temp.textMeshProUGUI.text = ItemListManager.instance.useItemRecipeList[i].result;
+            temp.image.sprite = JsonManager.instance.useItemDic[JsonManager.instance.useItemRecipeList[i].result].sprite;
+            temp.textMeshProUGUI.text = JsonManager.instance.useItemRecipeList[i].result;
             int tempint = i;
             temp.gameObject.GetComponent<Button>().onClick.AddListener(() => { CombiRecipeView(tempint); });
             contentsRectTransform.sizeDelta = new Vector2(contentsRectTransform.sizeDelta.x, contentsRectTransform.sizeDelta.y + 50);
@@ -45,9 +45,9 @@ public class UseItemCombinationSystem : MonoBehaviour
     public void CombiRecipeView(int num)
     {
         target = num;   
-        UseItem useitem = ItemListManager.instance.useItemDic[ItemListManager.instance.useItemRecipeList[num].result];
-        MaterialItem materialItemA = ItemListManager.instance.materialsDic[ItemListManager.instance.useItemRecipeList[num].materialA];
-        MaterialItem materialItemB = ItemListManager.instance.materialsDic[ItemListManager.instance.useItemRecipeList[num].materialB];
+        UseItem useitem = JsonManager.instance.useItemDic[JsonManager.instance.useItemRecipeList[num].result];
+        MaterialItem materialItemA = JsonManager.instance.materialsDic[JsonManager.instance.useItemRecipeList[num].materialA];
+        MaterialItem materialItemB = JsonManager.instance.materialsDic[JsonManager.instance.useItemRecipeList[num].materialB];
         int resultNum = WarehouseManager.instance.FindItem(useitem);
         int materialAnum = WarehouseManager.instance.FindItem(materialItemA);
         int materialBnum = WarehouseManager.instance.FindItem(materialItemB);
@@ -67,9 +67,9 @@ public class UseItemCombinationSystem : MonoBehaviour
 
     public void Combination()
     {
-        WarehouseManager.instance.AddItem(ItemListManager.instance.useItemDic[ItemListManager.instance.useItemRecipeList[target].result]);
-        WarehouseManager.instance.MinusItem(ItemListManager.instance.materialsDic[ItemListManager.instance.useItemRecipeList[target].materialA],1);
-        WarehouseManager.instance.MinusItem(ItemListManager.instance.materialsDic[ItemListManager.instance.useItemRecipeList[target].materialB],1);
+        WarehouseManager.instance.AddItem(JsonManager.instance.useItemDic[JsonManager.instance.useItemRecipeList[target].result]);
+        WarehouseManager.instance.MinusItem(JsonManager.instance.materialsDic[JsonManager.instance.useItemRecipeList[target].materialA],1);
+        WarehouseManager.instance.MinusItem(JsonManager.instance.materialsDic[JsonManager.instance.useItemRecipeList[target].materialB],1);
         CombiRecipeView(target);
     }
 }
