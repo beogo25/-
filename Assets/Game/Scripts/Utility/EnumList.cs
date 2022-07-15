@@ -38,3 +38,15 @@ public enum UseItemType
 {
     HP_HEALTH
 }
+
+
+//NPC의 UI 기능 분류
+public enum UIType
+{
+    EQIUPMENT_WAREHOUSE_UI,
+    USEITEM_WAREHOUSE_UI,
+    MATERIAL_WAREHOUSE_UI,
+    USEITEM_COMBINATION_UI,
+    EQIUPMENT_COMBINATION_UI,
+    SHOP_UI
+}

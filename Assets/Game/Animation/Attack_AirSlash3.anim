@@ -136050,6 +136050,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.36
+    functionName: ParticleInstantiate
+    data: 
+    objectReferenceParameter: {fileID: 5291044098194066654, guid: 24a2e370cd7341c4d8dea6b3356ab706, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.36
     functionName: Attack_AirSlashEnd
     data: 

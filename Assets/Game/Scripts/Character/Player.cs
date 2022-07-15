@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,10 +17,14 @@ public class Player : MonoBehaviour
                           
     public  bool          isGround = true;
     private float         jumpInputTime;
+    private float         movementSpeed;
     private CharacterMove characterMove;
     private Rigidbody     characterRigidbody;
 
-    public  ComboSystem   combo;
+    [SerializeField]
+    private ComboSystem   combo;
+    [SerializeField]
+    private CameraMove    cameraMove;
 
     [SerializeField]
     private AttackData[]  attackDatas;
@@ -32,6 +37,7 @@ public class Player : MonoBehaviour
     {
         Player player      = this;
         characterMove      = transform.parent.GetComponent<CharacterMove>();
+        movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         characterRigidbody = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator>();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
@@ -46,7 +52,33 @@ public class Player : MonoBehaviour
     {
         InputSetting();
         CheckOnGround();
-        LockOn();
+
+
+        Collider[] nearTarget = Physics.OverlapSphere(transform.position, 2f, 1<<LayerMask.NameToLayer("Collective"));
+        if (nearTarget.Length > 0)
+        {
+            Transform nearestTarget = nearTarget[0].transform;
+            float nearestDis = 2;
+
+            for (int i = 0; i < nearTarget.Length; i++)
+            {
+                float tempDis = Vector3.Distance(nearTarget[i].transform.position, transform.position);
+                if (tempDis <= nearestDis)
+                {
+                    nearestDis = tempDis;
+                    nearestTarget = nearTarget[i].transform;
+                }
+            }
+            if(Input.GetKeyDown (KeyCode.F))
+            {
+                if(nearestTarget.GetComponent<InteractionObject>() != null)
+                    nearestTarget.GetComponent<InteractionObject>().Interaction();
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
         PlayerMove();
     }
 
@@ -72,6 +104,8 @@ public class Player : MonoBehaviour
         else
         { }
     }
+
+    //캐릭터가 받는 모든 인풋
     private void InputSetting()
     {
         if (Input.GetKeyDown(KeyCode.B))
@@ -90,13 +124,22 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGround)
         {
+            jumpInputTime = Time.time;
             isGround = false;
             animator.SetBool("Jump", true);
             animator.SetBool("Land", false);
         }
 
+
         if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade"))
             StartCoroutine(TriggerCheck("Evade"));
+
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            StartCoroutine(cameraMove.CameraFocus());
+
+        if (Input.GetKeyDown(KeyCode.E))
+            LockOn();
     }
 
     #region 애니메이션 이벤트
@@ -159,7 +202,7 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < 35; i++)
             {
-                transform.position += transform.forward * 0.14f;
+                transform.position += transform.forward * movementSpeed * 0.02f;
                 yield return new WaitForSeconds(0.01f);
             }
 
@@ -169,7 +212,7 @@ public class Player : MonoBehaviour
             transform.forward = rollDir;
             for (int i = 0; i < 35; i++)
             {
-                transform.position += rollDir * 0.14f;
+                transform.position += rollDir * movementSpeed * 0.02f;
                 yield return new WaitForSeconds(0.01f);
             }
         }
@@ -179,35 +222,32 @@ public class Player : MonoBehaviour
 
     private void LockOn()
     {
-
-        if (Input.GetKeyDown(KeyCode.E))
+        if (isLockedOn)
         {
-            if (isLockedOn)
+            Destroy(lockOnObject);
+            isLockedOn = false;
+        }
+        else
+        {
+            Collider[] tempColliders = Physics.OverlapSphere(transform.position, 40, 1 << LayerMask.NameToLayer("LockOn"));
+            if (tempColliders.Length > 0)
             {
-                Destroy(lockOnObject);
-                isLockedOn = false;
-            }
-            else
-            {
-                Collider[] tempColliders = Physics.OverlapSphere(transform.position, 40, 1 << LayerMask.NameToLayer("LockOn"));
-                if (tempColliders.Length > 0)
+                if (lockOnObject == null)
                 {
-                    if (lockOnObject == null)
-                    {
-                        lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
-                        lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
-                        isLockedOn = true;
-                    }
-                    else
-                    {
-                        Destroy(lockOnObject);
-                        lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
-                        lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
-                        isLockedOn = false;
-                    }
+                    lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
+                    lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
+                    isLockedOn = true;
+                }
+                else
+                {
+                    Destroy(lockOnObject);
+                    lockOnObject = Instantiate(lockOnPrefab, new Vector3(tempColliders[0].transform.position.x, tempColliders[0].transform.position.y, 17), Quaternion.Euler(Vector3.zero));
+                    lockOnObject.GetComponent<LockOn>().targetTransform = tempColliders[0].transform;
+                    isLockedOn = false;
                 }
             }
         }
+
     }
 
     private void PlayerMove()

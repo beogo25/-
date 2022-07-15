@@ -13,16 +13,18 @@ public class TestShop : MonoBehaviour
     private int      num = 0;
     private void Awake()
     {
-        target = new string[2] { "Ã¶°Ë","°­Ã¶°Ë" };
+        target = new string[3] { "Æ÷¼Ç","ºñ¾à","ÇØµ¶Á¦" };
     }
-    void Start()
+    private void Start()
     {
-        
-    }
-
-    void Update()
-    {
-
+        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿°¡Á×"]);
     }
     public void ButtonEvent(int input)
     {
@@ -36,16 +38,14 @@ public class TestShop : MonoBehaviour
 
     void UiChange(string input)
     {
-        textname.text    = ItemManager.instance.equipmentDic[input].itemName;
-        textvalue.text   = ItemManager.instance.equipmentDic[input].value.ToString();
-        textcontent.text = ItemManager.instance.equipmentDic[input].contents;
-        image.sprite     = ItemManager.instance.equipmentDic[input].sprite;
+        textname.text    = JsonManager.instance.useItemDic[input].itemName;
+        textvalue.text   = JsonManager.instance.useItemDic[input].value.ToString();
+        textcontent.text = JsonManager.instance.useItemDic[input].contents;
+        image.sprite     = JsonManager.instance.useItemDic[input].sprite;
     }
 
     public void InputItem()
     {
-        //WarehouseManager.Instance.AddItem(ItemManager.materialsDic[target[num]]);
-        //WarehouseManager.Instance.AddItem(ItemManager.UseItemDic[target[num]]);
-        WarehouseManager.instance.AddItem(ItemManager.instance.equipmentDic[target[num]]);
+        WarehouseManager.instance.AddItem(JsonManager.instance.useItemDic[target[num]]);
     }
 }
