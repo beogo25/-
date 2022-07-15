@@ -43,7 +43,7 @@ public class UseItemRecipeData
 {
     public List<string> materialA = new List<string>();
     public List<string> materialB = new List<string>();
-    public List<string> result = new List<string>();
+    public List<string> result    = new List<string>();
 }
 
 public class ItemListManager : Singleton<ItemListManager>

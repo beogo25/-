@@ -13,6 +13,7 @@ public interface IInteraction
     public void Interaction();
 }
 
+
 //보스 유실물은 빛나지 않으니까 IGlow 따로 나눴습니다
 public interface IGlow
 {

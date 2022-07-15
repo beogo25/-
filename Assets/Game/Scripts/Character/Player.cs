@@ -71,8 +71,8 @@ public class Player : MonoBehaviour
             }
             if(Input.GetKeyDown (KeyCode.F))
             {
-                if(nearestTarget.GetComponent<InteractionNatureObject>() != null)
-                nearestTarget.GetComponent<InteractionNatureObject>().Interaction();
+                if(nearestTarget.GetComponent<InteractionObject>() != null)
+                    nearestTarget.GetComponent<InteractionObject>().Interaction();
             }
         }
     }

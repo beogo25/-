@@ -51,7 +51,7 @@ public class CameraMove : MonoBehaviour
 
             cameraX += Input.GetAxis("Mouse X");
             cameraY -= Input.GetAxis("Mouse Y");
-            cameraY  = Mathf.Clamp(cameraY, -20, 50);                                                   // 위 아래의 각도 제한
+            cameraY  = Mathf.Clamp(cameraY, -15, 80);                                                   // 위 아래의 각도 제한
             transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                                 // 이동량에 따라 카메라의 바라보는 방향을 조정(실질적인 값 조정이 필요한 영역)
             transform.position = playerPoint.transform.position - transform.rotation * offset;          // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감
         }
