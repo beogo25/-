@@ -16,7 +16,11 @@ public class CameraMove : MonoBehaviour
     [Range(0f, 10f)]
     private float      cameraZ;
     [SerializeField]
+    [Range(20f, 300f)]
     private float      cameraSpeed;
+    [SerializeField]
+    [Range(0f, 20f)]
+    private float      cameraTurnSpeed;
 
     private Vector3    offset;
     private RaycastHit hit;
@@ -49,8 +53,8 @@ public class CameraMove : MonoBehaviour
             else
                 Camera.main.transform.position = transform.position;
 
-            cameraX += Input.GetAxis("Mouse X");
-            cameraY -= Input.GetAxis("Mouse Y");
+            cameraX += Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
+            cameraY -= Input.GetAxis("Mouse Y") * cameraSpeed * Time.deltaTime;
             cameraY  = Mathf.Clamp(cameraY, -15, 80);                                                   // 위 아래의 각도 제한
             transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                                 // 이동량에 따라 카메라의 바라보는 방향을 조정(실질적인 값 조정이 필요한 영역)
             transform.position = playerPoint.transform.position - transform.rotation * offset;          // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감
@@ -71,8 +75,8 @@ public class CameraMove : MonoBehaviour
 
             while (Mathf.Abs(angleToTarget - transform.rotation.eulerAngles.y) > 0.5)                   // angle이 카메라의 각도와 같아질때까지 돌려준다
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, angleToTarget, 0), cameraSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(transform.position, playerPoint.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, angleToTarget, 0), cameraTurnSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, playerPoint.transform.position - transform.rotation * offset, cameraTurnSpeed * Time.deltaTime);
                 if (Mathf.Abs(angleToTarget - transform.rotation.eulerAngles.y) > 359)                  // angle이 360가 되는 경우도 있기에 이를 빼준다
                     break;
                 yield return new WaitForSeconds(0.005f);
@@ -86,8 +90,8 @@ public class CameraMove : MonoBehaviour
 
             while (Mathf.Abs(playerPoint.transform.rotation.eulerAngles.y - transform.rotation.eulerAngles.y) > 0.5)
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(cameraY, cameraX, 0), cameraSpeed * Time.deltaTime);
-                transform.position = Vector3.Lerp(transform.position, playerPoint.transform.position - transform.rotation * offset, cameraSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(cameraY, cameraX, 0), cameraTurnSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, playerPoint.transform.position - transform.rotation * offset, cameraTurnSpeed * Time.deltaTime);
                 yield return new WaitForSeconds(0.005f);
             }
         }
