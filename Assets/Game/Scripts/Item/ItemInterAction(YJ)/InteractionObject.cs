@@ -57,7 +57,7 @@ public class InteractionObject: MonoBehaviour, IInteraction
         if(isCollectable)
         {
             Debug.Log(table.itemDic[table.Choose()]);
-            WarehouseManager.instance.itemDelegate(ItemListManager.instance.materialsDic[table.itemDic[table.Choose()]]);
+            WarehouseManager.instance.itemDelegate(DataManager.instance.materialsDic[table.itemDic[table.Choose()]]);
             CollectNumber--;
         }
     }
