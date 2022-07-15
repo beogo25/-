@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    private void Awake()
+    public override void Awake()
     {
         base.Awake();
         Application.targetFrameRate = 60;
