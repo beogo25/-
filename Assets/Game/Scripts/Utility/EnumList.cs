@@ -39,6 +39,7 @@ public enum UseItemType
     HP_HEALTH
 }
 
+
 //NPC의 UI 기능 분류
 public enum UIType
 {

@@ -5,22 +5,22 @@ using System;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    public UseItem[] useItemList = new UseItem[24];
-    private List<UseItem> tempList = new List<UseItem>();
-    private int itemcount = 0;
+    public  UseItem[]            useItemList = new UseItem[24];
+    private List<UseItem>        tempList = new List<UseItem>();
+    private int                  itemCount = 0;
+                                
+    public  EquipmentItem[]      equipmentList = new EquipmentItem[6];
 
-    public EquipmentItem[] equipmentList = new EquipmentItem[6];
 
-
-    public InventoryUI inventory;
-    public EquipmentInventoryUI equipmentInventory;
-    public PlayerStatus status;
-    public BattleItemSystem itemUI;
+    public  InventoryUI          inventory;
+    public  EquipmentInventoryUI equipmentInventory;
+    public  PlayerStatus         status;
+    public  BattleItemSystem     itemUI;
 
     public int ItemCount
     {
-        get { return itemcount; }
-        set { itemcount = value; }  
+        get { return itemCount; }
+        set { itemCount = value; }
     }
     public override void Awake()
     {
@@ -29,18 +29,18 @@ public class InventoryManager : Singleton<InventoryManager>
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             AddItem(JsonManager.instance.useItemDic["비약"]);
             AddItem(JsonManager.instance.useItemDic["해독제"]);
             AddItem(JsonManager.instance.useItemDic["포션"]);
         }
-        if(Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             for (int i = 0; i < ItemCount; i++)
                 Debug.Log(useItemList[i].itemName + useItemList[i].stack);
         }
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             MinusItem(1, 1);
         }
@@ -50,11 +50,11 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         bool addCount = false;
         bool pass = false;
-        for(int i = 0; i < itemcount; i++)
+        for (int i = 0; i < itemCount; i++)
         {
-            if(useItemList[i].itemName==target.itemName)
+            if (useItemList[i].itemName == target.itemName)
             {
-                if(useItemList[i].stack== useItemList[i].maxStack)
+                if (useItemList[i].stack == useItemList[i].maxStack)
                 {
                     pass = true;
                     break;
@@ -67,11 +67,11 @@ public class InventoryManager : Singleton<InventoryManager>
                 }
             }
         }
-        if(addCount == false && pass == false)
+        if (addCount == false && pass == false)
         {
-            for(int i = 0; i < useItemList.Length; i++)
+            for (int i = 0; i < useItemList.Length; i++)
             {
-                if(useItemList[i]==null)
+                if (useItemList[i] == null)
                 {
                     useItemList[i] = new UseItem(target);
                     useItemList[i].stack = 1;
@@ -91,11 +91,11 @@ public class InventoryManager : Singleton<InventoryManager>
     public void MinusItem(int target, int num)
     {
         useItemList[target].stack -= num;
-        if(useItemList[target].stack <= 0)
+        if (useItemList[target].stack <= 0)
         {
-            for(int i=target; i < ItemCount; i++)
+            for (int i = target; i < ItemCount; i++)
             {
-                if(i==23)
+                if (i == 23)
                 {
                     useItemList[23] = null;
                     break;
@@ -115,7 +115,7 @@ public class InventoryManager : Singleton<InventoryManager>
         tempList.Clear();
         for (int i = 0; i < ItemCount; i++)
             tempList.Add(useItemList[i]);
-        if(ascend)
+        if (ascend)
         {
             tempList.Sort((x, y) =>
             {
@@ -147,7 +147,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void Equip(EquipmentItem target)
     {
-        if(equipmentList[(int)target.equipmentType] == null)
+        if (equipmentList[(int)target.equipmentType] == null)
         {
             equipmentList[(int)target.equipmentType] = target;
         }
@@ -169,7 +169,7 @@ public class InventoryManager : Singleton<InventoryManager>
         else
             status.def -= equipmentList[(int)target].equipmentValue;
         WarehouseManager.instance.AddItem(equipmentList[(int)target]);
-        equipmentList[(int)target]=null;
+        equipmentList[(int)target] = null;
         equipmentInventory.Refresh();
     }
 }

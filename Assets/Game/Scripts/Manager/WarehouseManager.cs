@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 public class WarehouseManager : Singleton<WarehouseManager>
 {
     public List<MaterialItem> materialItemList = new List<MaterialItem>();
@@ -10,16 +9,18 @@ public class WarehouseManager : Singleton<WarehouseManager>
     public UseItemWarehouseUI useItemWarehouse;
     public EquipmentWarehouseUI equipmentWarehouse;
     public MaterialWarehouseUI materialWarehouse;
-    
+    public delegate void AdditemDelegate(Item item);
+    public AdditemDelegate itemDelegate;
     public override void Awake()
     {
+        itemDelegate += AddItem;
         base.Awake();
     }
 
 
     public void AddItem(Item input)
     {
-        switch(input.itemType)
+        switch(input.itemType)  
         {
             case ItemType.MATERIAL:
                 MaterialAdd((MaterialItem)input);
