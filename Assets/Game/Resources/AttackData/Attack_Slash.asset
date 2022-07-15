@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cc4b3ece8af0b94ba1d52edd40c357e, type: 3}
+  m_Name: Attack_Slash
+  m_EditorClassIdentifier: 
+  attackName: Attack_Slash
+  attackCommand: 04000000
+  damage: 1
+  attackDelay: 0.7
+  paticle:
+  - {fileID: 4568180159289996819, guid: ecee9f20dbbf69a4a96f9384223e8630, type: 3}
+  - {fileID: 5902123698723693948, guid: 9209788d52e3a244794b71011d2dbfb5, type: 3}
+  - {fileID: 755462623125549647, guid: 2745db19f081b2049a2f65cdcfe38e99, type: 3}
+  - {fileID: 6660254094799313531, guid: bedad4eec865bf348acf0ffc24e7ae56, type: 3}
+  paticleDelaytime: 0.2

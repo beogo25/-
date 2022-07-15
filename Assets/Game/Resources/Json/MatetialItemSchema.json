@@ -1,0 +1,39 @@
+{
+  "title": "재료 아이템 스키마",
+  "type": "object",
+  "properties": {
+    "itemname": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 10,
+        "uniqueItems": true
+      }
+    },
+    "contents": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "uniqueItems": true
+      }
+    },
+    "value": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "imageNum": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    }
+  },
+  "required": [
+    "itemname",
+    "contents",
+    "value",
+    "imageNum"
+  ]
+}
