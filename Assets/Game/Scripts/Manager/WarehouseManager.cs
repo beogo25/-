@@ -101,7 +101,7 @@ public class WarehouseManager : Singleton<WarehouseManager>
         }
     }
 
-    public void MinusItem(Item input)
+    public void MinusItem(Item input, int num)
     {
         switch (input.itemType)
         {
@@ -110,7 +110,7 @@ public class WarehouseManager : Singleton<WarehouseManager>
                 {
                     if (materialItemList[i].itemName == input.itemName)
                     {
-                        materialItemList[i].stack--;
+                        materialItemList[i].stack-=num;
                         if (materialItemList[i].stack <= 0)
                             materialItemList.RemoveAt(i);
                         break;

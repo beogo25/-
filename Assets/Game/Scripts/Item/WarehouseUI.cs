@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class WarehouseUI : MonoBehaviour
 {
-    public ItemInformation itemInformation;
+    public ItemInformationSystem itemInformation;
     public int selectSlot = 0;
     public WarehouseSlot[] slots;
     public int SelectSlot
