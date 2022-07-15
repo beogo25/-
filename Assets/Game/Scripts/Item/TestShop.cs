@@ -17,14 +17,14 @@ public class TestShop : MonoBehaviour
     }
     private void Start()
     {
-        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿»Ô"]);
-        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿»Ô"]);
-        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿»Ô"]);
-        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿»Ô"]);
-        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿°¡Á×"]);
-        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿°¡Á×"]);
-        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿°¡Á×"]);
-        WarehouseManager.instance.AddItem(JsonManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(DataManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(DataManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(DataManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(DataManager.instance.materialsDic["»ç½¿»Ô"]);
+        WarehouseManager.instance.AddItem(DataManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(DataManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(DataManager.instance.materialsDic["»ç½¿°¡Á×"]);
+        WarehouseManager.instance.AddItem(DataManager.instance.materialsDic["»ç½¿°¡Á×"]);
     }
     public void ButtonEvent(int input)
     {
@@ -38,14 +38,14 @@ public class TestShop : MonoBehaviour
 
     void UiChange(string input)
     {
-        textname.text    = JsonManager.instance.useItemDic[input].itemName;
-        textvalue.text   = JsonManager.instance.useItemDic[input].value.ToString();
-        textcontent.text = JsonManager.instance.useItemDic[input].contents;
-        image.sprite     = JsonManager.instance.useItemDic[input].sprite;
+        textname.text    = DataManager.instance.useItemDic[input].itemName;
+        textvalue.text   = DataManager.instance.useItemDic[input].value.ToString();
+        textcontent.text = DataManager.instance.useItemDic[input].contents;
+        image.sprite     = DataManager.instance.useItemDic[input].sprite;
     }
 
     public void InputItem()
     {
-        WarehouseManager.instance.AddItem(JsonManager.instance.useItemDic[target[num]]);
+        WarehouseManager.instance.AddItem(DataManager.instance.useItemDic[target[num]]);
     }
 }

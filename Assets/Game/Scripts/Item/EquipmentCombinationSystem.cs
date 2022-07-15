@@ -33,11 +33,11 @@ public class EquipmentCombinationSystem : MonoBehaviour
     }
     private void Start()
     {
-        for (int i = 0; i < JsonManager.instance.eqiupmentItemRecipeList.Count; i++)
+        for (int i = 0; i < DataManager.instance.eqiupmentItemRecipeList.Count; i++)
         {
             CombiContentsUI temp = Instantiate(contentsPrifab, contents.transform).GetComponent<CombiContentsUI>();
-            temp.image.sprite = JsonManager.instance.equipmentDic[JsonManager.instance.eqiupmentItemRecipeList[i].result].sprite;
-            temp.textMeshProUGUI.text = JsonManager.instance.eqiupmentItemRecipeList[i].result;
+            temp.image.sprite = DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[i].result].sprite;
+            temp.textMeshProUGUI.text = DataManager.instance.eqiupmentItemRecipeList[i].result;
             int tempint = i;
             temp.gameObject.GetComponent<Button>().onClick.AddListener(() => { CombiRecipeView(tempint); });
             contentsRectTransform.sizeDelta = new Vector2(contentsRectTransform.sizeDelta.x, contentsRectTransform.sizeDelta.y + 50);
@@ -49,9 +49,9 @@ public class EquipmentCombinationSystem : MonoBehaviour
     {
         target = num;
         playerGold.text ="보유 금액 : " + PlayerStatus.gold.ToString();
-        EquipmentItem equipmentItem = JsonManager.instance.equipmentDic[JsonManager.instance.eqiupmentItemRecipeList[num].result];
-        MaterialItem materialItemA = JsonManager.instance.materialsDic[JsonManager.instance.eqiupmentItemRecipeList[num].materialA];
-        MaterialItem materialItemB = JsonManager.instance.materialsDic[JsonManager.instance.eqiupmentItemRecipeList[num].materialB];
+        EquipmentItem equipmentItem = DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[num].result];
+        MaterialItem materialItemA = DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[num].materialA];
+        MaterialItem materialItemB = DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[num].materialB];
         int materialAnum = WarehouseManager.instance.FindItem(materialItemA);
         int materialBnum = WarehouseManager.instance.FindItem(materialItemB);
 
@@ -60,10 +60,10 @@ public class EquipmentCombinationSystem : MonoBehaviour
         materialBImage.sprite = materialItemB.sprite;
 
         resultName.text = equipmentItem.itemName;
-        materialAName.text = materialItemA.itemName + JsonManager.instance.eqiupmentItemRecipeList[num].numA + " (" + materialAnum + ")";
-        materialBName.text = materialItemB.itemName + JsonManager.instance.eqiupmentItemRecipeList[num].numB + " (" + materialBnum + ")";
-        needGold.text = JsonManager.instance.eqiupmentItemRecipeList[num].gold.ToString();
-        if (materialAnum >= JsonManager.instance.eqiupmentItemRecipeList[num].numA && materialBnum >= JsonManager.instance.eqiupmentItemRecipeList[num].numB && PlayerStatus.gold >= JsonManager.instance.eqiupmentItemRecipeList[num].gold)
+        materialAName.text = materialItemA.itemName + DataManager.instance.eqiupmentItemRecipeList[num].numA + " (" + materialAnum + ")";
+        materialBName.text = materialItemB.itemName + DataManager.instance.eqiupmentItemRecipeList[num].numB + " (" + materialBnum + ")";
+        needGold.text = DataManager.instance.eqiupmentItemRecipeList[num].gold.ToString();
+        if (materialAnum >= DataManager.instance.eqiupmentItemRecipeList[num].numA && materialBnum >= DataManager.instance.eqiupmentItemRecipeList[num].numB && PlayerStatus.gold >= DataManager.instance.eqiupmentItemRecipeList[num].gold)
             combinationButton.SetActive(true);
         else
             combinationButton.SetActive(false);
@@ -71,10 +71,10 @@ public class EquipmentCombinationSystem : MonoBehaviour
 
     public void Combination()
     {
-        WarehouseManager.instance.AddItem  (JsonManager.instance.equipmentDic[JsonManager.instance.eqiupmentItemRecipeList[target].result   ]                                                           );
-        WarehouseManager.instance.MinusItem(JsonManager.instance.materialsDic[JsonManager.instance.eqiupmentItemRecipeList[target].materialA], JsonManager.instance.eqiupmentItemRecipeList[target].numA);
-        WarehouseManager.instance.MinusItem(JsonManager.instance.materialsDic[JsonManager.instance.eqiupmentItemRecipeList[target].materialB], JsonManager.instance.eqiupmentItemRecipeList[target].numB);
-        PlayerStatus.gold -= JsonManager.instance.eqiupmentItemRecipeList[target].gold;
+        WarehouseManager.instance.AddItem  (DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[target].result   ]                                                           );
+        WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialA], DataManager.instance.eqiupmentItemRecipeList[target].numA);
+        WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialB], DataManager.instance.eqiupmentItemRecipeList[target].numB);
+        PlayerStatus.gold -= DataManager.instance.eqiupmentItemRecipeList[target].gold;
         CombiRecipeView(target);
     }
 }

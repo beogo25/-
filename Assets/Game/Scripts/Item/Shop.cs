@@ -33,7 +33,7 @@ public class Shop : MonoBehaviour
         for (int i = 0; i < saleItem.Length; i++)
         {
             CombiContentsUI temp = Instantiate(contentsPrifab, contents.transform).GetComponent<CombiContentsUI>();
-            temp.image.sprite = JsonManager.instance.useItemDic[saleItem[i]].sprite;
+            temp.image.sprite = DataManager.instance.useItemDic[saleItem[i]].sprite;
             temp.textMeshProUGUI.text = saleItem[i];
             int tempint = i;
             temp.gameObject.GetComponent<Button>().onClick.AddListener(() => { SaleItemView(saleItem[tempint]); });
@@ -45,7 +45,7 @@ public class Shop : MonoBehaviour
     {
         target = input;
         playerGold.text = "보유 금액 : " + PlayerStatus.gold.ToString();
-        UseItem tempUseItem = JsonManager.instance.useItemDic[input];
+        UseItem tempUseItem = DataManager.instance.useItemDic[input];
         selectImage.sprite = tempUseItem.sprite;
         selectContents.text = tempUseItem.contents;
         selectName.text = input;
@@ -57,11 +57,11 @@ public class Shop : MonoBehaviour
     }
     public  void Purchase()
     {
-        if(!InventoryManager.instance.AddItem(JsonManager.instance.useItemDic[target]))
+        if(!InventoryManager.instance.AddItem(DataManager.instance.useItemDic[target]))
         {
-            WarehouseManager.instance.AddItem(JsonManager.instance.useItemDic[target]); 
+            WarehouseManager.instance.AddItem(DataManager.instance.useItemDic[target]); 
         }
-        PlayerStatus.gold -= JsonManager.instance.useItemDic[target].value;
+        PlayerStatus.gold -= DataManager.instance.useItemDic[target].value;
         SaleItemView(target);
     }
 }
