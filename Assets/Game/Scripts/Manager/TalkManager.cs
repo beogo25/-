@@ -20,7 +20,9 @@ public class TalkManager : Singleton<TalkManager>
     public GameObject useItemWarehouseButton;
     public GameObject equipmentItemWarehouseButton;
     public GameObject materialItemWarehouseButton;
-    public GameObject UseItemConbinationButton;
+    public GameObject useItemConbinationButton;
+    public GameObject equipmentItemConbinationButton;
+    public GameObject shopButton;
     public GameObject exitButton;
 
 
@@ -64,17 +66,23 @@ public class TalkManager : Singleton<TalkManager>
                     {
                         switch (uiTypes[i])
                         {
-                            case UIType.EquipmentUI:
+                            case UIType.EQIUPMENT_WAREHOUSE_UI:
                                 equipmentItemWarehouseButton.SetActive(true);
                                 break;
-                            case UIType.MaterialUI:
+                            case UIType.MATERIAL_WAREHOUSE_UI:
                                 materialItemWarehouseButton.SetActive(true);
                                 break;
-                            case UIType.UseItemUI:
+                            case UIType.USEITEM_WAREHOUSE_UI:
                                 useItemWarehouseButton.SetActive(true);
                                 break;
-                            case UIType.UseItemConbinationUI:
-                                UseItemConbinationButton.SetActive(true);
+                            case UIType.USEITEM_COMBINATION_UI:
+                                useItemConbinationButton.SetActive(true);
+                                break;
+                            case UIType.EQIUPMENT_COMBINATION_UI:
+                                equipmentItemConbinationButton.SetActive(true);
+                                break;
+                            case UIType.SHOP_UI:
+                                shopButton.SetActive(true);
                                 break;
                             default:
                                 break;

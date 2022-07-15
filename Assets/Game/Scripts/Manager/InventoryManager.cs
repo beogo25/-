@@ -31,9 +31,9 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            AddItem(ItemListManager.instance.useItemDic["비약"]);
-            AddItem(ItemListManager.instance.useItemDic["해독제"]);
-            AddItem(ItemListManager.instance.useItemDic["포션"]);
+            AddItem(JsonManager.instance.useItemDic["비약"]);
+            AddItem(JsonManager.instance.useItemDic["해독제"]);
+            AddItem(JsonManager.instance.useItemDic["포션"]);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {

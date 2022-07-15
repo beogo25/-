@@ -9,7 +9,7 @@ public class PlayerStatus : MonoBehaviour
     private int hp;
     public int atk = 50;
     public int def = 0;
-    public int gold = 10000;
+    public static int gold = 10000;
 
     public int Hp
     {

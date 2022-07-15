@@ -67,3 +67,13 @@ public class UseItemRecipe
     public string materialB;
 }
 
+public class EqiupmentItemRecipe
+{
+    public string result;
+    public string materialA;
+    public int numA;
+    public string materialB;
+    public int numB;
+    public int gold;
+}
+
