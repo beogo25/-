@@ -31,14 +31,17 @@ public class CameraMove : MonoBehaviour
     {
         player    = playerPoint.transform.parent.gameObject;
         layerMask = (1 << LayerMask.NameToLayer("Wall") | LayerMask.NameToLayer("Ground"));
-        
+        Application.targetFrameRate = 60;
     }
 
     private void FixedUpdate()
     {
+        //CameraMovement();
+    }
+    private void Update()
+    {
         CameraMovement();
     }
-
     private void CameraMovement()
     {
 

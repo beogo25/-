@@ -20,7 +20,7 @@ public class MonsterMoveTest : MonoBehaviour
     private Animator animator;
     private Rigidbody monsterRigidbody;
 
-    [SerializeField] private Transform moveDestination;
+    [SerializeField] public Transform moveDestination;
     [SerializeField] private float moveSpeed = 2;
     private float rotationSpeed;
     private Vector3 point = Vector3.zero;
