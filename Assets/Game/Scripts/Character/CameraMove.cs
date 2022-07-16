@@ -6,6 +6,7 @@ public class CameraMove : MonoBehaviour
     [SerializeField]
     private GameObject playerPoint;
     private GameObject player;
+    private Player playerScript;
 
     private float      cameraX;
     private float      cameraY;
@@ -30,13 +31,15 @@ public class CameraMove : MonoBehaviour
     private void Start()
     {
         player    = playerPoint.transform.parent.gameObject;
+        playerScript = player.GetComponent<Player>();
         layerMask = (1 << LayerMask.NameToLayer("Wall") | LayerMask.NameToLayer("Ground"));
         
     }
 
     private void FixedUpdate()
     {
-        CameraMovement();
+        if(!playerScript.talkState)
+            CameraMovement();
     }
 
     private void CameraMovement()
@@ -61,11 +64,12 @@ public class CameraMove : MonoBehaviour
         }
     }
 
-    public IEnumerator CameraFocus()
+    public IEnumerator CameraFocus(GameObject targetInput=null)
     {
         GameObject target = playerPoint.transform.parent.GetComponent<Player>().lockOnObject;           // 타겟 대상 선정
         isFocused = true;
-
+        if (targetInput != null)
+            target = targetInput;
         if (Player.isLockedOn)                                                                          // 락온이 되었다면
         {
             Vector3 angleToTargetVec = target.transform.position - playerPoint.transform.position;      // 타겟에서 플레이어의 벡터를 구하고
@@ -98,7 +102,5 @@ public class CameraMove : MonoBehaviour
 
         isFocused = false;
     }
-
-
 }
 

@@ -9,8 +9,22 @@ public class Npc : MonoBehaviour, IInteraction
     public string[] talkText;
     public Sprite standing;
     public UIType[] uiTypes;
+    public Animator[] animator;
+    Player player;
+
+    private CameraMove cameraMove;
+
+    private void Awake()
+    {
+        cameraMove = FindObjectOfType<CameraMove>();
+        player = FindObjectOfType<Player>();    
+    }
     public void Interaction()
     {
         TalkManager.instance.TalkStart(npcName, talkText, standing,uiTypes);
+        StartCoroutine(cameraMove.CameraFocus(this.gameObject));
+        transform.LookAt(player.gameObject.transform.position);
+        for(int i = 0; i < animator.Length; i++)
+            animator[i].SetTrigger("Interaction");
     }
 }

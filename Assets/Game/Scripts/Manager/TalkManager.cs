@@ -89,8 +89,8 @@ public class TalkManager : Singleton<TalkManager>
                             default:
                                 break;
                         }
-                        exitButton.SetActive(true);
                     }
+                    exitButton.SetActive(true);
                 }
             }
             else
@@ -127,6 +127,7 @@ public class TalkManager : Singleton<TalkManager>
         useItemConbinationButton.SetActive(false);
         useItemWarehouseButton.SetActive(false);
         materialItemWarehouseButton.SetActive(false);
+        equipmentItemWarehouseButton.SetActive(false);
         talkUI.SetActive(false);
         player.talkState = false;
     }
