@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class TalkManager : Singleton<TalkManager>
@@ -25,6 +24,7 @@ public class TalkManager : Singleton<TalkManager>
     public GameObject shopButton;
     public GameObject exitButton;
 
+    public Player player;
 
     private void Update()
     {
@@ -35,6 +35,7 @@ public class TalkManager : Singleton<TalkManager>
     }
     public void TalkStart(string name, string[] talk, Sprite sprite = null, UIType[] inputUITypes = null)
     {
+        player.talkState = true;
         num = 0;
         talkUI.SetActive(true);
         uiTypes = inputUITypes; 
@@ -59,6 +60,7 @@ public class TalkManager : Singleton<TalkManager>
                 if (uiTypes == null || uiTypes.Length == 0) 
                 {
                     talkUI.SetActive(false);
+                    player.talkState = false;
                 }
                 else
                 {
@@ -115,5 +117,17 @@ public class TalkManager : Singleton<TalkManager>
             talkTMP.text += talkText[a][j];
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    public void ExiteButton()
+    {
+        exitButton.SetActive(false);
+        shopButton.SetActive(false);
+        equipmentItemConbinationButton.SetActive(false);
+        useItemConbinationButton.SetActive(false);
+        useItemWarehouseButton.SetActive(false);
+        materialItemWarehouseButton.SetActive(false);
+        talkUI.SetActive(false);
+        player.talkState = false;
     }
 }
