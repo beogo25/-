@@ -13,11 +13,13 @@ public class UseItemCombinationSystem : MonoBehaviour
     public Image resultImage;
     public Image materialAImage;
     public Image materialBImage;
-    public TextMeshProUGUI resultName;
+    public TextMeshProUGUI resultContents;
     public TextMeshProUGUI materialAName;
     public TextMeshProUGUI materialBName;
 
     public GameObject combinationButton;
+    public GameObject blur;
+    private Player player;
 
     private int target;
 
@@ -28,6 +30,12 @@ public class UseItemCombinationSystem : MonoBehaviour
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
+        player = FindObjectOfType<Player>();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ExiteButton();
     }
     private void Start()
     {
@@ -56,7 +64,7 @@ public class UseItemCombinationSystem : MonoBehaviour
         materialAImage.sprite = materialItemA.sprite;
         materialBImage.sprite = materialItemB.sprite;
 
-        resultName.text = useitem.itemName + "(" + resultNum + ")";
+        resultContents.text = useitem.contents;
         materialAName.text = materialItemA.itemName + "1 (" + materialAnum + ")";
         materialBName.text = materialItemB.itemName + "1 (" + materialBnum + ")";
         if(materialAnum>0 && materialBnum>0)
@@ -71,5 +79,12 @@ public class UseItemCombinationSystem : MonoBehaviour
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[target].materialA],1);
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[target].materialB],1);
         CombiRecipeView(target);
+    }
+
+    public void ExiteButton()
+    {
+        gameObject.SetActive(false);    
+        blur.SetActive(false);
+        player.talkState = false;
     }
 }

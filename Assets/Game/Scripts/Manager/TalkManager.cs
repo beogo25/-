@@ -23,12 +23,13 @@ public class TalkManager : Singleton<TalkManager>
     public GameObject equipmentItemConbinationButton;
     public GameObject shopButton;
     public GameObject exitButton;
+    public GameObject blur;
 
     public Player player;
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Z))
+        if(Input.GetKeyUp(KeyCode.Z) && talkUI.activeInHierarchy)
         {
             ClickButton();
         }
@@ -36,6 +37,7 @@ public class TalkManager : Singleton<TalkManager>
     public void TalkStart(string name, string[] talk, Sprite sprite = null, UIType[] inputUITypes = null)
     {
         player.talkState = true;
+        blur.SetActive(true);
         num = 0;
         talkUI.SetActive(true);
         uiTypes = inputUITypes; 
@@ -60,6 +62,7 @@ public class TalkManager : Singleton<TalkManager>
                 if (uiTypes == null || uiTypes.Length == 0) 
                 {
                     talkUI.SetActive(false);
+                    blur.SetActive(false);
                     player.talkState = false;
                 }
                 else
@@ -128,6 +131,7 @@ public class TalkManager : Singleton<TalkManager>
         useItemWarehouseButton.SetActive(false);
         materialItemWarehouseButton.SetActive(false);
         equipmentItemWarehouseButton.SetActive(false);
+        blur.SetActive(false);
         talkUI.SetActive(false);
         player.talkState = false;
     }

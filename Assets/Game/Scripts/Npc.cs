@@ -17,7 +17,8 @@ public class Npc : MonoBehaviour, IInteraction
     private void Awake()
     {
         cameraMove = FindObjectOfType<CameraMove>();
-        player = FindObjectOfType<Player>();    
+        player = FindObjectOfType<Player>();   
+        StartCoroutine(IdleMotion());   
     }
     public void Interaction()
     {
@@ -26,5 +27,14 @@ public class Npc : MonoBehaviour, IInteraction
         transform.LookAt(player.gameObject.transform.position);
         for(int i = 0; i < animator.Length; i++)
             animator[i].SetTrigger("Interaction");
+    }
+    IEnumerator IdleMotion()
+    {
+        while(true)
+        {
+            for (int i = 0; i < animator.Length; i++)
+                animator[i].SetTrigger("Interaction");
+            yield return new WaitForSecondsRealtime(Random.Range(50,60));
+        }
     }
 }

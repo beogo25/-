@@ -9,11 +9,13 @@ public class WarehouseSlot : MonoBehaviour
     public Image           image;
     public TextMeshProUGUI stack;
     public int             num;
-    public WarehouseUI       warehouse;
+    public WarehouseUI     warehouse;
+    public Button          button;
     private void OnValidate()
     {
-        image     = GetComponent<Image>();
-        stack     = transform.GetChild(0).GetComponent<TextMeshProUGUI>(); 
+        image     = transform.GetChild(0).GetComponent<Image>();
+        stack     = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        button    = transform.GetChild(2).GetComponent<Button>();
         warehouse = transform.parent.GetComponent<WarehouseUI>();
     }
     public void OnClickEvent()

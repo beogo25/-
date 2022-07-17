@@ -30,6 +30,9 @@ public class ItemInformationSystem : MonoBehaviour
                 itemName.text = item.itemName;
                 contents.text = item.contents;
                 image.sprite = item.sprite;
+                stack.text = "";
+                if (item.itemType == ItemType.USEITEM)
+                    stack.text = "최대 : "+((UseItem)item).maxStack.ToString()+"개";
                 //아이템  타입에 따라 다른 행동
             }
         }
