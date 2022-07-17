@@ -23,6 +23,7 @@ public class TalkManager : Singleton<TalkManager>
     public GameObject equipmentItemConbinationButton;
     public GameObject shopButton;
     public GameObject exitButton;
+    public GameObject questButton;
     public GameObject blur;
 
     public Player player;
@@ -32,6 +33,10 @@ public class TalkManager : Singleton<TalkManager>
         if(Input.GetKeyUp(KeyCode.Z) && talkUI.activeInHierarchy)
         {
             ClickButton();
+        }
+        if (Input.GetKeyUp(KeyCode.Escape) && talkUI.activeInHierarchy)
+        {
+            ExitButton();
         }
     }
     public void TalkStart(string name, string[] talk, Sprite sprite = null, UIType[] inputUITypes = null)
@@ -89,6 +94,9 @@ public class TalkManager : Singleton<TalkManager>
                             case UIType.SHOP_UI:
                                 shopButton.SetActive(true);
                                 break;
+                            case UIType.QUEST_UI:
+                                questButton.SetActive(true);
+                                break;
                             default:
                                 break;
                         }
@@ -122,10 +130,11 @@ public class TalkManager : Singleton<TalkManager>
         }
     }
 
-    public void ExiteButton()
+    public void ExitButton()
     {
         exitButton.SetActive(false);
         shopButton.SetActive(false);
+        questButton.SetActive(false);
         equipmentItemConbinationButton.SetActive(false);
         useItemConbinationButton.SetActive(false);
         useItemWarehouseButton.SetActive(false);

@@ -77,3 +77,13 @@ public class EqiupmentItemRecipe
     public int gold;
 }
 
+public class Quest
+{
+    public int targetMonster;
+    public int clearGold;
+    public string questName;
+    public string questContents;
+    public int questNum;
+    public int questDifficulty;
+}
+
