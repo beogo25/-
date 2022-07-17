@@ -20,7 +20,6 @@ public class MonsterMove : MonoBehaviour
 
         All = Walk | Rotation,
     }
-
     private MonsterBehaviorState behaviorState;
     private State state = 0;
 
@@ -30,11 +29,8 @@ public class MonsterMove : MonoBehaviour
     
     [SerializeField] private Transform moveDestination;
     [SerializeField] private float moveSpeed = 2;
-    private Vector3 point = Vector3.zero;
-
-
-    //List<Collider> hitTargetList = new List<Collider>();
-    RaycastHit hit;
+    private float randomAnimationExecuteTime; 
+    private bool randomAnimationStart = false;
 
     [SerializeField] bool DebugMode = true;
     [Range(0f, 360f)][SerializeField] float ViewAngle = 0f;
@@ -42,24 +38,33 @@ public class MonsterMove : MonoBehaviour
     [SerializeField] LayerMask TargetMask;
     [SerializeField] LayerMask ObstacleMask;
 
-    WaitForSecondsRealtime waitTime;
-    
     void Start()
     {
         animator = GetComponent<Animator>();
         monsterRigidbody = GetComponent<Rigidbody>();
 
+        randomAnimationExecuteTime = Random.Range(10f, 20f);
+
         behaviorState = MonsterBehaviorState.SerchingTarget;
         StartCoroutine(behaviorState.ToString());
     }
-    
+    private void Update()
+    {
+        if (randomAnimationExecuteTime <= 0 && !randomAnimationStart)
+            randomAnimationStart = true;
+        else if (randomAnimationExecuteTime > 0)
+            randomAnimationExecuteTime -= Time.deltaTime;
+            
+
+        
+    }
+
     #region SerchingTargetState
     private enum SerchingTargetState { Rotation, Walk };
     SerchingTargetState serchingTargetState = SerchingTargetState.Rotation;
     Quaternion targetRotation;
     IEnumerator SerchingTarget()
     {
-        
         while (true)
         {
             switch (serchingTargetState)
@@ -83,17 +88,12 @@ public class MonsterMove : MonoBehaviour
                     if (Vector3.Distance(transform.position, moveDestination.position) < 4f)    // 목표와 거리가 4f 이내
                     {
                         monsterRigidbody.velocity = Vector3.zero;
-                        if (CreateRandomDestination(moveDestination.position, 20f, out point))
+                        if (CreateRandomDestination(moveDestination.position, 20f))
                         {
-                            moveDestination.position = point;
-
                             state &= ~State.Walk;
                             animator.SetBool("Walk", state.HasFlag(State.Walk));
 
-                            //yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
-                            //Debug.LogFormat("목표도착완료2");
-
-                            yield return new WaitForSecondsRealtime(Random.Range(0.3f, 1.3f));
+                            yield return new WaitForSecondsRealtime(Random.Range(0.3f, 1.3f));  // 도착했을때 잠깐 대기시간 부여
                             serchingTargetState = SerchingTargetState.Rotation;
                         }
                     }
@@ -106,7 +106,24 @@ public class MonsterMove : MonoBehaviour
                         }
 
                         if (state.HasFlag(State.Walk))
+                        {
                             transform.Translate(transform.forward * moveSpeed * Time.deltaTime, Space.World);
+                        }
+
+                        if (randomAnimationStart)
+                        {
+                            int random = Random.Range(0, 2);
+                            if (random == 0)
+                                yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
+                            else if (random == 1)
+                                yield return StartCoroutine(WaitForAnimation("Look Around", 1f));
+                            else
+                                Debug.Log("행동안함");
+
+                            randomAnimationStart = false;                           // 실행되고 나서 false로 바꿔주기
+                            randomAnimationExecuteTime = Random.Range(10f, 20f);    // 애니메이션 실행될 랜덤 숫자부여
+                        }
+
                     }
                     break;
 
@@ -116,7 +133,7 @@ public class MonsterMove : MonoBehaviour
 
             if (FindTarget())       // target을 찾으면 행동상태변경
             {
-                yield return new WaitForSecondsRealtime(0.1f);
+                yield return new WaitForSecondsRealtime(0.1f);      // 대기시간 (코루틴때문)
                 ChangeState(MonsterBehaviorState.ChasingTarget);
             }
 
@@ -125,14 +142,16 @@ public class MonsterMove : MonoBehaviour
     }
     Quaternion SetDestinationDirection()                            // 목적지 방향을 보게 하는 함수
     {        
+        // 몬스터가 얼마나 회전할지 각도 구하기
         Vector3 dir = moveDestination.position - transform.position;
         dir = new Vector3(dir.x, 0, dir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
         targetRotation = Quaternion.LookRotation(dir.normalized);   // 내가 바라볼 방향
-        float angleDifference = Quaternion.Angle(transform.rotation, targetRotation); // 내 방향과 목표 방향의 각도차이
+        float angleDifference = Quaternion.Angle(transform.rotation, targetRotation);   // 내 방향과 목표 방향의 각도차이
 
-        Vector3 targetDir = moveDestination.position - transform.position;      // 타겟 방향으로 향하는 벡터를 구하기
-        Vector3 crossVec = Vector3.Cross(targetDir, this.transform.forward);    // foward와 외적
-        float dot = Vector3.Dot(crossVec, Vector3.up);                          // 위쪽과 내적
+        // 몬스터가 어떤 방향으로 회전할지 구하기 
+        Vector3 targetDir = moveDestination.position - transform.position;              // 타겟 방향으로 향하는 벡터를 구하기
+        Vector3 crossVec = Vector3.Cross(targetDir, this.transform.forward);            // foward와 외적
+        float dot = Vector3.Dot(crossVec, Vector3.up);                                  // 위방향과 내적
         if (dot > 0) // 왼쪽
         {
             if (angleDifference > 60)
@@ -167,9 +186,9 @@ public class MonsterMove : MonoBehaviour
     }
     IEnumerator Rotation(float targetAngle)
     {
-        yield return new WaitForSecondsRealtime(0.1f);  // 애니메이션 전환시간 때문에 0.1f의 딜레이를 줌
-        float time = animator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSecondsRealtime(0.1f);  // 애니메이션 전환시간때문
 
+        float time = animator.GetCurrentAnimatorStateInfo(0).length;
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             time = 0.93f - 0.30f;
         else
@@ -181,28 +200,21 @@ public class MonsterMove : MonoBehaviour
             yield return new WaitForSecondsRealtime(time / 50);
         }
     }
-    bool CreateRandomDestination(Vector3 center, float range, out Vector3 result)
+    bool CreateRandomDestination(Vector3 center, float range)
     {
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 40; i++)        // 랜덤으로 조건을 만족할때까지 시행 (최대 40회)
         {
             Vector3 CreateRandomDestination = center + Random.insideUnitSphere * range;
             
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(CreateRandomDestination, out hit, 1.5f, NavMesh.AllAreas) && Vector3.Distance(transform.position, CreateRandomDestination) > 6f)
+            if (NavMesh.SamplePosition(CreateRandomDestination, out hit, 1.5f, NavMesh.AllAreas) && Vector3.Distance(transform.position, CreateRandomDestination) > 7f)
             {
-                result = hit.position;
+                moveDestination.position = hit.position;
                 return true;
             }
         }
-        result = Vector3.zero;
         return false;
     }
-    Vector3 AngleToDir(float angle)
-    {
-        float radian = angle * Mathf.Deg2Rad;
-        return new Vector3(Mathf.Sin(radian), 0f, Mathf.Cos(radian));
-    }
-
     private bool FindTarget()
     {
         NavMeshHit hit;
@@ -225,7 +237,11 @@ public class MonsterMove : MonoBehaviour
             }
         }
         return false;
-
+    }
+    Vector3 AngleToDir(float angle)
+    {
+        float radian = angle * Mathf.Deg2Rad;
+        return new Vector3(Mathf.Sin(radian), 0f, Mathf.Cos(radian));
     }
 
     #endregion SerchingTargetState
@@ -233,17 +249,25 @@ public class MonsterMove : MonoBehaviour
     #region ChasingTartget
     IEnumerator ChasingTarget()
     {
-        NavMeshHit hit;
+        // 몬스터 상태 초기화
+        state = State.Idle;
+        Debug.Log("현재 State : " +  state);
+        animator.SetInteger("Rotation", 0);
+        animator.SetBool("Walk", state.HasFlag(State.Walk));
 
+        // 적을 발견시 Roar 실행
+        yield return StartCoroutine(WaitForAnimation("Roar",1f));
+
+        NavMeshHit hit;
         while (true)
         {
-            if (!NavMesh.SamplePosition(target.transform.position, out hit, 2.0f, NavMesh.AllAreas))
+            if (!NavMesh.SamplePosition(target.transform.position, out hit, 2.0f, NavMesh.AllAreas))        // 타겟이 보스영역 밖으로 나갔을때 
             {
                 target = null;
                 yield return new WaitForSecondsRealtime(0.1f);
                 ChangeState(MonsterBehaviorState.SerchingTarget);
             }
-            Debug.Log("적인지 :" + behaviorState.ToString());
+            //Debug.Log("적인지 :" + behaviorState.ToString());
             yield return null;
         }
     }
@@ -256,15 +280,19 @@ public class MonsterMove : MonoBehaviour
         Debug.Log("ChangeState! 바뀔 상태 : " + newState);
         StartCoroutine(behaviorState.ToString());             // 변경된 상태로 코루틴 시작
     }
-    IEnumerator WaitForAnimation(string name, float ratio, int layer = -1)
+    IEnumerator WaitForAnimation(string name, float exitRatio, int layer = -1)
     {
-        //animator.Play(name, layer, 0);  // layer에 name이름을 가진 애니메이션을 0초부터 시작해라
-        animator.SetTrigger(name);
-        //Debug.Log("스트렛치 실행성공!, " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        float playTime =0;
+        animator.Play(name, layer, 0);  // layer에 name이름을 가진 애니메이션을 0초부터 시작해라
 
-        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < ratio && animator.GetCurrentAnimatorStateInfo(0).IsName(name))
+        //animator.SetTrigger(name);
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(name))   // 애니메이션이 전환될때까지 대기
+            yield return null;
+
+        float exitTime = animator.GetCurrentAnimatorStateInfo(0).length * exitRatio;
+        while (playTime < exitTime)
         {
-            //Debug.Log("스트렛치 실행중 : " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            playTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
     }
