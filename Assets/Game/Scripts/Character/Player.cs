@@ -315,7 +315,7 @@ public class Player : MonoBehaviour
             }
             isGround = true;
         }
-        else if (ground.distance == 0 || ground.distance > 1f)   // 땅이 없거나 땅과의 거리가 1f 이상일때
+        else if (ground.distance == 0 || ground.distance > 2f)   // 땅이 없거나 땅과의 거리가 1f 이상일때
         {
             if (isGround)   // 땅이 였다가 공중일때 "한번"만 실행되도록
             {
