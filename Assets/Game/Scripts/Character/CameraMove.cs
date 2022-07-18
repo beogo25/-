@@ -33,7 +33,7 @@ public class CameraMove : MonoBehaviour
         player    = playerPoint.transform.parent.gameObject;
         playerScript = player.GetComponent<Player>();
         layerMask = (1 << LayerMask.NameToLayer("Wall") | LayerMask.NameToLayer("Ground"));
-        
+        Application.targetFrameRate = 60;
     }
 
     private void FixedUpdate()
@@ -41,7 +41,6 @@ public class CameraMove : MonoBehaviour
         if(!playerScript.talkState)
             CameraMovement();
     }
-
     private void CameraMovement()
     {
 
