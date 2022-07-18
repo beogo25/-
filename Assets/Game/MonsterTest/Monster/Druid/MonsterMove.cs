@@ -29,34 +29,32 @@ public class MonsterMove : MonoBehaviour
     
     [SerializeField] private Transform moveDestination;
     [SerializeField] private float moveSpeed = 2;
-    private float randomAnimationExecuteTime; 
+    
     private bool randomAnimationStart = false;
 
-    [SerializeField] bool DebugMode = true;
-    [Range(0f, 360f)][SerializeField] float ViewAngle = 0f;
-    [SerializeField] float ViewRadius = 1f;
-    [SerializeField] LayerMask TargetMask;
-    [SerializeField] LayerMask ObstacleMask;
+    [SerializeField] private bool DebugMode = true;
+    [Range(0f, 360f)]
+    [SerializeField] private float ViewAngle = 0f;
+    [SerializeField] private float ViewRadius = 1f;
+    [SerializeField] private LayerMask TargetMask;
+    [SerializeField] private LayerMask ObstacleMask;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         monsterRigidbody = GetComponent<Rigidbody>();
-
-        randomAnimationExecuteTime = Random.Range(10f, 20f);
-
+        
+        StartCoroutine(RandomAnimation(Random.Range(10f, 20f)));
         behaviorState = MonsterBehaviorState.SerchingTarget;
         StartCoroutine(behaviorState.ToString());
     }
     private void Update()
     {
-        if (randomAnimationExecuteTime <= 0 && !randomAnimationStart)
-            randomAnimationStart = true;
-        else if (randomAnimationExecuteTime > 0)
-            randomAnimationExecuteTime -= Time.deltaTime;
-            
-
-        
+        if (behaviorState == MonsterBehaviorState.SerchingTarget && target == null)
+        {
+            if (FindTarget())
+                ChangeState(MonsterBehaviorState.ChasingTarget);
+        }
     }
 
     #region SerchingTargetState
@@ -120,8 +118,8 @@ public class MonsterMove : MonoBehaviour
                             else
                                 Debug.Log("행동안함");
 
-                            randomAnimationStart = false;                           // 실행되고 나서 false로 바꿔주기
-                            randomAnimationExecuteTime = Random.Range(10f, 20f);    // 애니메이션 실행될 랜덤 숫자부여
+                            randomAnimationStart = false;                            // 실행되고 나서 false로 바꿔주기
+                            StartCoroutine(RandomAnimation(Random.Range(10f, 20f)));
                         }
 
                     }
@@ -129,12 +127,6 @@ public class MonsterMove : MonoBehaviour
 
                 default:
                     break;
-            }
-
-            if (FindTarget())       // target을 찾으면 행동상태변경
-            {
-                yield return new WaitForSecondsRealtime(0.1f);      // 대기시간 (코루틴때문)
-                ChangeState(MonsterBehaviorState.ChasingTarget);
             }
 
             yield return null;
@@ -157,12 +149,12 @@ public class MonsterMove : MonoBehaviour
             if (angleDifference > 60)
             {
                 animator.SetInteger("Rotation", -2);
-                StartCoroutine(Rotation(-angleDifference));
+                StartCoroutine(Rotation("Turn Left", -angleDifference));
             }
             else
             {
                 animator.SetInteger("Rotation", -1);
-                StartCoroutine(Rotation(-angleDifference));
+                StartCoroutine(Rotation("Turn Left Slow", -angleDifference));
             }
         }
         else if (dot < 0) // 오른쪽
@@ -170,12 +162,12 @@ public class MonsterMove : MonoBehaviour
             if (angleDifference > 60)
             {
                 animator.SetInteger("Rotation", 2);
-                StartCoroutine(Rotation(angleDifference));
+                StartCoroutine(Rotation("Turn Right", angleDifference));
             }
             else
             {
                 animator.SetInteger("Rotation", 1);
-                StartCoroutine(Rotation(angleDifference));
+                StartCoroutine(Rotation("Turn Right Slow",angleDifference));
             }
         }
         else // 가운데 (0일때)
@@ -184,25 +176,53 @@ public class MonsterMove : MonoBehaviour
 
         return targetRotation;
     }
-    IEnumerator Rotation(float targetAngle)
+    WaitForSecondsRealtime rotationDelay = new WaitForSecondsRealtime(0.01f);
+    IEnumerator Rotation(string name, float targetAngle)
     {
-        yield return new WaitForSecondsRealtime(0.1f);  // 애니메이션 전환시간때문
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(name))
+            yield return null;
 
+        float playTime = 0f;
+        float exitTime = animator.GetCurrentAnimatorStateInfo(0).length;
+        
+        exitTime = exitTime * 0.30f;                        // 현재 실행된 회전 애니메이션의 30%시간동안 코루틴 실행(회전하는 모습이 어색하지 않도록)
+        
+        while (playTime < exitTime)
+        {
+            playTime += 0.01f;
+            transform.Rotate(new Vector3(0, (targetAngle / (exitTime / 0.01f)), 0), Space.Self);
+            yield return rotationDelay;
+        }
+    }
+    /*
+        IEnumerator Rotation(float targetAngle)
+    {
+        yield return new WaitForSecondsRealtime(0.05f);  // 애니메이션 전환시간때문
+        float playTime = 0f;
         float time = animator.GetCurrentAnimatorStateInfo(0).length;
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            Debug.Log("Idle임 : " + time);
             time = 0.93f - 0.30f;
+        }
         else
+        {
+            Debug.Log("잘됨 : " + time);
             time = time * 0.60f;                        // 현재 실행된 회전 애니메이션의 60%시간동안 코루틴 실행(회전하는 모습이 어색하지 않도록)
+        }
 
         for (int i = 0; i < 50; i++)                    // 50회에 걸쳐 회전하기
         {
-            transform.Rotate(new Vector3(0, (targetAngle / 50), 0), Space.Self);
-            yield return new WaitForSecondsRealtime(time / 50);
+            playTime += Time.deltaTime;
+            Debug.Log("걸린시간 : " + playTime);
+            transform.Rotate(new Vector3(0, (targetAngle / 50f), 0), Space.Self);
+            yield return new WaitForSecondsRealtime(time / 50f);
         }
     }
+     */
     bool CreateRandomDestination(Vector3 center, float range)
     {
-        for (int i = 0; i < 40; i++)        // 랜덤으로 조건을 만족할때까지 시행 (최대 40회)
+        for (int i = 0; i < 40; i++)        // 조건을 만족하는 목적지가 나올때까지 시행 (최대 40회)
         {
             Vector3 CreateRandomDestination = center + Random.insideUnitSphere * range;
             
@@ -243,19 +263,28 @@ public class MonsterMove : MonoBehaviour
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0f, Mathf.Cos(radian));
     }
-
+    IEnumerator RandomAnimation(float cool)
+    {
+        while (cool > 0)
+        {
+            cool -= Time.deltaTime;
+            yield return null;
+        }
+        randomAnimationStart = true;
+    }
     #endregion SerchingTargetState
 
     #region ChasingTartget
     IEnumerator ChasingTarget()
     {
         // 몬스터 상태 초기화
-        state = State.Idle;
-        Debug.Log("현재 State : " +  state);
-        animator.SetInteger("Rotation", 0);
-        animator.SetBool("Walk", state.HasFlag(State.Walk));
+        InitState();
 
         // 적을 발견시 Roar 실행
+        //Vector3 dir = moveDestination.position - transform.position;
+        //dir = new Vector3(dir.x, 0, dir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
+        //targetRotation = Quaternion.LookRotation(dir.normalized);   // 내가 바라볼 방향
+        transform.LookAt(target.transform.position);
         yield return StartCoroutine(WaitForAnimation("Roar",1f));
 
         NavMeshHit hit;
@@ -270,6 +299,12 @@ public class MonsterMove : MonoBehaviour
             //Debug.Log("적인지 :" + behaviorState.ToString());
             yield return null;
         }
+    }
+    void InitState()
+    {
+        state = State.Idle;
+        animator.SetInteger("Rotation", 0);
+        animator.SetBool("Walk", state.HasFlag(State.Walk));
     }
 
     #endregion ChasingTartget
@@ -313,116 +348,3 @@ public class MonsterMove : MonoBehaviour
     }
 }
 
-
-#region 테스트 코드
-/*
-    if (rotate)
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
- */
-/*
-    Quaternion SetDestinationDirection()
-    {        
-        Vector3 dir = moveDestination.position - transform.position;
-        dir = new Vector3(dir.x, 0, dir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
-        targetRotation = Quaternion.LookRotation(dir.normalized);   // 내가 바라볼 방향
-        float angleDifference = Quaternion.Angle(transform.rotation, targetRotation); // 내 방향과 목표 방향의 각도차이
-
-        Vector3 targetDir = moveDestination.position - transform.position;      // 타겟 방향으로 향하는 벡터를 구하기
-        Vector3 crossVec = Vector3.Cross(targetDir, this.transform.forward);    // foward와 외적
-        float dot = Vector3.Dot(crossVec, Vector3.up);                          // 위쪽과 내적
-        if (dot > 0) // 왼쪽
-        {
-            if (angleDifference > 60)
-            {
-                animator.SetInteger("Rotation", -2);
-                StartCoroutine(Rotation(-angleDifference));
-            }
-            else
-            {
-                animator.SetInteger("Rotation", -1);
-                StartCoroutine(Rotation(-angleDifference));
-                rotationSpeed = 1.2f;
-                //rotate = true;
-            }
-        }
-        else if (dot < 0) // 오른쪽
-        {
-            if (angleDifference > 60)
-            {
-                animator.SetInteger("Rotation", 2);
-                StartCoroutine(Rotation(angleDifference));
-            }
-            else
-            {
-                animator.SetInteger("Rotation", 1);
-                StartCoroutine(Rotation(angleDifference));
-                rotationSpeed = 1.2f;
-                //rotate = true;
-            }
-        }
-        else // 가운데 (0일때)
-        {
-            Debug.Log("가운데");
-        }
-
-        return targetRotation;
-    }
- */
-/* 애니메이션 테스트
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log("걷기 상태 : " + state.HasFlag(State.Walk));
-            animator.SetTrigger("Stretch");
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            //animator.SetTrigger("Test");
-            
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad7))
-        {
-            animator.SetInteger("Rotation", -2);
-            StartCoroutine(Rotation(-90));
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad8))
-        {
-            animator.SetInteger("Rotation", 2);
-            StartCoroutine(Rotation(90));
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            animator.SetInteger("Rotation", -1);
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad5))
-        {
-            animator.SetInteger("Rotation", 1);
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            animator.SetInteger("Rotation", 3);
-            StartCoroutine(Rotation(90));
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            animator.SetInteger("Rotation", -3);
-            StartCoroutine(Rotation(90));
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            animator.SetInteger("Rotation", 4);
-            StartCoroutine(Rotation(90));
-            //Debug.Log("애니메이션 재생 시간 : " + animator.GetCurrentAnimatorStateInfo(0).length);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            animator.SetInteger("Rotation", -4);
-            StartCoroutine(Rotation(-60));
-            //Debug.Log("애니메이션 재생 시간 : " + animator.GetCurrentAnimatorStateInfo(0).length);
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            //animator.SetInteger("Rotation", 5);
-            Debug.Log("애니메이션 재생 시간 : " + animator.GetCurrentAnimatorStateInfo(0).length);
-        }
- */
-#endregion
