@@ -266,10 +266,9 @@ public class Player : MonoBehaviour
         }
 
     }
-    //걍 속도를 0으로 만들어버려서 구르기로 뚫지 못하게 하는것.. 집에 가서 확인 후 최종 적용 여부 결정 할께요~
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
             movementSpeed = 0;
         }
@@ -277,7 +276,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
             movementSpeed = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         }
