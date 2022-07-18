@@ -10,8 +10,9 @@ public class Player : MonoBehaviour
                           
     private Animator      animator;
     public  static bool   isMoveAble = true;
-    public  Transform     particleParent;
-                          
+    public  Transform     attackParticleParent;
+    public  Transform     useParticleParent;
+
     public  GameObject    lockOnPrefab;
     public  GameObject    lockOnObject = null;
                           
@@ -202,7 +203,7 @@ public class Player : MonoBehaviour
     }
     public void ParticleInstantiate(GameObject attack)
     {
-        GameObject temp = particleParent.Find(attack.name).gameObject;
+        GameObject temp = attackParticleParent.Find(attack.name).gameObject;
         if (temp != null)
         {
             temp.transform.position = transform.position;

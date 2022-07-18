@@ -36,7 +36,7 @@ public class EquipmentCombinationSystem : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-            ExiteButton();
+            ExitButton();
     }
     private void Start()
     {
@@ -87,7 +87,7 @@ public class EquipmentCombinationSystem : MonoBehaviour
         PlayerStatus.gold -= DataManager.instance.eqiupmentItemRecipeList[target].gold;
         CombiRecipeView(target);
     }
-    public void ExiteButton()
+    public void ExitButton()
     {
         gameObject.SetActive(false);
         blur.SetActive(false);

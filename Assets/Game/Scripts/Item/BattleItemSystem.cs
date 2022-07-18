@@ -12,6 +12,7 @@ public class BattleItemSystem : MonoBehaviour
     public Image rightItem;
     public TextMeshProUGUI stackText;
     public PlayerStatus playerStatus;
+    public Player player;
     public int SelectNum
     {
         get { return selectNum; }
@@ -64,13 +65,18 @@ public class BattleItemSystem : MonoBehaviour
             }
         }
     }
-    public void ButtonAction(int num)
-    {
-        SelectNum += num;
-    }
     private void OnEnable()
     {
         selectNum = 0;
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            SelectNum -= 1;
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            UseItemTrigger();
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            SelectNum += 1;
     }
 
     //사용 아이템들 효과 적용
@@ -82,6 +88,18 @@ public class BattleItemSystem : MonoBehaviour
             {
                 case UseItemType.HP_HEALTH:
                     playerStatus.Hp += InventoryManager.instance.useItemList[selectNum].effectValue;
+                    player.useParticleParent.GetChild(0).gameObject.SetActive(true);
+                    break;
+                case UseItemType.ANTIDOTE:
+                    player.useParticleParent.GetChild(1).gameObject.SetActive(true);
+                    break;
+                case UseItemType.ATK_UP:
+                    playerStatus.Buff(UseItemType.ATK_UP, InventoryManager.instance.useItemList[selectNum].effectValue);
+                    player.useParticleParent.GetChild(2).gameObject.SetActive(true);
+                    break;
+                case UseItemType.DEF_UP:
+                    playerStatus.Buff(UseItemType.DEF_UP, InventoryManager.instance.useItemList[selectNum].effectValue);
+                    player.useParticleParent.GetChild(3).gameObject.SetActive(true);
                     break;
                 default:
                     break;

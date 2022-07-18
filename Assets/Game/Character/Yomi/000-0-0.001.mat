@@ -1181,7 +1181,7 @@ Material:
     - m_end_voronoiRandom: 0
     - m_lightingOptions: 0
     - m_mainOptions: 0
-    - m_outlineOptions: 1
+    - m_outlineOptions: 0
     - m_renderingOptions: 0
     - m_start_Alpha: 0
     - m_start_BlackLight: 0
