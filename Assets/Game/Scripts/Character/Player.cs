@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     private float         jumpInputTime;
     private float         movementSpeed;
     private CharacterMove characterMove;
-    private Rigidbody     characterRigidbody;
+    private Rigidbody     playerRigidbody;
 
     [SerializeField]
     private ComboSystem   combo;
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         Player player      = this;
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
-        characterRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator>();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
 
@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
         if (skillName != "")
         {
             if (skillName == "Evade" || !animator.GetBool("Land")) { }      // 구르기랑 공중일때만 빼고 Y축 고정
-            else characterRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
+            else playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
 
             animator.SetTrigger(skillName);
             yield return new WaitForSeconds(0.3f);
@@ -167,17 +167,17 @@ public class Player : MonoBehaviour
 
     public void DropKick()
     {
-        characterRigidbody.velocity = Vector3.zero;
-        characterRigidbody.AddForce((transform.forward * 10) + (transform.up * -15), ForceMode.Impulse);
+        playerRigidbody.velocity = Vector3.zero;
+        playerRigidbody.AddForce((transform.forward * 10) + (transform.up * -15), ForceMode.Impulse);
     }
     public void Attack_AirSlashStart()
     {
-        characterRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
+        playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
     }
     public void Attack_AirSlashEnd()
     {
-        characterRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        characterRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
+        playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        playerRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
     }
     // 애니메이션에서 사용합니다.
     IEnumerator AttackMove(float distance)
@@ -266,6 +266,22 @@ public class Player : MonoBehaviour
         }
 
     }
+    //걍 속도를 0으로 만들어버려서 구르기로 뚫지 못하게 하는것.. 집에 가서 확인 후 최종 적용 여부 결정 할께요~
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            movementSpeed = 0;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            movementSpeed = transform.parent.GetComponent<CharacterMove>().movementSpeed;
+        }
+    }
 
     private void PlayerMove()
     {
@@ -308,8 +324,8 @@ public class Player : MonoBehaviour
         {
             if (!isGround)  // 땅이 아니였다가 땅에 닿을시 "한번"만 실행되도록
             {
-                characterRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-                characterRigidbody.velocity = Vector3.zero;
+                playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                playerRigidbody.velocity = Vector3.zero;
                 animator.SetBool("Jump", false);
                 animator.SetBool("Land", true);
             }

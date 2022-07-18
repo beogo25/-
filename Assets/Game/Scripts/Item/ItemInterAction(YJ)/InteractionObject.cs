@@ -52,7 +52,6 @@ public class InteractionObject: MonoBehaviour, IInteraction
         set
         {
             collectNumber = value;
-            Debug.Log(collectNumber);
             if (collectNumber == 0)
             {
                 StartCoroutine(Timer(10));
