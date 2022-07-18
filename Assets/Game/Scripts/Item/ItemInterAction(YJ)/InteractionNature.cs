@@ -4,22 +4,9 @@ using UnityEngine;
 
 public class InteractionNature : InteractionObject, IGlow
 {
-    public override int CollectNumber
-    {
-        get { return collectNumber; }
-        set
-        {
-            collectNumber = value;
-
-            if (collectNumber == 0)
-            {
-                StartCoroutine(Timer(10));
-            }
-        }
-    }
     private Renderer objectRenderer;
     private Material material;
-    protected bool isLoop = false;
+    private bool isLoop = false;
 
     // Start is called before the first frame update
     public override void Start()
@@ -48,13 +35,13 @@ public class InteractionNature : InteractionObject, IGlow
     }
 
     //시간 설정
-    private IEnumerator Timer(int time)
+    public override IEnumerator Timer(int time)
     {
         isCollectable = false;
         material.SetColor("_EmissionColor", Color.yellow * 0);
         yield return new WaitForSeconds(time);
         isCollectable = true;
-        CollectNumber = 3;
+        CollectNumber = collectNumberOrigin;
     }
 
 

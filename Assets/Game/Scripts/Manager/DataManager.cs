@@ -41,20 +41,20 @@ public class UseItemData
 [System.Serializable]
 public class UseItemRecipeData
 {
-    public List<string> materialA = new List<string>();
-    public List<string> materialB = new List<string>();
-    public List<string> result    = new List<string>();
+    public List<string> materialA      = new List<string>();
+    public List<string> materialB      = new List<string>();
+    public List<string> result         = new List<string>();
 }
 
 [System.Serializable]
 public class EquipmentItemRecipeData
 {
-    public List<string> materialA = new List<string>();
-    public List<int> numA = new List<int>();
-    public List<string> materialB = new List<string>();
-    public List<int> numB = new List<int>();
-    public List<int> gold = new List<int>();
-    public List<string> result = new List<string>();
+    public List<string> materialA      = new List<string>();
+    public List<int>    numA           = new List<int>();
+    public List<string> materialB      = new List<string>();
+    public List<int>    numB           = new List<int>();
+    public List<int>    gold           = new List<int>();
+    public List<string> result         = new List<string>();
 }
 
 [System.Serializable]
@@ -69,11 +69,11 @@ public class QuestData
 
 public class DataManager : Singleton<DataManager>
 {
-    public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
+    public Dictionary<string, MaterialItem>  materialsDic    = new Dictionary<string, MaterialItem>();
     public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
-    public Dictionary<string, UseItem> useItemDic        = new Dictionary<string, UseItem>();
+    public Dictionary<string, UseItem>       useItemDic      = new Dictionary<string, UseItem>();
 
-    public List<UseItemRecipe> useItemRecipeList = new List<UseItemRecipe>();
+    public List<UseItemRecipe>       useItemRecipeList       = new List<UseItemRecipe>();
     public List<EqiupmentItemRecipe> eqiupmentItemRecipeList = new List<EqiupmentItemRecipe>();
     public List<Quest> questList = new List<Quest>();
 
@@ -167,9 +167,9 @@ public class DataManager : Singleton<DataManager>
             for (int i = 0; i < loadData.materialA.Count; i++)
             {
                 UseItemRecipe useItemRecipe = new UseItemRecipe();
-                useItemRecipe.result = loadData.result[i];
-                useItemRecipe.materialA = loadData.materialA[i];
-                useItemRecipe.materialB = loadData.materialB[i];
+                useItemRecipe.result        = loadData.result[i];
+                useItemRecipe.materialA     = loadData.materialA[i];
+                useItemRecipe.materialB     = loadData.materialB[i];
                 useItemRecipeList.Add(useItemRecipe);
             }
         }
@@ -182,12 +182,12 @@ public class DataManager : Singleton<DataManager>
             for (int i = 0; i < loadData.materialA.Count; i++)
             {
                 EqiupmentItemRecipe eqiupmentItemRecipe = new EqiupmentItemRecipe();
-                eqiupmentItemRecipe.result = loadData.result[i];
-                eqiupmentItemRecipe.materialA = loadData.materialA[i];
-                eqiupmentItemRecipe.materialB = loadData.materialB[i];
-                eqiupmentItemRecipe.numA = loadData.numA[i];
-                eqiupmentItemRecipe.numB = loadData.numB[i];
-                eqiupmentItemRecipe.gold = loadData.gold[i];
+                eqiupmentItemRecipe.result              = loadData.result[i];
+                eqiupmentItemRecipe.materialA           = loadData.materialA[i];
+                eqiupmentItemRecipe.materialB           = loadData.materialB[i];
+                eqiupmentItemRecipe.numA                = loadData.numA[i];
+                eqiupmentItemRecipe.numB                = loadData.numB[i];
+                eqiupmentItemRecipe.gold                = loadData.gold[i];
                 eqiupmentItemRecipeList.Add(eqiupmentItemRecipe);
             }
         }
