@@ -1,0 +1,7 @@
+{
+  "targetMonster": [ 1, 1 ],
+  "clearGold": [ 100, 500 ],
+  "questName": [ "시작 퀘스트", "두번째 퀘스트" ],
+  "questContents": [ "첫번째 퀘스트입니다","두번째 퀘스트입니다" ],
+  "questDifficulty": [1,1]
+}

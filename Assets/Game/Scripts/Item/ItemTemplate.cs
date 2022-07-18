@@ -60,14 +60,14 @@ public class EquipmentItem : Item
     public int equipmentValue;
 }
 
-public class UseItemRecipe
+public struct UseItemRecipe
 {
     public string result;
     public string materialA;
     public string materialB;
 }
 
-public class EqiupmentItemRecipe
+public struct EqiupmentItemRecipe
 {
     public string result;
     public string materialA;
@@ -75,5 +75,15 @@ public class EqiupmentItemRecipe
     public string materialB;
     public int numB;
     public int gold;
+}
+
+public struct Quest
+{
+    public int targetMonster;
+    public int clearGold;
+    public string questName;
+    public string questContents;
+    public int questNum;
+    public int questDifficulty;
 }
 

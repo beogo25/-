@@ -57,6 +57,16 @@ public class EquipmentItemRecipeData
     public List<string> result = new List<string>();
 }
 
+[System.Serializable]
+public class QuestData
+{
+    public List<int> targetMonster = new List<int>();
+    public List<int> clearGold = new List<int>();
+    public List<string> questName = new List<string>();
+    public List<string> questContents = new List<string>();
+    public List<int> questDifficulty = new List<int>();
+}
+
 public class DataManager : Singleton<DataManager>
 {
     public Dictionary<string, MaterialItem> materialsDic = new Dictionary<string, MaterialItem>();
@@ -65,6 +75,7 @@ public class DataManager : Singleton<DataManager>
 
     public List<UseItemRecipe> useItemRecipeList = new List<UseItemRecipe>();
     public List<EqiupmentItemRecipe> eqiupmentItemRecipeList = new List<EqiupmentItemRecipe>();
+    public List<Quest> questList = new List<Quest>();
 
     public override void Awake()
     {
@@ -128,10 +139,10 @@ public class DataManager : Singleton<DataManager>
         }
 
         //사용 아이템
-        string UseItemData                = Resources.Load<TextAsset>("Json/UseItemJson").text;
-        if (UseItemData != null)
+        string useItemData                = Resources.Load<TextAsset>("Json/UseItemJson").text;
+        if (useItemData != null)
         {
-            UseItemData loadData          = JsonUtility.FromJson<UseItemData>(UseItemData);
+            UseItemData loadData          = JsonUtility.FromJson<UseItemData>(useItemData);
             for (int i = 0; i < loadData.itemname.Count; i++)
             {
                 UseItem useItem           = new UseItem();
@@ -149,10 +160,10 @@ public class DataManager : Singleton<DataManager>
         }
 
         //사용아이템 레시피
-        string UseItemRecipeData = Resources.Load<TextAsset>("Json/UseItemRecipeJson").text;
-        if (UseItemRecipeData != null)
+        string useItemRecipeData = Resources.Load<TextAsset>("Json/UseItemRecipeJson").text;
+        if (useItemRecipeData != null)
         {
-            UseItemRecipeData loadData = JsonUtility.FromJson<UseItemRecipeData>(UseItemRecipeData);
+            UseItemRecipeData loadData = JsonUtility.FromJson<UseItemRecipeData>(useItemRecipeData);
             for (int i = 0; i < loadData.materialA.Count; i++)
             {
                 UseItemRecipe useItemRecipe = new UseItemRecipe();
@@ -164,10 +175,10 @@ public class DataManager : Singleton<DataManager>
         }
 
         //장비아이템 레시피
-        string EquipmentItemRecipeData = Resources.Load<TextAsset>("Json/EquipmentItemRecipeJson").text;
-        if (EquipmentItemRecipeData != null)
+        string equipmentItemRecipeData = Resources.Load<TextAsset>("Json/EquipmentItemRecipeJson").text;
+        if (equipmentItemRecipeData != null)
         {
-            EquipmentItemRecipeData loadData = JsonUtility.FromJson<EquipmentItemRecipeData>(EquipmentItemRecipeData);
+            EquipmentItemRecipeData loadData = JsonUtility.FromJson<EquipmentItemRecipeData>(equipmentItemRecipeData);
             for (int i = 0; i < loadData.materialA.Count; i++)
             {
                 EqiupmentItemRecipe eqiupmentItemRecipe = new EqiupmentItemRecipe();
@@ -178,6 +189,24 @@ public class DataManager : Singleton<DataManager>
                 eqiupmentItemRecipe.numB = loadData.numB[i];
                 eqiupmentItemRecipe.gold = loadData.gold[i];
                 eqiupmentItemRecipeList.Add(eqiupmentItemRecipe);
+            }
+        }
+
+        //퀘스트 리스트
+        string questData = Resources.Load<TextAsset>("Json/QuestJson").text;
+        if (questData != null)
+        {
+            QuestData loadData = JsonUtility.FromJson<QuestData>(questData);
+            for (int i = 0; i < loadData.questName.Count; i++)
+            {
+                Quest quest = new Quest();
+                quest.questName = loadData.questName[i];
+                quest.questContents = loadData.questContents[i];
+                quest.questDifficulty = loadData.questDifficulty[i];
+                quest.clearGold = loadData.clearGold[i];
+                quest.targetMonster = loadData.targetMonster[i];
+                quest.questNum = i;
+                questList.Add(quest);
             }
         }
     }

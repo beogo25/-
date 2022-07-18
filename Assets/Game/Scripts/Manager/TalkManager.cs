@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class TalkManager : Singleton<TalkManager>
@@ -24,17 +23,26 @@ public class TalkManager : Singleton<TalkManager>
     public GameObject equipmentItemConbinationButton;
     public GameObject shopButton;
     public GameObject exitButton;
+    public GameObject questButton;
+    public GameObject blur;
 
+    public Player player;
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Z))
+        if(Input.GetKeyUp(KeyCode.Z) && talkUI.activeInHierarchy)
         {
             ClickButton();
+        }
+        if (Input.GetKeyUp(KeyCode.Escape) && talkUI.activeInHierarchy)
+        {
+            ExitButton();
         }
     }
     public void TalkStart(string name, string[] talk, Sprite sprite = null, UIType[] inputUITypes = null)
     {
+        player.talkState = true;
+        blur.SetActive(true);
         num = 0;
         talkUI.SetActive(true);
         uiTypes = inputUITypes; 
@@ -59,6 +67,8 @@ public class TalkManager : Singleton<TalkManager>
                 if (uiTypes == null || uiTypes.Length == 0) 
                 {
                     talkUI.SetActive(false);
+                    blur.SetActive(false);
+                    player.talkState = false;
                 }
                 else
                 {
@@ -84,11 +94,14 @@ public class TalkManager : Singleton<TalkManager>
                             case UIType.SHOP_UI:
                                 shopButton.SetActive(true);
                                 break;
+                            case UIType.QUEST_UI:
+                                questButton.SetActive(true);
+                                break;
                             default:
                                 break;
                         }
-                        exitButton.SetActive(true);
                     }
+                    exitButton.SetActive(true);
                 }
             }
             else
@@ -115,5 +128,20 @@ public class TalkManager : Singleton<TalkManager>
             talkTMP.text += talkText[a][j];
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    public void ExitButton()
+    {
+        exitButton.SetActive(false);
+        shopButton.SetActive(false);
+        questButton.SetActive(false);
+        equipmentItemConbinationButton.SetActive(false);
+        useItemConbinationButton.SetActive(false);
+        useItemWarehouseButton.SetActive(false);
+        materialItemWarehouseButton.SetActive(false);
+        equipmentItemWarehouseButton.SetActive(false);
+        blur.SetActive(false);
+        talkUI.SetActive(false);
+        player.talkState = false;
     }
 }

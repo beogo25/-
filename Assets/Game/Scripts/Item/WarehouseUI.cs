@@ -7,6 +7,9 @@ public abstract class WarehouseUI : MonoBehaviour
     public ItemInformationSystem itemInformation;
     public int selectSlot = 0;
     public WarehouseSlot[] slots;
+    public GameObject[] exitTarget;
+    
+    private Player player;
     public int SelectSlot
     {
         get { return selectSlot; }
@@ -18,6 +21,7 @@ public abstract class WarehouseUI : MonoBehaviour
     }
     private void Awake()
     {
+        player = FindObjectOfType<Player>();
         for (int i = 0; i < slots.Length; i++)
             slots[i].num = i;
     }
@@ -29,10 +33,23 @@ public abstract class WarehouseUI : MonoBehaviour
     {
         Refresh();
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ExiteButton();
+    }
     public virtual void ItemInformationChange(int num)
     {
         itemInformation.WareHouseBool = true;
         itemInformation.targetNum = num;
+    }
+
+    public void ExiteButton()
+    {
+        for(int i = 0; i < exitTarget.Length; i++)
+            exitTarget[i].SetActive(false);
+        player.talkState = false;
+        itemInformation.gameObject.SetActive(false);
     }
     public abstract void Refresh();
 }

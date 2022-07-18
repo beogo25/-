@@ -1,0 +1,660 @@
+fileFormatVersion: 2
+guid: 3e8c3e354ae30ee468114d95f3cc495c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 534437023957949883
+    second: characterSelectScene_IA_0
+  - first:
+      213: -7442659526741811271
+    second: characterSelectScene_IA_1
+  - first:
+      213: -7289994935166125333
+    second: characterSelectScene_IA_2
+  - first:
+      213: 1242261726363695886
+    second: characterSelectScene_IA_3
+  - first:
+      213: -1675098367963349587
+    second: characterSelectScene_IA_4
+  - first:
+      213: -227037647636179395
+    second: characterSelectScene_IA_5
+  - first:
+      213: 8494835142289104753
+    second: characterSelectScene_IA_6
+  - first:
+      213: -3458230055626457787
+    second: characterSelectScene_IA_7
+  - first:
+      213: -5696436689211137280
+    second: characterSelectScene_IA_8
+  - first:
+      213: 6629680617097034497
+    second: characterSelectScene_IA_9
+  - first:
+      213: 9161791702452949921
+    second: characterSelectScene_IA_10
+  - first:
+      213: -6299291039633896875
+    second: characterSelectScene_IA_11
+  - first:
+      213: -6878919715019483239
+    second: characterSelectScene_IA_12
+  - first:
+      213: -6113253632266248503
+    second: characterSelectScene_IA_13
+  - first:
+      213: 8044581706935982481
+    second: characterSelectScene_IA_14
+  - first:
+      213: -7362209676493692184
+    second: characterSelectScene_IA_15
+  - first:
+      213: 1727036851171782912
+    second: characterSelectScene_IA_16
+  - first:
+      213: -286903796221852211
+    second: characterSelectScene_IA_17
+  - first:
+      213: 1526018923486505731
+    second: characterSelectScene_IA_18
+  - first:
+      213: -462283793108763782
+    second: characterSelectScene_IA_19
+  - first:
+      213: 4573809347671257476
+    second: characterSelectScene_IA_20
+  - first:
+      213: -8075227971258502168
+    second: characterSelectScene_IA_21
+  - first:
+      213: 2690727710264446190
+    second: characterSelectScene_IA_22
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: characterSelectScene_IA_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 464
+        width: 1011
+        height: 560
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbd94d744a3ba6700800000000000000
+      internalID: 534437023957949883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_1
+      rect:
+        serializedVersion: 2
+        x: 1007
+        y: 824
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bf9064e79c56b890800000000000000
+      internalID: -7442659526741811271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_2
+      rect:
+        serializedVersion: 2
+        x: 996
+        y: 801
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: beab6030b3cb4da90800000000000000
+      internalID: -7289994935166125333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_3
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 620
+        width: 28
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0bb8f555766d3110800000000000000
+      internalID: 1242261726363695886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_4
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 566
+        width: 28
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dad35bdc8ead0c8e0800000000000000
+      internalID: -1675098367963349587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_5
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 475
+        width: 170
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d36510e567669dcf0800000000000000
+      internalID: -227037647636179395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 279
+        width: 643
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17f95a9ed87b3e570800000000000000
+      internalID: 8494835142289104753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_7
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 340
+        width: 290
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54d3ece3616e100d0800000000000000
+      internalID: -3458230055626457787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_8
+      rect:
+        serializedVersion: 2
+        x: 976
+        y: 413
+        width: 28
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 003611e130132f0b0800000000000000
+      internalID: -5696436689211137280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_9
+      rect:
+        serializedVersion: 2
+        x: 973
+        y: 356
+        width: 39
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10b7c5c456b510c50800000000000000
+      internalID: 6629680617097034497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_10
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 281
+        width: 232
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a354da1309352f70800000000000000
+      internalID: 9161791702452949921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_11
+      rect:
+        serializedVersion: 2
+        x: 889
+        y: 283
+        width: 108
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55a02ddac2c6498a0800000000000000
+      internalID: -6299291039633896875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_12
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 157
+        width: 294
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99715db17fa2980a0800000000000000
+      internalID: -6878919715019483239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_13
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 167
+        width: 271
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ce57eaf53c592ba0800000000000000
+      internalID: -6113253632266248503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_14
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 157
+        width: 294
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1995680c07814af60800000000000000
+      internalID: 8044581706935982481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_15
+      rect:
+        serializedVersion: 2
+        x: 989
+        y: 240
+        width: 35
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e266ae4e4d24d990800000000000000
+      internalID: -7362209676493692184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_16
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 19
+        width: 288
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0017a1caddaa7f710800000000000000
+      internalID: 1727036851171782912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_17
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 0
+        width: 330
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc54c757486b40cf0800000000000000
+      internalID: -286903796221852211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_18
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 29
+        width: 39
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30befee20228d2510800000000000000
+      internalID: 1526018923486505731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_19
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 30
+        width: 40
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7bf456e653a599f0800000000000000
+      internalID: -462283793108763782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_20
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 70
+        width: 182
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4817e4e5e5f697f30800000000000000
+      internalID: 4573809347671257476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_21
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 88
+        width: 38
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e3b6dcc1f60fef80800000000000000
+      internalID: -8075227971258502168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_IA_22
+      rect:
+        serializedVersion: 2
+        x: 791
+        y: 11
+        width: 225
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeccc9da892675520800000000000000
+      internalID: 2690727710264446190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: e14e0e22e84d6364691e6108da9e85a6
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
