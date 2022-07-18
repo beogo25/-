@@ -34,6 +34,7 @@ public class InventoryManager : Singleton<InventoryManager>
             AddItem(DataManager.instance.useItemDic["비약"]);
             AddItem(DataManager.instance.useItemDic["해독제"]);
             AddItem(DataManager.instance.useItemDic["포션"]);
+            WarehouseManager.instance.itemDelegate(DataManager.instance.equipmentDic["철검"]);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {

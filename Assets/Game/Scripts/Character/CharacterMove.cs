@@ -9,16 +9,19 @@ public class CharacterMove : MonoBehaviour
 
     private Rigidbody characterRigidbody;
     private Transform characterBody;
+    private Player player;
 
     private void Start()
     {
         characterRigidbody = transform.GetChild(0).GetComponent<Rigidbody>();
         characterBody      = transform.GetChild(0).transform;
+        player             = transform.GetChild(0).GetComponent<Player>();
     }
 
     void Update()
     {
-        Move();
+        if(!player.talkState)
+            Move();
     }
 
     private void Move()

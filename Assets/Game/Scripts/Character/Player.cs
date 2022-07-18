@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     private Vector3       moveDir;
     private bool          isClickAble;
 
+    public bool talkState = false;
 
     void Start()
     {
@@ -50,7 +51,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        InputSetting();
+        if (!talkState)
+            InputSetting();
+        else
+            animator.SetBool("Dash", false);
         CheckOnGround();
 
 
@@ -75,11 +79,24 @@ public class Player : MonoBehaviour
                     nearestTarget.GetComponent<InteractionObject>().Interaction();
             }
         }
+        if(!talkState)
+        {
+            Collider[] npcTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Npc"));
+            if (npcTarget.Length > 0)
+            {
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if (npcTarget[0].transform.GetComponent<IInteraction>() != null)
+                        npcTarget[0].transform.GetComponent<IInteraction>().Interaction();
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        PlayerMove();
+        if(!talkState)
+            PlayerMove();
     }
 
     IEnumerator DashReset()

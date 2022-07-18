@@ -5,16 +5,36 @@ using UnityEngine;
 public class Npc : MonoBehaviour, IInteraction
 {
     public string npcName;
-    [Multiline]
+    [TextArea]
     public string[] talkText;
     public Sprite standing;
     public UIType[] uiTypes;
-    private void Start()
+    public Animator[] animator;
+    Player player;
+
+    private CameraMove cameraMove;
+
+    private void Awake()
     {
-        Interaction();
+        cameraMove = FindObjectOfType<CameraMove>();
+        player = FindObjectOfType<Player>();   
+        StartCoroutine(IdleMotion());   
     }
     public void Interaction()
     {
-        TalkManager.instance.TalkStart(npcName, talkText, standing,uiTypes);  
+        TalkManager.instance.TalkStart(npcName, talkText, standing,uiTypes);
+        StartCoroutine(cameraMove.CameraFocus(this.gameObject));
+        transform.LookAt(player.gameObject.transform.position);
+        for(int i = 0; i < animator.Length; i++)
+            animator[i].SetTrigger("Interaction");
+    }
+    IEnumerator IdleMotion()
+    {
+        while(true)
+        {
+            for (int i = 0; i < animator.Length; i++)
+                animator[i].SetTrigger("Interaction");
+            yield return new WaitForSecondsRealtime(Random.Range(50,60));
+        }
     }
 }

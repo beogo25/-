@@ -13,7 +13,7 @@ public class EquipmentCombinationSystem : MonoBehaviour
     public Image resultImage;
     public Image materialAImage;
     public Image materialBImage;
-    public TextMeshProUGUI resultName;
+    public TextMeshProUGUI resultContents;
     public TextMeshProUGUI materialAName;
     public TextMeshProUGUI materialBName;
     public TextMeshProUGUI needGold;
@@ -22,7 +22,8 @@ public class EquipmentCombinationSystem : MonoBehaviour
     public GameObject combinationButton;
 
     private int target;
-
+    private Player player;
+    public GameObject blur;
     private void OnEnable()
     {
         combinationButton.SetActive(false);
@@ -30,6 +31,12 @@ public class EquipmentCombinationSystem : MonoBehaviour
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
+        player=FindObjectOfType<Player>();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ExiteButton();
     }
     private void Start()
     {
@@ -59,10 +66,13 @@ public class EquipmentCombinationSystem : MonoBehaviour
         materialAImage.sprite = materialItemA.sprite;
         materialBImage.sprite = materialItemB.sprite;
 
-        resultName.text = equipmentItem.itemName;
+        if(equipmentItem.equipmentType == EquipmentType.WEAPON)
+            resultContents.text = "공격력 : "+equipmentItem.equipmentValue;
+        else
+            resultContents.text = "방어력 : " + equipmentItem.equipmentValue;
         materialAName.text = materialItemA.itemName + DataManager.instance.eqiupmentItemRecipeList[num].numA + " (" + materialAnum + ")";
         materialBName.text = materialItemB.itemName + DataManager.instance.eqiupmentItemRecipeList[num].numB + " (" + materialBnum + ")";
-        needGold.text = DataManager.instance.eqiupmentItemRecipeList[num].gold.ToString();
+        needGold.text = DataManager.instance.eqiupmentItemRecipeList[num].gold.ToString()+" 골드";
         if (materialAnum >= DataManager.instance.eqiupmentItemRecipeList[num].numA && materialBnum >= DataManager.instance.eqiupmentItemRecipeList[num].numB && PlayerStatus.gold >= DataManager.instance.eqiupmentItemRecipeList[num].gold)
             combinationButton.SetActive(true);
         else
@@ -76,5 +86,11 @@ public class EquipmentCombinationSystem : MonoBehaviour
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialB], DataManager.instance.eqiupmentItemRecipeList[target].numB);
         PlayerStatus.gold -= DataManager.instance.eqiupmentItemRecipeList[target].gold;
         CombiRecipeView(target);
+    }
+    public void ExiteButton()
+    {
+        gameObject.SetActive(false);
+        blur.SetActive(false);
+        player.talkState = false;
     }
 }
