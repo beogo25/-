@@ -4,20 +4,33 @@ using UnityEngine;
 
 public class Wood : Projectile
 {
+    Rigidbody rb;
+    public override void Init(Vector3 target, float damage, float speed)
+    {
+        rb = GetComponent<Rigidbody>();
+        base.Init(target, damage, speed);
+    }
     public override IEnumerator throwing(Vector3 targetPos)
     {
-        Vector3 targetLocation = (targetPos - gameObject.transform.position).normalized; //¸ñÇ¥ÀÇ À§Ä¡¸¦ Àâ°í
-
-        gameObject.transform.Rotate(8f, 3f, 0);
-        gameObject.transform.position += targetLocation * speed * Time.deltaTime;
-
-        yield return null;
+        Vector3 targetDir = (targetPos - transform.position).normalized;
+        rb.isKinematic = false;
+        while (true)
+        {
+            transform.Rotate(3, 12, 5);                       
+            transform.position += targetDir * speed * Time.deltaTime;
+            yield return null;
+        }
     }
     public override void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Debug.Log(collision.gameObject.name + " ºÎµúÈû");
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Debug.Log(collision.gameObject.name + " ¶¥¿¡ ºÎµúÇô¤Å¼­ »ç¶óÁü");
+            Destroy(gameObject);
         }
     }
 

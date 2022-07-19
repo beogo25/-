@@ -9,16 +9,14 @@ public abstract class Projectile : MonoBehaviour
 
     protected virtual void Start()
     {
-        Debug.Log("투사체 5초뒤 사라짐");
         Destroy(gameObject, 5f);
     }
-    public virtual void Init(Transform target,float damage, float speed)
+    public virtual void Init(Vector3 target,float damage, float speed)
     {
-        Debug.Log("Init 시작");
         this.damage = damage;
         this.speed = speed;
         transform.parent = null;
-        StartCoroutine(throwing(target.position));
+        StartCoroutine(throwing(target));
     }
     public abstract IEnumerator throwing(Vector3 targetPos);
     public abstract void OnCollisionEnter(Collision collision);

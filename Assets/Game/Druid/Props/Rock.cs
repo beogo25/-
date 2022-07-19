@@ -5,32 +5,28 @@ using UnityEngine;
 public class Rock : Projectile
 {
     MeshCollider meshCollider;
-    protected override void Start()
+    public override void Init(Vector3 target, float damage, float speed)
     {
-        base.Start();
-        //meshCollider = GetComponent<MeshCollider>();
-    }
-    public override void Init(Transform target, float damage, float speed)
-    {
+        meshCollider = GetComponent<MeshCollider>();
         base.Init(target,damage,speed);
-        //meshCollider.enabled = true;
     }
     public override IEnumerator throwing(Vector3 targetPos)
     {
-        Vector3 targetLocation = (targetPos - gameObject.transform.position).normalized; //목표의 위치를 잡고
-
+        Vector3 targetDir = (targetPos - transform.position).normalized; //목표의 위치를 잡고
+        meshCollider.enabled = true;
         while (true)
         {
-            gameObject.transform.Rotate(7f, 3f, 0);
-            gameObject.transform.position += targetLocation * speed * Time.deltaTime;
+            transform.Rotate(7f, 3f, 0);
+            transform.position += targetDir * speed * Time.deltaTime;
             yield return null;
         }
     }
     public override void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (collision.gameObject.layer != LayerMask.NameToLayer("HitAble"))
         {
             // 캐릭터에 데미지 넣는 함수 실행
+            Debug.Log(collision.gameObject.name + "에 부딪힘");
             Destroy(gameObject);
         }
     }

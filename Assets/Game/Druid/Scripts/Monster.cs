@@ -21,14 +21,14 @@ public class Monster : MonoBehaviour
         All = Walk | Rotation | Attack,
     }
     private MONSTER_BEHAVIOR_STATE behaviorState;
-    private State state = 0;
+    private State state = State.Idle;
 
     private Collider target;
     private Animator animator;
     private Rigidbody monsterRigidbody;
     
     [SerializeField] private Transform moveDestination;
-    private bool RandomAnimationCoolTimeStart = false;
+    private bool RandomAnimationCoolTime = false;
     private float moveSpeed = 3;
     
     [Header("시야각 관련"),Space(10)]
@@ -47,9 +47,9 @@ public class Monster : MonoBehaviour
         animator = GetComponent<Animator>();
         monsterRigidbody = GetComponent<Rigidbody>();
         
-        StartCoroutine(RandomAnimationCoolTime(Random.Range(10f, 20f)));
+        StartCoroutine(CoolTime(Random.Range(10f, 20f),"RandomAnimation"));
         behaviorState = MONSTER_BEHAVIOR_STATE.SerchingTarget;
-        //StartCoroutine(behaviorState.ToString());
+        StartCoroutine(behaviorState.ToString());
     }
     private void Update()
     {
@@ -57,24 +57,29 @@ public class Monster : MonoBehaviour
         {
             if (FindTarget())
             {
-                //ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
+                ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
             }
         }
-        //else if(behaviorState == MONSTER_BEHAVIOR_STATE.InBattle && target != null)
+        else if (behaviorState == MONSTER_BEHAVIOR_STATE.InBattle && target != null)
+        {
+            if (!CheckTargetIsInArea())
+                ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
+        }
+
+        //if (Input.GetKeyDown(KeyCode.O))
         //{
-        //    if (!CheckTargetIsInArea())
-        //        ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
+        //    StartCoroutine(RangeAttack("Rock"));
+        //}
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    StartCoroutine(RangeAttack("Wood"));
         //}
 
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            StartCoroutine(RangeAttack("Rock"));
+            animator.SetTrigger("Stomp");
         }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(RangeAttack("Wood"));
-        }
-        
+
     }
 
     #region SerchingTargetState
@@ -86,21 +91,22 @@ public class Monster : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log(state);
             switch (serchingTargetState)
             {
                 case SerchingTargetState.Rotation:
-                    if (!state.HasFlag(State.Rotation))         // Rotation상태로 만들어줌 (상태가 바뀌었을때 한번만 실행되도록) 
+                    if (state == State.Idle)         // Rotation상태로 만들어줌 (상태가 바뀌었을때 한번만 실행되도록) 
                     {
                         state |= State.Rotation;
-                        targetRotation = SetDestinationDirection();
+                        targetRotation = SetDestinationDirection(moveDestination);
                     }
 
                     if (Quaternion.Angle(transform.rotation, targetRotation) < 4)   // 두 각의 차이가 일정(4도) 이하일때 목표를 보고 있는것으로 판단
                     {
                         serchingTargetState = SerchingTargetState.Walk;
-                        state &= ~State.Rotation;
                         animator.SetInteger("Rotation", 0);
                     }
+
                     break;
 
                 case SerchingTargetState.Walk:
@@ -118,7 +124,7 @@ public class Monster : MonoBehaviour
                     }
                     else
                     {
-                        if (!state.HasFlag(State.Walk))
+                        if (state == State.Idle)
                         {
                             state |= State.Walk;
                             animator.SetBool("Walk", state.HasFlag(State.Walk));
@@ -126,8 +132,8 @@ public class Monster : MonoBehaviour
 
                         if (state.HasFlag(State.Walk))
                             transform.Translate(transform.forward * moveSpeed * Time.deltaTime, Space.World);
-                        
-                        if (RandomAnimationCoolTimeStart)
+
+                        if (RandomAnimationCoolTime)
                         {
                             int random = Random.Range(0, 2);
                             if (random == 0)
@@ -137,8 +143,9 @@ public class Monster : MonoBehaviour
                             else
                                 Debug.Log("행동안함");
 
-                            RandomAnimationCoolTimeStart = false;                            // 실행되고 나서 false로 바꿔주기
-                            StartCoroutine(RandomAnimationCoolTime(Random.Range(10f, 20f)));
+                            RandomAnimationCoolTime = false;                            // 실행되고 나서 false로 바꿔주기
+                            StartCoroutine(CoolTime(Random.Range(10f, 20f), "RandomAnimation"));
+                            
                         }
                     }
                     break;
@@ -147,16 +154,16 @@ public class Monster : MonoBehaviour
             yield return null;
         }
     }
-    Quaternion SetDestinationDirection()                            // 목적지 방향을 보게 하는 함수
+    Quaternion SetDestinationDirection(Transform targetPos)                            // 목적지 방향을 보게 하는 함수
     {        
         // 몬스터가 얼마나 회전할지 각도 구하기
-        Vector3 dir = moveDestination.position - transform.position;
+        Vector3 dir = targetPos.position - transform.position;
         dir = new Vector3(dir.x, 0, dir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
         targetRotation = Quaternion.LookRotation(dir.normalized);   // 내가 바라볼 방향
         float angleDifference = Quaternion.Angle(transform.rotation, targetRotation);   // 내 방향과 목표 방향의 각도차이
 
         // 몬스터가 어떤 방향으로 회전할지 구하기 
-        Vector3 targetDir = moveDestination.position - transform.position;              // 타겟 방향으로 향하는 벡터를 구하기
+        Vector3 targetDir = targetPos.position - transform.position;              // 타겟 방향으로 향하는 벡터를 구하기
         Vector3 crossVec = Vector3.Cross(targetDir, this.transform.forward);            // foward와 외적
         float dot = Vector3.Dot(crossVec, Vector3.up);                                  // 위방향과 내적
         if (dot > 0) // 왼쪽
@@ -212,6 +219,8 @@ public class Monster : MonoBehaviour
             transform.Rotate(new Vector3(0, (targetAngle / (exitTime / 0.01f)), 0), Space.Self);
             yield return rotationDelay;
         }
+        state &= ~State.Rotation;
+        Debug.Log("로테이션 끝나고 값 : " + state);
     }
 
     bool CreateRandomDestination(Vector3 center, float range)
@@ -257,20 +266,28 @@ public class Monster : MonoBehaviour
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0f, Mathf.Cos(radian));
     }
-    IEnumerator RandomAnimationCoolTime(float cool)
+    IEnumerator CoolTime(float cool, string func)
     {
         while (cool > 0)
         {
             cool -= Time.deltaTime;
             yield return null;
         }
-        RandomAnimationCoolTimeStart = true;
+        switch(func)
+        {
+            case "RandomAnimation":
+                RandomAnimationCoolTime = true;
+                break;
+        }
+        
     }
     #endregion SerchingTargetState
     
 
     #region InBattle
     IEnumerator InBattleCoroutine;
+    float targetDistance;
+    bool attackCoolTime = false;
     IEnumerator InBattle()
     {
         // 몬스터 상태 초기화
@@ -281,7 +298,26 @@ public class Monster : MonoBehaviour
 
         while (true)
         {
+            targetDistance = Vector3.Distance(transform.position, target.transform.position);
+            if (attackCoolTime && state == State.Idle)
+            {
+                if (targetDistance < 6)     // 근거리공격
+                {
+                    //state |= State.Rotation;
+                    targetRotation = SetDestinationDirection(target.transform);
 
+                }
+                else if (targetDistance < 25) // 원거리 공격
+                {
+                    
+                }
+                else    // 너무 멀어서 접근하기
+                {
+                    
+                }
+            }
+                
+            Debug.Log("거리차이는 : " + targetDistance);
             // 거리에 따른 공격?
             // 몇초마다 공격?
 
@@ -293,7 +329,8 @@ public class Monster : MonoBehaviour
         state = State.Idle;
         animator.SetInteger("Rotation", 0);
         animator.SetBool("Walk", state.HasFlag(State.Walk));
-        StopCoroutine(rotationCoroutine);
+        if(rotationCoroutine!=null)
+            StopCoroutine(rotationCoroutine);
     }
     IEnumerator LookatTarget()
     {
@@ -318,22 +355,23 @@ public class Monster : MonoBehaviour
         return true;
     }
     Projectile projectile;
-    IEnumerator RangeAttack(string objectName)
+    IEnumerator RangeAttack(int value)
     {
         rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = false;   // 줍는 모션시 콜라이더땜에 캐릭터가 붕뜨는걸 방지
         animator.SetTrigger("Throw");
         yield return new WaitForSeconds(0.8f);
 
         
-        switch (objectName)
+        switch (value)
         {
-            case "Rock":
+            case 0:     // 돌던지기
                 projectile = Instantiate(throwingObject[0], rightHand.position + rightHand.right, transform.rotation, rightHand).GetComponent<Rock>();                
                 break;
 
-            case "Wood":
-                projectile = Instantiate(throwingObject[1], rightHand.position + rightHand.right, transform.rotation, rightHand).GetComponent<Wood>();
-                rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+            case 1:     // 나무휘두르기
+                projectile = Instantiate(throwingObject[1], rightHand.position - rightHand.up*1.5f, transform.rotation, rightHand).GetComponent<Wood>();
+                animator.SetTrigger("Swing");
+
                 break;
         }
     }
@@ -341,7 +379,12 @@ public class Monster : MonoBehaviour
     {
         if (projectile is Rock)
         {
-            projectile.Init(target.transform, 10, 25);   // 타겟의 위치, 공격력, 속도
+            projectile.Init(target.transform.position, 10, 25);   // 매개변수 (타겟의 위치, 공격력, 속도)
+            rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        }
+        else if(projectile is Wood)
+        {
+            projectile.Init((transform.right*2 - transform.up), 15, 50);   // 매개변수 (타겟의 위치, 공격력, 속도)
             rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = true;
         }
     }
@@ -350,13 +393,7 @@ public class Monster : MonoBehaviour
         animator.SetTrigger("Swing");
         yield return new WaitForSeconds(3.80f);
         gameObject.transform.parent = null;
-        for (int i = 0; i < 200; i++)                                    //일단은 대략 2초동안 날라가게 해둠 / 추후 수정 필요
-        {
-            gameObject.transform.GetChild(0).transform.Rotate(0, 0, 5);                       //이것도 대~충 돌이 돌게 함
-            gameObject.transform.position += transform.right * 0.4f;
-            yield return new WaitForSeconds(0.01f);
-        }
-        Destroy(gameObject);
+
 
     }
     #endregion InBattle
