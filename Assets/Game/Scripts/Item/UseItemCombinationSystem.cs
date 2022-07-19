@@ -18,9 +18,6 @@ public class UseItemCombinationSystem : MonoBehaviour
     public TextMeshProUGUI materialBName;
 
     public GameObject combinationButton;
-    public GameObject blur;
-    private Player player;
-
     private int target;
 
     private void OnEnable()
@@ -30,12 +27,6 @@ public class UseItemCombinationSystem : MonoBehaviour
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
-        player = FindObjectOfType<Player>();
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            ExiteButton();
     }
     private void Start()
     {
@@ -79,12 +70,5 @@ public class UseItemCombinationSystem : MonoBehaviour
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[target].materialA],1);
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[target].materialB],1);
         CombiRecipeView(target);
-    }
-
-    public void ExiteButton()
-    {
-        gameObject.SetActive(false);    
-        blur.SetActive(false);
-        player.talkState = false;
     }
 }

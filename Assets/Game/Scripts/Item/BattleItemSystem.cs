@@ -95,10 +95,12 @@ public class BattleItemSystem : MonoBehaviour
                     break;
                 case UseItemType.ATK_UP:
                     playerStatus.Buff(UseItemType.ATK_UP, InventoryManager.instance.useItemList[selectNum].effectValue);
+                    StartCoroutine(player.RimLight(new Color(1, 0.5f, 0.5f, 0)));
                     player.useParticleParent.GetChild(2).gameObject.SetActive(true);
                     break;
                 case UseItemType.DEF_UP:
                     playerStatus.Buff(UseItemType.DEF_UP, InventoryManager.instance.useItemList[selectNum].effectValue);
+                    StartCoroutine(player.RimLight(new Color(1, 0.8f, 0.4f, 0)));
                     player.useParticleParent.GetChild(3).gameObject.SetActive(true);
                     break;
                 default:

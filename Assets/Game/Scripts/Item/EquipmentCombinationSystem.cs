@@ -22,8 +22,6 @@ public class EquipmentCombinationSystem : MonoBehaviour
     public GameObject combinationButton;
 
     private int target;
-    private Player player;
-    public GameObject blur;
     private void OnEnable()
     {
         combinationButton.SetActive(false);
@@ -31,12 +29,6 @@ public class EquipmentCombinationSystem : MonoBehaviour
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
-        player=FindObjectOfType<Player>();
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            ExitButton();
     }
     private void Start()
     {
@@ -86,11 +78,5 @@ public class EquipmentCombinationSystem : MonoBehaviour
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialB], DataManager.instance.eqiupmentItemRecipeList[target].numB);
         PlayerStatus.gold -= DataManager.instance.eqiupmentItemRecipeList[target].gold;
         CombiRecipeView(target);
-    }
-    public void ExitButton()
-    {
-        gameObject.SetActive(false);
-        blur.SetActive(false);
-        player.talkState = false;
     }
 }
