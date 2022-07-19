@@ -6,11 +6,6 @@ using UnityEngine;
 
 public class InteractionObject: MonoBehaviour, IInteraction
 {
-    [SerializeField]
-    private Texture2D objectImage;
-    public string     objectName;
-    [HideInInspector]
-    public Sprite     imageSprite;
 
     [System.Serializable]
     public class ItemTable
@@ -41,10 +36,16 @@ public class InteractionObject: MonoBehaviour, IInteraction
             return percent[percent.Length - 1];
         }
     }
+    [SerializeField]
+    private Texture2D objectImage;
+    public string objectName;
+    [HideInInspector]
+    public Sprite imageSprite;
+
 
     [Tooltip("아이템 테이블")]
     public    ItemTable table;
-    protected bool      isCollectable;
+    public    bool      isCollectable;
     [Tooltip ("채집 가능 횟수를 지정")]
     [SerializeField]
     protected int       collectNumberOrigin;

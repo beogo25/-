@@ -12,16 +12,16 @@ TagManager:
   - LockOn
   - Water
   - UI
-  - HitAble
-  - Collective
   - Player
   - Ground
   - Wall
+  - miniMap
+  - Map
+  - 
+  - 
   - Npc
-  - 
-  - 
-  - 
-  - 
+  - Collective
+  - HitAble
   - 
   - 
   - 

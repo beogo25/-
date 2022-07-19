@@ -23,6 +23,11 @@ public class PlayerInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        InteractionFunc();
+    }
+
+    private void InteractionFunc()
+    {
         Collider[] nearTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Collective"));
         if (nearTarget.Length > 0)
         {
@@ -38,9 +43,12 @@ public class PlayerInteraction : MonoBehaviour
                     nearestTarget = nearTarget[i].transform;
                 }
             }
-            ItemUI.SetActive(true);
+            if (nearestTarget.GetComponent<InteractionObject>().isCollectable)
+                ItemUI.SetActive(true);
+            else
+                ItemUI.SetActive(false);
             ItemUI.transform.LookAt(Camera.main.transform.position);
-            if(text.text != nearestTarget.GetComponent<InteractionObject>().objectName)
+            if (text.text != nearestTarget.GetComponent<InteractionObject>().objectName)
             {
                 text.text = nearestTarget.GetComponent<InteractionObject>().objectName;
                 image.sprite = nearestTarget.GetComponent<InteractionObject>().imageSprite;

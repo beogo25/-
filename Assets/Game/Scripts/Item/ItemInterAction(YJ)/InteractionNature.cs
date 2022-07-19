@@ -14,17 +14,18 @@ public class InteractionNature : InteractionObject, IGlow
         if(transform.childCount != 0)
             for(int i = 0; i < transform.childCount; i++)
             {
-                transform.GetChild(i).GetComponent<Renderer>().material = objectRenderer.materials[i];
+                if(transform.GetChild(i).GetComponent<MeshRenderer>() != null)
+                    transform.GetChild(i).GetComponent<Renderer>().material = objectRenderer.materials[i];
             }
-        else { };
+        //else { };
         //메테리얼 설정
         for(int i = 0; i < objectRenderer.materials.Length; i++)
         {
             objectRenderer.materials[i].SetColor("_RimLightColor", new Color(1, 1, 0, 0));
-            objectRenderer.materials[i].SetFloat("_RimWidth", 1f);
-            objectRenderer.materials[i].SetFloat("_RimSharpness", 0f);
-            objectRenderer.materials[i].SetFloat("_RimStrength", 1f);
-            objectRenderer.materials[i].SetFloat("_RimBrighten", 0.35f);
+            objectRenderer.materials[i].SetFloat("_RimWidth"     , 1f);
+            objectRenderer.materials[i].SetFloat("_RimSharpness" , 0f);
+            objectRenderer.materials[i].SetFloat("_RimStrength"  , 1f);
+            objectRenderer.materials[i].SetFloat("_RimBrighten"  , 0.35f);
         }
 
     }
@@ -41,10 +42,16 @@ public class InteractionNature : InteractionObject, IGlow
     {
         if (isCollectable)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, 1 << LayerMask.NameToLayer("Player"));
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 15f, 1 << LayerMask.NameToLayer("Player"));
             if (colliders.Length > 0)
                 StartCoroutine(Glow());
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, 15f);
     }
 
     //시간 설정
