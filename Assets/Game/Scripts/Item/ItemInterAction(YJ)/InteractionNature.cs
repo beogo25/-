@@ -5,17 +5,30 @@ using UnityEngine;
 public class InteractionNature : InteractionObject, IGlow
 {
     private Renderer objectRenderer;
-    private Material material;
     private bool isLoop = false;
 
-    // Start is called before the first frame update
-    public override void Start()
+    private void Awake()
     {
-        base.Start();
         objectRenderer = GetComponent<Renderer>();
-        material       = objectRenderer.material;
+
+        if(transform.childCount != 0)
+            for(int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).GetComponent<Renderer>().material = objectRenderer.materials[i];
+            }
+        else { };
+        //메테리얼 설정
+        for(int i = 0; i < objectRenderer.materials.Length; i++)
+        {
+            objectRenderer.materials[i].SetColor("_RimLightColor", new Color(1, 1, 0, 0));
+            objectRenderer.materials[i].SetFloat("_RimWidth", 1f);
+            objectRenderer.materials[i].SetFloat("_RimSharpness", 0f);
+            objectRenderer.materials[i].SetFloat("_RimStrength", 1f);
+            objectRenderer.materials[i].SetFloat("_RimBrighten", 0.35f);
+        }
 
     }
+
 
     private void Update()
     {
@@ -38,7 +51,8 @@ public class InteractionNature : InteractionObject, IGlow
     public override IEnumerator Timer(int time)
     {
         isCollectable = false;
-        material.SetColor("_EmissionColor", Color.yellow * 0);
+        for (int i = 0; i < objectRenderer.materials.Length; i++)
+            objectRenderer.materials[i].SetColor("_RimLightColor", new Color(1, 1, 0, 0));
         yield return new WaitForSeconds(time);
         isCollectable = true;
         CollectNumber = collectNumberOrigin;
@@ -54,17 +68,20 @@ public class InteractionNature : InteractionObject, IGlow
             isLoop = true;
             for (float i = 0; i < 1;)
             {
-                material.SetColor("_EmissionColor", Color.yellow * i);
-                yield return new WaitForSeconds(0.06f);
-                i += 0.1f;
+                for (int j= 0; j < objectRenderer.materials.Length; j++)
+                    objectRenderer.materials[j].SetColor("_RimLightColor", new Color(1, 1, 0, i));
+                
+                yield return new WaitForSeconds(0.07f);
+                i += 0.05f;
             }
             yield return new WaitForSeconds(0.1f);
             for (float i = 1; i > 0;)
             {
-
-                material.SetColor("_EmissionColor", Color.yellow * i);
-                yield return new WaitForSeconds(0.1f);
-                i -= 0.1f;
+                for (int j = 0; j < objectRenderer.materials.Length; j++)
+                    objectRenderer.materials[j].SetColor("_RimLightColor", new Color(1, 1, 0, i));
+                
+                yield return new WaitForSeconds(0.07f);
+                i -= 0.05f;
             }
             yield return new WaitForSeconds(0.4f);
             isLoop = false;

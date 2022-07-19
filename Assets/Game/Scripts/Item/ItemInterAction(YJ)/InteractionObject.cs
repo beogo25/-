@@ -6,6 +6,11 @@ using UnityEngine;
 
 public class InteractionObject: MonoBehaviour, IInteraction
 {
+    [SerializeField]
+    private Texture2D objectImage;
+    public string     objectName;
+    [HideInInspector]
+    public Sprite     imageSprite;
 
     [System.Serializable]
     public class ItemTable
@@ -32,8 +37,6 @@ public class InteractionObject: MonoBehaviour, IInteraction
             {
                 if (randomPoint < percent[i])
                     return percent[i];
-                else
-                    randomPoint += percent[i];
             }
             return percent[percent.Length - 1];
         }
@@ -69,12 +72,12 @@ public class InteractionObject: MonoBehaviour, IInteraction
         CollectNumber = collectNumberOrigin;
     }
 
-
     public virtual void Start()
     {
         table.Set();
         isCollectable = true;
         CollectNumber = collectNumberOrigin;
+        imageSprite = objectImage.ToSprite();
     }
    
     //실제 채집

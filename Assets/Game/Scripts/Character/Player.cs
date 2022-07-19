@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     private Vector3       moveDir;
     private bool          isClickAble;
 
-    public bool talkState = false;
+    public  bool    talkState = false;
 
     void Start()
     {
@@ -55,42 +55,11 @@ public class Player : MonoBehaviour
             InputSetting();
         else
             animator.SetBool("Dash", false);
+
         CheckOnGround();
 
 
-        Collider[] nearTarget = Physics.OverlapSphere(transform.position, 2f, 1<<LayerMask.NameToLayer("Collective"));
-        if (nearTarget.Length > 0)
-        {
-            Transform nearestTarget = nearTarget[0].transform;
-            float nearestDis = 2;
 
-            for (int i = 0; i < nearTarget.Length; i++)
-            {
-                float tempDis = Vector3.Distance(nearTarget[i].transform.position, transform.position);
-                if (tempDis <= nearestDis)
-                {
-                    nearestDis = tempDis;
-                    nearestTarget = nearTarget[i].transform;
-                }
-            }
-            if(Input.GetKeyDown (KeyCode.F))
-            {
-                if(nearestTarget.GetComponent<InteractionObject>() != null)
-                    nearestTarget.GetComponent<InteractionObject>().Interaction();
-            }
-        }
-        if(!talkState)
-        {
-            Collider[] npcTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Npc"));
-            if (npcTarget.Length > 0)
-            {
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    if (npcTarget[0].transform.GetComponent<IInteraction>() != null)
-                        npcTarget[0].transform.GetComponent<IInteraction>().Interaction();
-                }
-            }
-        }
     }
 
     private void FixedUpdate()
