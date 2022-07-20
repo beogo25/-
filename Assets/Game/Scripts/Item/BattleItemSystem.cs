@@ -6,13 +6,14 @@ using TMPro;
 
 public class BattleItemSystem : MonoBehaviour
 {
-    private int selectNum = 0;
-    public Image leftItem;
-    public Image middleItem;
-    public Image rightItem;
-    public TextMeshProUGUI stackText;
-    public PlayerStatus playerStatus;
-    public Image cooltimeImage;
+    private int             selectNum = 0;
+    public  Image           leftItem;
+    public  Image           middleItem;
+    public  Image           rightItem;
+    public  TextMeshProUGUI stackText;
+    public  PlayerStatus    playerStatus;
+    public  Image           cooltimeImage;
+    private bool            isScrollMovable = true;
 
     private WaitForFixedUpdate oneFrame = new WaitForFixedUpdate();
     public int SelectNum
@@ -73,12 +74,22 @@ public class BattleItemSystem : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) || (Input.GetAxis("D-Pad X") == 1 && isScrollMovable))
+        {
             SelectNum -= 1;
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+            isScrollMovable = false;
+        }
+        if (Input.GetButtonDown("Button X") || Input.GetAxis("D-Pad Y") == 1)
             UseItemTrigger();
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3) || (Input.GetAxis("D-Pad X") == -1 && isScrollMovable))
+        {
             SelectNum += 1;
+            isScrollMovable = false;
+        }
+        if(Input.GetAxis("D-Pad X") == 0)
+        {
+            isScrollMovable = true;
+        }
     }
 
     //사용 아이템들 효과 적용

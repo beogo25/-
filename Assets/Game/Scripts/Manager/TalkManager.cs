@@ -5,17 +5,18 @@ using UnityEngine.UI;
 
 public class TalkManager : Singleton<TalkManager>
 {
-    public GameObject talkUI;
-    public Image standing;
-    public TextMeshProUGUI nameTMP;
-    public TextMeshProUGUI talkTMP;
+    public  GameObject      talkUI;
+    public  Image           standing;
+    public  TextMeshProUGUI nameTMP;
+    public  TextMeshProUGUI talkTMP;
 
-    private string npcName;
-    private string[] talkText;
-    private int num;
-    private UIType[] uiTypes;
+    private string          npcName;
+    private string[]        talkText;
+    private int             num;
+    private UIType[]        uiTypes;
+    IEnumerator             talkIE;
+
     private WaitForSecondsRealtime talkDelay = new WaitForSecondsRealtime(0.1f);
-    IEnumerator talkIE;
 
     public GameObject useItemWarehouseButton;
     public GameObject equipmentItemWarehouseButton;
@@ -31,11 +32,11 @@ public class TalkManager : Singleton<TalkManager>
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.F) && talkUI.activeInHierarchy)
+        if(Input.GetButtonUp("InteractionNpc") && talkUI.activeInHierarchy)
         {
             ClickButton();
         }
-        if (Input.GetKeyUp(KeyCode.Escape) && talkUI.activeInHierarchy)
+        if (Input.GetButtonUp("Cancel") && talkUI.activeInHierarchy)
         {
             ExitButton();
         }

@@ -186,7 +186,7 @@ public class ComboSystem : MonoBehaviour
     /// <summary>입력을 받은 후, 다음 연계까지 몇 초의 시간을 기다려줄지 설정합니다.</summary>
     private float limitInputTime = 0.6f;
 
-    public bool attackAble = true;
+    public bool isAttackAble = true;
 
     Animator animator;
     Rigidbody characterRigidbody;
@@ -228,7 +228,7 @@ public class ComboSystem : MonoBehaviour
         };
 
         //모든 확인을 끝낸 뒤에 도출된 노드가 있다면
-        if (lastChecked != null && attackAble)
+        if (lastChecked != null && isAttackAble)
         {
             //해당 노드의 이름을 받아옵니다.
             StartCoroutine(DelayCheck(lastChecked.delay));
@@ -242,10 +242,10 @@ public class ComboSystem : MonoBehaviour
     }
     public IEnumerator DelayCheck(float value)
     {
-        attackAble = false;
+        isAttackAble = false;
         animator.SetBool("EvadeBool",false);
         yield return new WaitForSeconds(value);
-        attackAble = true;
+        isAttackAble = true;
         animator.SetBool("EvadeBool", true);
 
         if (!animator.GetBool("Jump"))    // 땅일때만 Y축고정 해제 ()
