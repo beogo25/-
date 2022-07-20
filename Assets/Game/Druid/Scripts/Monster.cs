@@ -220,7 +220,6 @@ public class Monster : MonoBehaviour
             yield return rotationDelay;
         }
         state &= ~State.Rotation;
-        Debug.Log("로테이션 끝나고 값 : " + state);
     }
 
     bool CreateRandomDestination(Vector3 center, float range)
