@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ead103478802f44a63bc58cf1ec3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcName: 
+  npcName: "\uBBF8\uB9AC\uC6C0"
   talkText:
   - "\uC548\uB155\uC548\uB155\uC548\uB155\uC548\uB155"
   - "\uC548\uB155\uC548\uB155\uC548\uB155"
