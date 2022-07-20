@@ -10,8 +10,9 @@ public class Player : MonoBehaviour
                           
     private Animator      animator;
     public  static bool   isMoveAble = true;
-    public  Transform     particleParent;
-                          
+    public  Transform     attackParticleParent;
+    public  Transform     useParticleParent;
+
     public  GameObject    lockOnPrefab;
     public  GameObject    lockOnObject = null;
                           
@@ -19,7 +20,7 @@ public class Player : MonoBehaviour
     private float         jumpInputTime;
     private float         movementSpeed;
     private CharacterMove characterMove;
-    private Rigidbody     characterRigidbody;
+    private Rigidbody     playerRigidbody;
 
     [SerializeField]
     private ComboSystem   combo;
@@ -32,14 +33,17 @@ public class Player : MonoBehaviour
     private Vector3       moveDir;
     private bool          isClickAble;
 
-    public bool talkState = false;
+    public  bool    talkState = false;
 
+    WaitForSecondsRealtime colorDelay = new WaitForSecondsRealtime(0.0005f);
+    public Renderer renderers;
+    public Quest? orderQuest=null;
     void Start()
     {
         Player player      = this;
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
-        characterRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator>();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
 
@@ -55,42 +59,11 @@ public class Player : MonoBehaviour
             InputSetting();
         else
             animator.SetBool("Dash", false);
+
         CheckOnGround();
 
 
-        Collider[] nearTarget = Physics.OverlapSphere(transform.position, 2f, 1<<LayerMask.NameToLayer("Collective"));
-        if (nearTarget.Length > 0)
-        {
-            Transform nearestTarget = nearTarget[0].transform;
-            float nearestDis = 2;
 
-            for (int i = 0; i < nearTarget.Length; i++)
-            {
-                float tempDis = Vector3.Distance(nearTarget[i].transform.position, transform.position);
-                if (tempDis <= nearestDis)
-                {
-                    nearestDis = tempDis;
-                    nearestTarget = nearTarget[i].transform;
-                }
-            }
-            if(Input.GetKeyDown (KeyCode.F))
-            {
-                if(nearestTarget.GetComponent<InteractionObject>() != null)
-                    nearestTarget.GetComponent<InteractionObject>().Interaction();
-            }
-        }
-        if(!talkState)
-        {
-            Collider[] npcTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Npc"));
-            if (npcTarget.Length > 0)
-            {
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    if (npcTarget[0].transform.GetComponent<IInteraction>() != null)
-                        npcTarget[0].transform.GetComponent<IInteraction>().Interaction();
-                }
-            }
-        }
     }
 
     private void FixedUpdate()
@@ -112,7 +85,7 @@ public class Player : MonoBehaviour
         if (skillName != "")
         {
             if (skillName == "Evade" || !animator.GetBool("Land")) { }      // 구르기랑 공중일때만 빼고 Y축 고정
-            else characterRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
+            else playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
 
             animator.SetTrigger(skillName);
             yield return new WaitForSeconds(0.3f);
@@ -167,17 +140,17 @@ public class Player : MonoBehaviour
 
     public void DropKick()
     {
-        characterRigidbody.velocity = Vector3.zero;
-        characterRigidbody.AddForce((transform.forward * 10) + (transform.up * -15), ForceMode.Impulse);
+        playerRigidbody.velocity = Vector3.zero;
+        playerRigidbody.AddForce((transform.forward * 10) + (transform.up * -15), ForceMode.Impulse);
     }
     public void Attack_AirSlashStart()
     {
-        characterRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
+        playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
     }
     public void Attack_AirSlashEnd()
     {
-        characterRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        characterRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
+        playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        playerRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
     }
     // 애니메이션에서 사용합니다.
     IEnumerator AttackMove(float distance)
@@ -202,7 +175,7 @@ public class Player : MonoBehaviour
     }
     public void ParticleInstantiate(GameObject attack)
     {
-        GameObject temp = particleParent.Find(attack.name).gameObject;
+        GameObject temp = attackParticleParent.Find(attack.name).gameObject;
         if (temp != null)
         {
             temp.transform.position = transform.position;
@@ -266,6 +239,21 @@ public class Player : MonoBehaviour
         }
 
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
+        {
+            movementSpeed = 0;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
+        {
+            movementSpeed = transform.parent.GetComponent<CharacterMove>().movementSpeed;
+        }
+    }
 
     private void PlayerMove()
     {
@@ -308,8 +296,8 @@ public class Player : MonoBehaviour
         {
             if (!isGround)  // 땅이 아니였다가 땅에 닿을시 "한번"만 실행되도록
             {
-                characterRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
-                characterRigidbody.velocity = Vector3.zero;
+                playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+                playerRigidbody.velocity = Vector3.zero;
                 animator.SetBool("Jump", false);
                 animator.SetBool("Land", true);
             }
@@ -322,6 +310,28 @@ public class Player : MonoBehaviour
                 animator.SetBool("Land", false);    // 떨어지는 상태
             }
             isGround = false;
+        }
+    }
+    
+    //성능을 많이 잡아먹어서 성능 문제시 삭제 1순위
+    public IEnumerator RimLight(Color color)
+    {
+        for (int i = 0; i < renderers.materials.Length; i++)
+            renderers.materials[i].SetColor("_RimLightColor", color);
+        Color changeColor = color;
+        for (int i = 0; i < 15; i++) 
+        {
+            changeColor = new Color(changeColor.r, changeColor.g, changeColor.b, changeColor.a + 0.08f);
+            for (int j = 0; j < renderers.materials.Length; j++)
+                renderers.materials[j].SetColor("_RimLightColor", changeColor);
+            yield return colorDelay;
+        }
+        for (int i = 0; i < 15; i++)
+        {
+            changeColor = new Color(changeColor.r, changeColor.g, changeColor.b, changeColor.a - 0.08f);
+            for (int j = 0; j < renderers.materials.Length; j++)
+                renderers.materials[j].SetColor("_RimLightColor", changeColor);
+            yield return colorDelay;
         }
     }
 }

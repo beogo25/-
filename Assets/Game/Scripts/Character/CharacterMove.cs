@@ -9,7 +9,7 @@ public class CharacterMove : MonoBehaviour
 
     private Rigidbody characterRigidbody;
     private Transform characterBody;
-    private Player player;
+    private Player    player;
 
     private void Start()
     {

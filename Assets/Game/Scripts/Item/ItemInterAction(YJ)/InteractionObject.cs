@@ -32,16 +32,20 @@ public class InteractionObject: MonoBehaviour, IInteraction
             {
                 if (randomPoint < percent[i])
                     return percent[i];
-                else
-                    randomPoint += percent[i];
             }
             return percent[percent.Length - 1];
         }
     }
+    [SerializeField]
+    private Texture2D objectImage;
+    public string objectName;
+    [HideInInspector]
+    public Sprite imageSprite;
+
 
     [Tooltip("아이템 테이블")]
     public    ItemTable table;
-    protected bool      isCollectable;
+    public    bool      isCollectable;
     [Tooltip ("채집 가능 횟수를 지정")]
     [SerializeField]
     protected int       collectNumberOrigin;
@@ -52,7 +56,6 @@ public class InteractionObject: MonoBehaviour, IInteraction
         set
         {
             collectNumber = value;
-            Debug.Log(collectNumber);
             if (collectNumber == 0)
             {
                 StartCoroutine(Timer(10));
@@ -70,12 +73,12 @@ public class InteractionObject: MonoBehaviour, IInteraction
         CollectNumber = collectNumberOrigin;
     }
 
-
     public virtual void Start()
     {
         table.Set();
         isCollectable = true;
         CollectNumber = collectNumberOrigin;
+        imageSprite = objectImage.ToSprite();
     }
    
     //실제 채집

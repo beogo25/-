@@ -1,12 +1,63 @@
 fileFormatVersion: 2
 guid: a35fec25f3bc24e4c9cb2e77ab594e24
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -9024230061371181031
+    second: equip_I1_0
+  - first:
+      213: -3656179687815517358
+    second: equip_I1_1
+  - first:
+      213: -7110711525081356688
+    second: equip_I1_2
+  - first:
+      213: 5604467828596771352
+    second: equip_I1_3
+  - first:
+      213: -1738711850349009984
+    second: equip_I1_4
+  - first:
+      213: 1540654091404905299
+    second: equip_I1_5
+  - first:
+      213: 7678324241598646011
+    second: equip_I1_6
+  - first:
+      213: 1931794511305634317
+    second: equip_I1_7
+  - first:
+      213: -7178582453356726497
+    second: equip_I1_8
+  - first:
+      213: 4242253996141517007
+    second: equip_I1_9
+  - first:
+      213: 8512353754725531441
+    second: equip_I1_10
+  - first:
+      213: -1230835243853231753
+    second: equip_I1_11
+  - first:
+      213: -6907963092668591937
+    second: equip_I1_12
+  - first:
+      213: 2102487310419918495
+    second: equip_I1_13
+  - first:
+      213: 8692951093530547051
+    second: equip_I1_14
+  - first:
+      213: -6441680266381036844
+    second: equip_I1_15
+  - first:
+      213: 4298653481909849028
+    second: equip_I1_16
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -35,13 +86,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -50,9 +101,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -75,13 +126,382 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: equip_I1_0
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 787
+        width: 210
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 918b194529e73c280800000000000000
+      internalID: -9024230061371181031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_1
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 790
+        width: 259
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25be1c8f1f3a24dc0800000000000000
+      internalID: -3656179687815517358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_2
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 767
+        width: 246
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 076ef37ca8da15d90800000000000000
+      internalID: -7110711525081356688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_3
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 528
+        width: 271
+        height: 230
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81a8d9edbc117cd40800000000000000
+      internalID: 5604467828596771352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_4
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 563
+        width: 317
+        height: 149
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c36f21c8caded7e0800000000000000
+      internalID: -1738711850349009984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_5
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 534
+        width: 260
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35b01ffbbb0816510800000000000000
+      internalID: 1540654091404905299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_6
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 261
+        width: 295
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf602ca5733ee8a60800000000000000
+      internalID: 7678324241598646011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_7
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 360
+        width: 142
+        height: 149
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d02fb697fdc1fca10800000000000000
+      internalID: 1931794511305634317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_8
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 360
+        width: 138
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f17f1dcda4d806c90800000000000000
+      internalID: -7178582453356726497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_9
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 360
+        width: 130
+        height: 149
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc81ff678838fda30800000000000000
+      internalID: 4242253996141517007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_10
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 412
+        width: 89
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13fb0e8b3a4f12670800000000000000
+      internalID: 8512353754725531441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_11
+      rect:
+        serializedVersion: 2
+        x: 773
+        y: 355
+        width: 146
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 779c811fdd13beee0800000000000000
+      internalID: -1230835243853231753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_12
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 263
+        width: 263
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb0dafbca2cf120a0800000000000000
+      internalID: -6907963092668591937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_13
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 280
+        width: 131
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9e7852c1198d2d10800000000000000
+      internalID: 2102487310419918495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_14
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 280
+        width: 121
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b635bbb56f093a870800000000000000
+      internalID: 8692951093530547051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8
+        width: 919
+        height: 241
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d2f6bd5ded8a96a0800000000000000
+      internalID: -6441680266381036844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: equip_I1_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 155
+        width: 181
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cb8bb90192e7ab30800000000000000
+      internalID: 4298653481909849028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 257fb0c4e0e41da4fa7bfd565ba9c8e6
     internalID: 0
     vertices: []
     indices: 

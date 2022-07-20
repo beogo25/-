@@ -11,7 +11,7 @@ public class EquipmentInventoryUI : WarehouseUI
         {
             if (InventoryManager.instance.equipmentList[i] == null)
             {
-                slots[i].image.color = new Color(0, 0, 0, 0);
+                slots[i].image.color = Color.clear;
                 slots[i].stack.text = "";
                 slots[i].button.interactable = false;
             }

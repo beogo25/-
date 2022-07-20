@@ -19,19 +19,13 @@ public class QuestSystem : MonoBehaviour
     public GameObject orderButton;
 
     private int target;
-    private Player player;
-    public GameObject blur;
 
     public Sprite sword;
+    private Player player;
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
         player = FindObjectOfType<Player>();
-    }
-    private void Update()
-    {
-        if(Input.GetKeyUp(KeyCode.Escape))
-            ExitButton();
     }
     void Start()
     {
@@ -59,13 +53,7 @@ public class QuestSystem : MonoBehaviour
     }
     public void OrderButton()
     {
-        //퀘스트 내용을 어딘가로 보내서 퀘스트 수락
-        ExitButton();
-    }
-    public void ExitButton()
-    {
-        gameObject.SetActive(false);
-        blur.SetActive(false);
-        player.talkState = false;
+        //수락했다는 UI 작동
+        player.orderQuest = DataManager.instance.questList[target];
     }
 }
