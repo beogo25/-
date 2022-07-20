@@ -17,7 +17,6 @@ public class ItemInformationSystem : MonoBehaviour
 
    
 
-    public bool warehouseBool;
     public int targetNum;
     public Item Item
     {
@@ -30,6 +29,7 @@ public class ItemInformationSystem : MonoBehaviour
                 itemName.text = item.itemName;
                 contents.text = item.contents;
                 image.sprite = item.sprite;
+                image.color = Color.white;
                 stack.text = "";
                 switch(item.itemType)
                 {
@@ -47,25 +47,32 @@ public class ItemInformationSystem : MonoBehaviour
                 }
                 //아이템  타입에 따라 다른 행동
             }
-        }
-    }
-    public bool WareHouseBool
-    {
-        get { return warehouseBool; }
-        set
-        {
-            warehouseBool = value;
-            //교환 UI 활성화
-            if(warehouseBool)
-            {
-                outWarehouseButton.SetActive(true);
-                outInventoryButton.SetActive(false);
-            }
             else
             {
-                outWarehouseButton.SetActive(false);
-                outInventoryButton.SetActive(true);
+                itemName.text = "";
+                contents.text = "";
+                stack.text = "";
+                image.color = Color.clear;
             }
+        }
+    }
+
+    public void ButtonSet()
+    {
+        outWarehouseButton.SetActive(false);
+        outInventoryButton.SetActive(false);
+    }
+    public void ButtonSet(bool warehouseBool)
+    {
+        if (warehouseBool)
+        {
+            outWarehouseButton.SetActive(true);
+            outInventoryButton.SetActive(false);
+        }
+        else
+        {
+            outWarehouseButton.SetActive(false);
+            outInventoryButton.SetActive(true);
         }
     }
 
@@ -111,5 +118,6 @@ public class ItemInformationSystem : MonoBehaviour
     private void OnEnable()
     {
         Item = null;
+        ButtonSet();
     }
 } 

@@ -35,7 +35,7 @@ public abstract class WarehouseUI : MonoBehaviour
     }
     public virtual void ItemInformationChange(int num)
     {
-        itemInformation.WareHouseBool = true;
+        itemInformation.ButtonSet(true);
         itemInformation.targetNum = num;
     }
     public abstract void Refresh();
