@@ -31,11 +31,6 @@ public class Shop : MonoBehaviour
         contentsRectTransform = contents.GetComponent<RectTransform>();
         player = FindObjectOfType<Player>();
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            ExitButton();
-    }
     void Start()
     {
         for (int i = 0; i < saleItem.Length; i++)
@@ -71,11 +66,5 @@ public class Shop : MonoBehaviour
         }
         PlayerStatus.gold -= DataManager.instance.useItemDic[target].value;
         SaleItemView(target);
-    }
-    public void ExitButton()
-    {
-        gameObject.SetActive(false);
-        blur.SetActive(false);
-        player.talkState = false;
     }
 }

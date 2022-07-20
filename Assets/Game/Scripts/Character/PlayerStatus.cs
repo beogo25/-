@@ -7,9 +7,9 @@ public class PlayerStatus : MonoBehaviour
 {
     [SerializeField]
     private int hp;
-    private int stamina;
-    public  int maxHp=100;
-    public  int maxStamina = 100;
+    private float stamina;
+    public int maxHp=100;
+    public float maxStamina = 100;
 
     private int atk = 50;
     private int def = 0;
@@ -21,10 +21,31 @@ public class PlayerStatus : MonoBehaviour
     private int buffAtk;
     private int buffDef;
 
-    private IEnumerator atkIEnumerator;
-    private IEnumerator defIEnumerator;
+    private IEnumerator atkIEnumerator = null;
+    private IEnumerator defIEnumerator = null;
+    private IEnumerator staminaHealthIEnumerator;
 
-    private WaitForSecondsRealtime tenSecond = new WaitForSecondsRealtime(10);
+    private Player player;
+    private WaitForFixedUpdate stamanaHealthDelay = new WaitForFixedUpdate();
+    private const float buffDuration = 180;
+
+    private StatusAilment ailment=0;
+    public  Transform ailmentSprites;
+    public StatusAilment Ailment
+    {
+        get { return ailment; }
+        set 
+        {
+            ailment = value;
+            for(int i = 0; i < ailmentSprites.childCount; i++)
+            {
+                if (ailment.HasFlag((StatusAilment)(1 << i)))
+                    ailmentSprites.GetChild(i).gameObject.SetActive(true);
+                else
+                    ailmentSprites.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
 
     public int Atk
     {
@@ -49,11 +70,18 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
-    public int Stamina
+    public float Stamina
     {
         get { return stamina; }
         set
         {
+            if(stamina > value)
+            {
+                if (staminaHealthIEnumerator != null)
+                    StopCoroutine(staminaHealthIEnumerator);
+                staminaHealthIEnumerator = StaminaHeath();
+                StartCoroutine(staminaHealthIEnumerator);
+            }
             if (value > maxStamina)
                 stamina = maxStamina;
             else
@@ -64,46 +92,74 @@ public class PlayerStatus : MonoBehaviour
     private void Awake()
     {
         Hp = maxHp;
-        Stamina = maxStamina;   
+        Stamina = maxStamina;
+        player=FindObjectOfType<Player>();
     }
-    public void Buff(UseItemType useItemType, int value)
+    public void UseItemEffect(UseItemType useItemType, int value=0)
     {
         switch (useItemType)
         {
+            case UseItemType.HP_HEALTH:
+                Hp += value;
+                player.useParticleParent.GetChild(0).gameObject.SetActive(true);
+                break;
+            case UseItemType.ANTIDOTE:
+                player.useParticleParent.GetChild(1).gameObject.SetActive(true);
+                break;
             case UseItemType.ATK_UP:
                 buffAtk = value;
                 if(atkIEnumerator != null)
                     StopCoroutine(atkIEnumerator);
-                atkIEnumerator = BuffIEnumerator(useItemType, value);
+                atkIEnumerator = BuffIEnumerator(UseItemType.ATK_UP, value);
                 StartCoroutine(atkIEnumerator);
+                Ailment |= StatusAilment.ATTACK_UP;
+                StartCoroutine(player.RimLight(new Color(1, 0.5f, 0.5f, 0)));
+                player.useParticleParent.GetChild(2).gameObject.SetActive(true);
                 break;
             case UseItemType.DEF_UP:
                 buffDef = value;
                 if(defIEnumerator != null)
                     StopCoroutine(defIEnumerator);
-                defIEnumerator = BuffIEnumerator(useItemType, value);
+                defIEnumerator = BuffIEnumerator(UseItemType.DEF_UP, value);
                 StartCoroutine(defIEnumerator);
+                Ailment |= StatusAilment.DEFENCE_UP;
+                StartCoroutine(player.RimLight(new Color(1, 0.8f, 0.4f, 0)));
+                player.useParticleParent.GetChild(3).gameObject.SetActive(true);
                 break;
         }
     }
     
+    public IEnumerator StaminaHeath()
+    {
+        yield return new WaitForSecondsRealtime(2); 
+        while(Stamina<maxStamina)
+        {
+            Stamina += 0.5f;
+            yield return stamanaHealthDelay;
+        }
+    }
+
     public IEnumerator BuffIEnumerator(UseItemType useItemType, int value)
     {
         switch(useItemType)
         {
             case UseItemType.ATK_UP:
                 buffAtk = value;
-                yield return tenSecond;
+                yield return new WaitForSecondsRealtime(buffDuration);
                 buffAtk = 0;
+                Ailment &= ~StatusAilment.ATTACK_UP;
                 break;
             case UseItemType.DEF_UP:
                 buffDef = value;
-                yield return tenSecond;
+                yield return new WaitForSecondsRealtime(buffDuration);
                 buffDef = 0;
+                Ailment &= ~StatusAilment.DEFENCE_UP;
                 break;
         }
         yield return null;
     }
+
+
 
     private void Update()
     {

@@ -66,7 +66,7 @@ public class UseItemCombinationSystem : MonoBehaviour
 
     public void Combination()
     {
-        WarehouseManager.instance.AddItem(DataManager.instance.useItemDic[DataManager.instance.useItemRecipeList[target].result]);
+        WarehouseManager.instance.itemDelegate(DataManager.instance.useItemDic[DataManager.instance.useItemRecipeList[target].result]);
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[target].materialA],1);
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[target].materialB],1);
         CombiRecipeView(target);
