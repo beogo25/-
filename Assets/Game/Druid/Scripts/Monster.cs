@@ -54,23 +54,22 @@ public class Monster : MonoBehaviour
         
         StartCoroutine(CoolTime(Random.Range(10f, 20f),"RandomAnimation"));
         behaviorState = MONSTER_BEHAVIOR_STATE.SerchingTarget;
-        StartCoroutine(behaviorState.ToString());
-        //animator.SetBool("Walk", true);
+        //StartCoroutine(behaviorState.ToString());
     }
     private void Update()
     {
-        if (behaviorState == MONSTER_BEHAVIOR_STATE.SerchingTarget && target == null)
-        {
-            if (FindTarget())
-            {
-                ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
-            }
-        }
-        else if (behaviorState == MONSTER_BEHAVIOR_STATE.InBattle && target != null)
-        {
-            if (CheckTargetIsInArea())
-                ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
-        }
+        //if (behaviorState == MONSTER_BEHAVIOR_STATE.SerchingTarget && target == null)
+        //{
+        //    if (FindTarget())
+        //    {
+        //        ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
+        //    }
+        //}
+        //else if (behaviorState == MONSTER_BEHAVIOR_STATE.InBattle && target != null)
+        //{
+        //    if (CheckTargetIsInArea())
+        //        ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
+        //}
 
 
 
@@ -110,8 +109,14 @@ public class Monster : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             Debug.Log("현재 state : " + state);
+            animator.SetTrigger("Jump Attack");
         }
-        
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Debug.Log("현재 state : " + state);
+            animator.SetTrigger("Swipe");
+        }
+
     }
 
     #region SerchingTargetState
@@ -360,7 +365,7 @@ public class Monster : MonoBehaviour
                     state |= State.Rotation | State.Attack;
                     SetDestinationDirection(target.transform);
                 }
-                else if (targetDistance < 25) // 원거리 공격
+                else if (15 < targetDistance && targetDistance < 25) // 원거리 공격
                 {
                     animator.SetBool("Walk", false);
                     Debug.Log("원거리 공격을 위한 회전 : " + targetDistance);
