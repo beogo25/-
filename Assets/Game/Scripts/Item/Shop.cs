@@ -19,6 +19,8 @@ public class Shop : MonoBehaviour
     public GameObject purchaseButton;
     private string target;
 
+    public GameObject blur;
+    private Player player;
     public string[] saleItem;
     private void OnEnable()
     {
@@ -27,6 +29,12 @@ public class Shop : MonoBehaviour
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
+        player = FindObjectOfType<Player>();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ExitButton();
     }
     void Start()
     {
@@ -49,7 +57,7 @@ public class Shop : MonoBehaviour
         selectImage.sprite = tempUseItem.sprite;
         selectContents.text = tempUseItem.contents;
         selectName.text = input;
-        needGold.text = tempUseItem.value.ToString();
+        needGold.text = tempUseItem.value.ToString() + " °ñµå";
         if (PlayerStatus.gold >= tempUseItem.value)
             purchaseButton.SetActive(true);
         else
@@ -63,5 +71,11 @@ public class Shop : MonoBehaviour
         }
         PlayerStatus.gold -= DataManager.instance.useItemDic[target].value;
         SaleItemView(target);
+    }
+    public void ExitButton()
+    {
+        gameObject.SetActive(false);
+        blur.SetActive(false);
+        player.talkState = false;
     }
 }

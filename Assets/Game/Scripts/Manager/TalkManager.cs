@@ -14,6 +14,7 @@ public class TalkManager : Singleton<TalkManager>
     private string[] talkText;
     private int num;
     private UIType[] uiTypes;
+    private WaitForSecondsRealtime talkDelay = new WaitForSecondsRealtime(0.1f);
     IEnumerator talkIE;
 
     public GameObject useItemWarehouseButton;
@@ -30,7 +31,7 @@ public class TalkManager : Singleton<TalkManager>
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Z) && talkUI.activeInHierarchy)
+        if(Input.GetKeyUp(KeyCode.F) && talkUI.activeInHierarchy)
         {
             ClickButton();
         }
@@ -41,6 +42,14 @@ public class TalkManager : Singleton<TalkManager>
     }
     public void TalkStart(string name, string[] talk, Sprite sprite = null, UIType[] inputUITypes = null)
     {
+        exitButton.SetActive(false);
+        shopButton.SetActive(false);
+        questButton.SetActive(false);
+        equipmentItemConbinationButton.SetActive(false);
+        useItemConbinationButton.SetActive(false);
+        useItemWarehouseButton.SetActive(false);
+        materialItemWarehouseButton.SetActive(false);
+        equipmentItemWarehouseButton.SetActive(false);
         player.talkState = true;
         blur.SetActive(true);
         num = 0;
@@ -126,7 +135,7 @@ public class TalkManager : Singleton<TalkManager>
         for (int j = 0; j < talkText[a].Length; j++)
         {
             talkTMP.text += talkText[a][j];
-            yield return new WaitForSeconds(0.1f);
+            yield return talkDelay;
         }
     }
 

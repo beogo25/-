@@ -13,8 +13,9 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -531,7 +532,7 @@ Material:
     - _ColorMask: 15
     - _ContinuousDissolve: 0
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0
     - _DebugCameraData: 0
     - _DebugEnabled: 0
     - _DebugLightingData: 0
@@ -959,7 +960,7 @@ Material:
     - _RimStrength: 0
     - _RimTexUV: 0
     - _RimWidth: 0.8
-    - _RimWidthNoiseStrength: 0.1
+    - _RimWidthNoiseStrength: 0
     - _RimWidthNoiseTextureUV: 0
     - _SSSDistortion: 1
     - _SSSPower: 5
@@ -1013,7 +1014,7 @@ Material:
     - _SpecularMetallic1: 0
     - _SpecularMetallicMap1UV: 0
     - _SpecularMetallicMapUV: 0
-    - _SpecularNormal: 1
+    - _SpecularNormal: 0
     - _SpecularNormal1: 1
     - _SpecularSmoothness: 1
     - _SpecularSmoothness1: 0.75
@@ -1021,7 +1022,7 @@ Material:
     - _SpecularToonEnd1: 1
     - _SpecularToonStart: 0.95
     - _SpecularToonStart1: 0.95
-    - _SpecularType: 1
+    - _SpecularType: 2
     - _SpecularType1: 1
     - _SrcBlend: 1
     - _SssBumpBlur: 0.7
@@ -1179,9 +1180,9 @@ Material:
     - m_end_subsurface: 0
     - m_end_vertexManipulation: 0
     - m_end_voronoiRandom: 0
-    - m_lightingOptions: 0
-    - m_mainOptions: 1
-    - m_outlineOptions: 1
+    - m_lightingOptions: 1
+    - m_mainOptions: 0
+    - m_outlineOptions: 0
     - m_renderingOptions: 0
     - m_start_Alpha: 0
     - m_start_BlackLight: 0
@@ -1253,7 +1254,7 @@ Material:
     - m_start_dissolveAudioLink: 0
     - m_start_dissolveHueShift: 0
     - m_start_dissolveMasking: 0
-    - m_start_distanceFade: 0
+    - m_start_distanceFade: 1
     - m_start_distortionFlow: 0
     - m_start_emission1Options: 0
     - m_start_emissionOptions: 0

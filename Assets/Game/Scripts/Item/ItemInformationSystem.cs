@@ -31,8 +31,20 @@ public class ItemInformationSystem : MonoBehaviour
                 contents.text = item.contents;
                 image.sprite = item.sprite;
                 stack.text = "";
-                if (item.itemType == ItemType.USEITEM)
-                    stack.text = "최대 : "+((UseItem)item).maxStack.ToString()+"개";
+                switch(item.itemType)
+                {
+                    case ItemType.USEITEM:
+                        stack.text = "최대 : " + ((UseItem)item).maxStack.ToString() + "개";
+                        break;
+                    case ItemType.EQUIPMENT:
+                        if (((EquipmentItem)item).equipmentType == EquipmentType.WEAPON)
+                            stack.text = "공격력 : " + ((EquipmentItem)item).equipmentValue;
+                        else
+                            stack.text = "방어력 : " + ((EquipmentItem)item).equipmentValue;
+                        break;
+                    default:
+                        break;
+                }
                 //아이템  타입에 따라 다른 행동
             }
         }

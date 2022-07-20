@@ -33,23 +33,10 @@ public abstract class WarehouseUI : MonoBehaviour
     {
         Refresh();
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            ExiteButton();
-    }
     public virtual void ItemInformationChange(int num)
     {
         itemInformation.WareHouseBool = true;
         itemInformation.targetNum = num;
-    }
-
-    public void ExiteButton()
-    {
-        for(int i = 0; i < exitTarget.Length; i++)
-            exitTarget[i].SetActive(false);
-        player.talkState = false;
-        itemInformation.gameObject.SetActive(false);
     }
     public abstract void Refresh();
 }

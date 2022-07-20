@@ -16,6 +16,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public  EquipmentInventoryUI equipmentInventory;
     public  PlayerStatus         status;
     public  BattleItemSystem     itemUI;
+    public  StatusUI             statusUI;
 
     public int ItemCount
     {
@@ -31,9 +32,12 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            //임시
             AddItem(DataManager.instance.useItemDic["비약"]);
             AddItem(DataManager.instance.useItemDic["해독제"]);
             AddItem(DataManager.instance.useItemDic["포션"]);
+            AddItem(DataManager.instance.useItemDic["괴력약"]);
+            AddItem(DataManager.instance.useItemDic["인내약"]);
             WarehouseManager.instance.itemDelegate(DataManager.instance.equipmentDic["철검"]);
         }
         if (Input.GetKeyDown(KeyCode.X))
@@ -158,19 +162,21 @@ public class InventoryManager : Singleton<InventoryManager>
             equipmentList[(int)target.equipmentType] = target;
         }
         if (target.equipmentType == EquipmentType.WEAPON)
-            status.atk += target.equipmentValue;
+            status.Atk += target.equipmentValue;
         else
-            status.def += target.equipmentValue;
+            status.Def += target.equipmentValue;
         equipmentInventory.Refresh();
+        statusUI.ReFresh();
     }
     public void UnEquip(EquipmentType target)
     {
         if (target == EquipmentType.WEAPON)
-            status.atk -= equipmentList[(int)target].equipmentValue;
+            status.Atk -= equipmentList[(int)target].equipmentValue;
         else
-            status.def -= equipmentList[(int)target].equipmentValue;
+            status.Def -= equipmentList[(int)target].equipmentValue;
         WarehouseManager.instance.AddItem(equipmentList[(int)target]);
         equipmentList[(int)target] = null;
         equipmentInventory.Refresh();
+        statusUI.ReFresh();
     }
 }
