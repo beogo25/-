@@ -38,9 +38,11 @@ public class Player : MonoBehaviour
     WaitForSecondsRealtime colorDelay = new WaitForSecondsRealtime(0.0005f);
     public Renderer renderers;
     public Quest? orderQuest=null;
+    private PlayerStatus status;
     void Start()
     {
         Player player      = this;
+        status             = transform.parent.GetComponent<PlayerStatus>();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         playerRigidbody = GetComponent<Rigidbody>();
@@ -121,7 +123,7 @@ public class Player : MonoBehaviour
         }
 
 
-        if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade"))
+        if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade") && status.Stamina>=10)
             StartCoroutine(TriggerCheck("Evade"));
 
 
@@ -253,6 +255,11 @@ public class Player : MonoBehaviour
         {
             movementSpeed = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         }
+    }
+
+    public void StaminaDecrease(int value)
+    {
+        status.Stamina -= value;
     }
 
     private void PlayerMove()

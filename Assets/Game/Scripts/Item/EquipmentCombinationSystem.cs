@@ -73,7 +73,7 @@ public class EquipmentCombinationSystem : MonoBehaviour
 
     public void Combination()
     {
-        WarehouseManager.instance.AddItem  (DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[target].result   ]                                                           );
+        WarehouseManager.instance.itemDelegate(DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[target].result   ]                                                           );
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialA], DataManager.instance.eqiupmentItemRecipeList[target].numA);
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialB], DataManager.instance.eqiupmentItemRecipeList[target].numB);
         PlayerStatus.gold -= DataManager.instance.eqiupmentItemRecipeList[target].gold;

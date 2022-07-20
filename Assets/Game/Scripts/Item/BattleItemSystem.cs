@@ -12,7 +12,9 @@ public class BattleItemSystem : MonoBehaviour
     public Image rightItem;
     public TextMeshProUGUI stackText;
     public PlayerStatus playerStatus;
-    public Player player;
+    public Image cooltimeImage;
+
+    private WaitForFixedUpdate oneFrame = new WaitForFixedUpdate();
     public int SelectNum
     {
         get { return selectNum; }
@@ -82,31 +84,21 @@ public class BattleItemSystem : MonoBehaviour
     //사용 아이템들 효과 적용
     public void UseItemTrigger()
     {
-        if (InventoryManager.instance.useItemList[selectNum] != null)
+        if (InventoryManager.instance.useItemList[selectNum] != null && cooltimeImage.fillAmount <= 0 && InventoryManager.instance.useItemList.Length>0)
         {
-            switch(InventoryManager.instance.useItemList[selectNum].useItemType)
-            {
-                case UseItemType.HP_HEALTH:
-                    playerStatus.Hp += InventoryManager.instance.useItemList[selectNum].effectValue;
-                    player.useParticleParent.GetChild(0).gameObject.SetActive(true);
-                    break;
-                case UseItemType.ANTIDOTE:
-                    player.useParticleParent.GetChild(1).gameObject.SetActive(true);
-                    break;
-                case UseItemType.ATK_UP:
-                    playerStatus.Buff(UseItemType.ATK_UP, InventoryManager.instance.useItemList[selectNum].effectValue);
-                    StartCoroutine(player.RimLight(new Color(1, 0.5f, 0.5f, 0)));
-                    player.useParticleParent.GetChild(2).gameObject.SetActive(true);
-                    break;
-                case UseItemType.DEF_UP:
-                    playerStatus.Buff(UseItemType.DEF_UP, InventoryManager.instance.useItemList[selectNum].effectValue);
-                    StartCoroutine(player.RimLight(new Color(1, 0.8f, 0.4f, 0)));
-                    player.useParticleParent.GetChild(3).gameObject.SetActive(true);
-                    break;
-                default:
-                    break;
-            }
+            playerStatus.UseItemEffect(InventoryManager.instance.useItemList[selectNum].useItemType, InventoryManager.instance.useItemList[selectNum].effectValue);
             InventoryManager.instance.MinusItem(SelectNum, 1);
+            StartCoroutine(CooltimeCheck());
+        }
+    }
+    
+    public IEnumerator CooltimeCheck()
+    {
+        cooltimeImage.fillAmount = 1;
+        while(cooltimeImage.fillAmount > 0)
+        {
+            cooltimeImage.fillAmount -= 0.01f;
+            yield return oneFrame; 
         }
     }
 }
