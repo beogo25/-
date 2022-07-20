@@ -36,7 +36,10 @@ public enum EquipmentType
 //소비아이템 타입
 public enum UseItemType
 {
-    HP_HEALTH
+    HP_HEALTH,
+    ANTIDOTE,
+    ATK_UP,
+    DEF_UP
 }
 
 

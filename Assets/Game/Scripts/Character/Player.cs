@@ -10,8 +10,9 @@ public class Player : MonoBehaviour
                           
     private Animator      animator;
     public  static bool   isMoveAble = true;
-    public  Transform     particleParent;
-                          
+    public  Transform     attackParticleParent;
+    public  Transform     useParticleParent;
+
     public  GameObject    lockOnPrefab;
     public  GameObject    lockOnObject = null;
                           
@@ -34,6 +35,9 @@ public class Player : MonoBehaviour
 
     public bool talkState = false;
 
+    WaitForSecondsRealtime colorDelay = new WaitForSecondsRealtime(0.0005f);
+    public Renderer renderers;
+    public Quest? orderQuest=null;
     void Start()
     {
         Player player      = this;
@@ -202,7 +206,7 @@ public class Player : MonoBehaviour
     }
     public void ParticleInstantiate(GameObject attack)
     {
-        GameObject temp = particleParent.Find(attack.name).gameObject;
+        GameObject temp = attackParticleParent.Find(attack.name).gameObject;
         if (temp != null)
         {
             temp.transform.position = transform.position;
@@ -322,6 +326,28 @@ public class Player : MonoBehaviour
                 animator.SetBool("Land", false);    // 떨어지는 상태
             }
             isGround = false;
+        }
+    }
+    
+    //성능을 많이 잡아먹어서 성능 문제시 삭제 1순위
+    public IEnumerator RimLight(Color color)
+    {
+        for (int i = 0; i < renderers.materials.Length; i++)
+            renderers.materials[i].SetColor("_RimLightColor", color);
+        Color changeColor = color;
+        for (int i = 0; i < 15; i++) 
+        {
+            changeColor = new Color(changeColor.r, changeColor.g, changeColor.b, changeColor.a + 0.08f);
+            for (int j = 0; j < renderers.materials.Length; j++)
+                renderers.materials[j].SetColor("_RimLightColor", changeColor);
+            yield return colorDelay;
+        }
+        for (int i = 0; i < 15; i++)
+        {
+            changeColor = new Color(changeColor.r, changeColor.g, changeColor.b, changeColor.a - 0.08f);
+            for (int j = 0; j < renderers.materials.Length; j++)
+                renderers.materials[j].SetColor("_RimLightColor", changeColor);
+            yield return colorDelay;
         }
     }
 }

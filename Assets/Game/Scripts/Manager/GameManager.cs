@@ -20,4 +20,9 @@ public class GameManager : Singleton<GameManager>
         ratio = (float)deviceWidth / (float)setWidth;
         
     }
+
+    public void ApplicationExit()
+    {
+        Application.Quit();
+    }
 }
