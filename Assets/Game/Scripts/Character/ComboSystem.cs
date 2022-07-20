@@ -248,7 +248,7 @@ public class ComboSystem : MonoBehaviour
         attackAble = true;
         animator.SetBool("EvadeBool", true);
 
-        if (animator.GetBool("Land"))    // 땅일때만 Y축고정 해제 ()
+        if (!animator.GetBool("Jump"))    // 땅일때만 Y축고정 해제 ()
             characterRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
     }
 
