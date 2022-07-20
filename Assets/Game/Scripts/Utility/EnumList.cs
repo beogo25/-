@@ -54,3 +54,12 @@ public enum UIType
     SHOP_UI,
     QUEST_UI
 }
+
+//상태이상
+public enum StatusAilment
+{
+    ATTACK_UP = 1,
+    DEFENCE_UP = 2,
+    POISON = 4,
+    BURN = 8
+}
