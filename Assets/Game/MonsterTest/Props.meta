@@ -1,9 +1,16 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
+guid: 713c4f48ddc679b4e8f15f0dd8de8154
+=======
+guid: 165262b09cf51f647875408cf8705939
+>>>>>>> JGC/master
+=======
 guid: 0f5f778c651878945b1c44cb3971d028
 =======
 guid: 165262b09cf51f647875408cf8705939
 >>>>>>> master
+>>>>>>> JGC/master
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
