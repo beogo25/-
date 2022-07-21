@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -39,13 +40,15 @@ public class Player : MonoBehaviour
     public Renderer renderers;
     public Quest? orderQuest=null;
     private PlayerStatus status;
+
+    public Action rollDelegate;
     void Start()
     {
         Player player      = this;
         status             = transform.parent.GetComponent<PlayerStatus>();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
-        playerRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody    = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator>();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
 
@@ -100,8 +103,12 @@ public class Player : MonoBehaviour
     //캐릭터가 받는 모든 인풋
     private void InputSetting()
     {
+        //임시
         if (Input.GetKeyDown(KeyCode.B))
-            StartCoroutine(HitDown(3));
+        {
+            //status.PlayerHit(1, 0, Vector3.zero, AttackType.BURN);
+            status.PlayerHit(1, 0, Vector3.zero, AttackType.POISON);
+        }
 
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Loop"))
             isMoveAble = true;
@@ -188,6 +195,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Roll()
     {
+        rollDelegate();
         StartCoroutine(combo.DelayCheck(0.2f));
         Vector3 rollDir = moveDir;
         if (rollDir == Vector3.zero)
@@ -256,12 +264,6 @@ public class Player : MonoBehaviour
             movementSpeed = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         }
     }
-
-    public void StaminaDecrease(int value)
-    {
-        status.Stamina -= value;
-    }
-
     private void PlayerMove()
     {
         moveDir = new Vector3().GetDirectionByCameraRaw(Camera.main);
