@@ -22,7 +22,7 @@ public class Npc : MonoBehaviour, IInteraction
     }
     public void Interaction()
     {
-        TalkManager.instance.TalkStart(npcName, talkText, standing,uiTypes);
+        TalkManager.instance.TalkStart(npcName, talkText, standing, uiTypes);
         StartCoroutine(cameraMove.CameraFocus(this.gameObject));
         transform.LookAt(player.gameObject.transform.position);
         for(int i = 0; i < animator.Length; i++)
