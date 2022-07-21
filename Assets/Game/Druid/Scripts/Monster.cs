@@ -8,6 +8,14 @@ public enum MONSTER_BEHAVIOR_STATE
     SerchingTarget,
     InBattle,
 }
+public enum MONSTER_ATTACK_TYPE
+{
+    Stomp,
+    Swipe,
+    JumpAttack,
+    Roar,
+    Throw
+}
 
 public class Monster : MonoBehaviour
 {
@@ -17,10 +25,6 @@ public class Monster : MonoBehaviour
         Walk = 1 << 0,
         Rotation = 1 << 1,
         Attack = 1 << 2,
-        //Idle = 1 << 0,
-        //Walk = 1 << 1,
-        //Rotation = 1 << 2,
-        //Attack = 1 << 3,
 
         All = Walk | Rotation | Attack,
     }
@@ -37,16 +41,15 @@ public class Monster : MonoBehaviour
     
     [Header("시야각 관련"),Space(10)]
     [SerializeField] private bool DebugMode = true;
-    [Range(0f, 360f)]
-    [SerializeField] private float ViewAngle = 0f;
-    [SerializeField] private float ViewRadius = 1f;
-    [SerializeField] private LayerMask TargetMask;
-    [SerializeField] private LayerMask ObstacleMask;
+    private float ViewAngle = 45f;
+    private float ViewRadius = 30f;
+    private LayerMask ObstacleMask;
 
     [Header("전투관련"), Space(10)]
     [SerializeField] private GameObject[] throwingObject;
     [SerializeField] private Collider[] bodyCollider;
     [SerializeField] private Transform rightHand;
+    [SerializeField] private GameObject attackParticle;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -54,27 +57,26 @@ public class Monster : MonoBehaviour
         
         StartCoroutine(CoolTime(Random.Range(10f, 20f),"RandomAnimation"));
         behaviorState = MONSTER_BEHAVIOR_STATE.SerchingTarget;
-        //StartCoroutine(behaviorState.ToString());
+        StartCoroutine(behaviorState.ToString());
     }
     private void Update()
     {
-        //if (behaviorState == MONSTER_BEHAVIOR_STATE.SerchingTarget && target == null)
-        //{
-        //    if (FindTarget())
-        //    {
-        //        ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
-        //    }
-        //}
-        //else if (behaviorState == MONSTER_BEHAVIOR_STATE.InBattle && target != null)
-        //{
-        //    if (CheckTargetIsInArea())
-        //        ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
-        //}
+        if (behaviorState == MONSTER_BEHAVIOR_STATE.SerchingTarget && target == null)
+        {
+            if (FindTarget())
+            {
+                ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
+            }
+        }
+        else if (behaviorState == MONSTER_BEHAVIOR_STATE.InBattle && target != null)
+        {
+            if (CheckTargetIsInArea())
+                ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
+        }
 
 
 
         // 테스트 부분
-
 
         //if (target != null)
         //{
@@ -109,12 +111,19 @@ public class Monster : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             Debug.Log("현재 state : " + state);
-            animator.SetTrigger("Jump Attack");
+            //animator.SetTrigger("JumpAttack");
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            Debug.Log("현재 state : " + state);
-            animator.SetTrigger("Swipe");
+            DebugMode = !DebugMode;
+            
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            //Debug.Log("랜덤밸루 : " + Random.value);
+            //state |= State.Attack;
+            //animator.SetTrigger("Roar");
+            
         }
 
     }
@@ -284,7 +293,7 @@ public class Monster : MonoBehaviour
     private bool FindTarget()
     {
         NavMeshHit hit;
-        Collider[] targets = Physics.OverlapSphere(transform.position, ViewRadius, TargetMask);
+        Collider[] targets = Physics.OverlapSphere(transform.position, ViewRadius, 1<< LayerMask.NameToLayer("Player"));
 
         for (int i = 0; i < targets.Length; i++)
         {
@@ -311,21 +320,18 @@ public class Monster : MonoBehaviour
     }
     IEnumerator CoolTime(float cool, string func)
     {
-        Debug.Log("쿨타임돈다");
         while (cool > 0)
         {
             cool -= Time.deltaTime;
             yield return null;
-            //if(func == "attackCoolTime")
-            //    Debug.Log(cool);
         }
+
         switch(func)
         {
             case "RandomAnimation":
                 randomAnimationCoolTime = true;
                 break;
             case "attackCoolTime":
-                Debug.Log("어택 쿨타임 ON");
                 attackCoolTime = true;
                 break;
         }
@@ -335,83 +341,119 @@ public class Monster : MonoBehaviour
 
 
     #region InBattle
-    enum InBattleState { Rotation, Walk, Attack};
-    InBattleState inBattleState = InBattleState.Rotation;
     bool attackCoolTime = false;
-    int attackType;
+    MONSTER_ATTACK_TYPE attackType;
     IEnumerator InBattle()
     {
         float targetDistance;
         
-        // 몬스터 상태 초기화
-        InitState();
-        
+        InitState();                                                // 몬스터 상태 초기화
         yield return StartCoroutine(LookatTarget());                // 타겟 처다보기
         yield return StartCoroutine(WaitForAnimation("Roar",1f));   // 표효하기
-
         
         while (true)
         {
-            //Debug.Log("어택 쿨타임 : " + attackCoolTime + ", state : " + state);
+            if (DebugMode)
+                Debug.Log("와일안 공격 타입 : " + attackType);
             targetDistance = Vector3.Distance(transform.position, target.transform.position);
-            if (attackCoolTime && (state == State.Idle))
+            if (attackCoolTime && (state == State.Idle || state == State.Walk))
             {
                 //Debug.Log("타겟과의 거리 : " + targetDistance);
-                if (targetDistance < 6)     // 밟기 공격
+                if (targetDistance < 25)
                 {
+                    state &= ~State.Walk;
                     animator.SetBool("Walk", false);
-                    Debug.Log("밟기 공격을 위한 회전 : " + targetDistance);
-                    attackType = 0;
                     state |= State.Rotation | State.Attack;
                     SetDestinationDirection(target.transform);
-                }
-                else if (15 < targetDistance && targetDistance < 25) // 원거리 공격
-                {
-                    animator.SetBool("Walk", false);
-                    Debug.Log("원거리 공격을 위한 회전 : " + targetDistance);
-                    attackType = 1;
-                    state |= State.Rotation | State.Attack;
-                    SetDestinationDirection(target.transform, 30);
-                }
-                else        // 너무ㅡ 멀어서 추격
-                {
-                    ChaseTarget();
-                }
 
+                    if (targetDistance < 6.5f)     // 밟기 공격
+                    {
+                        if (Random.value <= 0.7f)
+                            attackType = MONSTER_ATTACK_TYPE.Stomp;
+                        else
+                            attackType = MONSTER_ATTACK_TYPE.Swipe;
+                        
+                    }
+                    else if (targetDistance < 8.5f)     // 할퀴기 공격
+                    {
+                        if (Random.value <= 0.7f)
+                            attackType = MONSTER_ATTACK_TYPE.Swipe;
+                        else
+                            attackType = MONSTER_ATTACK_TYPE.Roar;
+                    }
+                    else if (targetDistance < 16)
+                    {
+                        if (Random.value <= 0.7f)
+                            attackType = MONSTER_ATTACK_TYPE.JumpAttack;
+                        else
+                            attackType = MONSTER_ATTACK_TYPE.Roar;
+                    }
+                    else        //if (20 < targetDistance && targetDistance < 25) // 원거리 공격
+                    {
+                        if (Random.value <= 0.4f)
+                            attackType = MONSTER_ATTACK_TYPE.Roar;
+                        else
+                            attackType = MONSTER_ATTACK_TYPE.Throw;
+                    }
+                }
+                else        // 너무 멀어서 추격
+                {
+                    state |= State.Walk;
+                }
             }
-
+            else if(!attackCoolTime)        // 스킬 쿨일때
+            {
+                state |= State.Walk;
+            }
+            if (DebugMode)
+                Debug.Log("현재 공격 타입 : " + attackType);
             if (state == State.Attack) // 
             {
                 //Debug.Log("밟기 공격 시작 현재 상태 : " + state);
                 switch (attackType)
                 {
-                    case 0:
+                    case MONSTER_ATTACK_TYPE.Stomp:
                         yield return StartCoroutine(WaitForAnimation("Stomp", 1f,true));
                         break;
 
-                    case 1:
-                        rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = false;   // 줍는 모션시 콜라이더땜에 캐릭터가 붕뜨는걸 방지
+                    case MONSTER_ATTACK_TYPE.Swipe:
+                        yield return StartCoroutine(WaitForAnimation("Swipe", 1f, true));
+                        break;
+
+                    case MONSTER_ATTACK_TYPE.Roar:
+                        yield return StartCoroutine(WaitForAnimation("Roar", 1f, true));
+                        break;
+
+                    case MONSTER_ATTACK_TYPE.JumpAttack:
+                        yield return StartCoroutine(WaitForAnimation("JumpAttack", 1f, true));
+                        break;
+
+                    case MONSTER_ATTACK_TYPE.Throw:
                         momentTargetPosition = target.transform.position;   // 돌을 줍는 동작시 타겟 위치 
                         yield return StartCoroutine(WaitForAnimation("Throw",1f,true));
                         break;
                 }
-                
                 state &= ~State.Attack;
-                Debug.Log("공격 끝, 현재 상태 : " + attackCoolTime);
-                
+
+                yield return new WaitForSecondsRealtime(1f);
+                if (Random.value < 0.7f)
+                    yield return StartCoroutine(WaitForAnimation("Flexing Muscle", 1f));
             }
 
-            if (!attackCoolTime)
+            if(state.HasFlag(State.Walk))
             {
-                if(targetDistance > 10f)
+                if (targetDistance > 7f)
+                {
                     ChaseTarget();
+                }
                 else
+                {
+                    state &= ~State.Walk;
                     animator.SetBool("Walk", false);
+                    if(Random.value < 0.7f)
+                        yield return StartCoroutine(WaitForAnimation("Flexing Muscle", 1f));
+                }
             }
-
-
-            // 거리에 따른 공격?
-            // 몇초마다 공격?
 
             yield return null;
         }
@@ -462,7 +504,6 @@ public class Monster : MonoBehaviour
             if (targetOutTime > 3f)     // 3초이상 밖에 있을지 타겟해제
             {
                 target = null;
-                Debug.Log("타겟을 NULL");
                 return true;
             }
         }
@@ -473,12 +514,11 @@ public class Monster : MonoBehaviour
         
         return false;
     }
+    #region 애니메이션 이벤트
     Projectile projectile;
     Vector3 momentTargetPosition;
     void RangeAttack(int value) // 애니메이션 이벤트 (돌던지기일때만 발동)
     {
-        
-        
         switch (value)
         {
             case 0:     // 돌던지기
@@ -499,15 +539,24 @@ public class Monster : MonoBehaviour
         if (projectile is Rock)
         {
             projectile.Init(momentTargetPosition, 10, 25);   // 매개변수 (타겟의 위치, 공격력, 속도)
-            rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+            //rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = true;
         }
         else if(projectile is Wood)
         {
             projectile.Init((transform.right*2 - transform.up), 15, 50);   // 매개변수 (타겟의 위치, 공격력, 속도)
-            rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+            //rightHand.gameObject.GetComponent<CapsuleCollider>().enabled = true;
         }
-
     }
+    void Roar()
+    {
+        Debug.Log("state : " + state);
+        if (state.HasFlag(State.Attack))
+        {
+            attackParticle.SetActive(true);
+        }
+        Debug.Log("끝 state : " + state);
+    }
+    #endregion 애니메이션 이벤트
 
     #endregion InBattle
     public void ChangeState(MONSTER_BEHAVIOR_STATE newState)
