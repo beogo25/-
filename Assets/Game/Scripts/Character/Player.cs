@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
         status             = transform.parent.GetComponent<PlayerStatus>();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
-        playerRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody    = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator>();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
 
