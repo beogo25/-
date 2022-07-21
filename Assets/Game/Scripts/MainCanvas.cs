@@ -16,19 +16,24 @@ public class MainCanvas : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+
+        if (blur.activeInHierarchy)
         {
-            if(blur.activeInHierarchy)
+            if (Input.GetButtonDown("Start") || Input.GetButtonDown("Cancel"))
             {
                 Exit();
             }
-            else
+        }
+        else
+        {
+            if(Input.GetButtonDown("Start"))
             {
                 menuUI.SetActive(true);
                 blur.SetActive(true);
                 player.talkState = true;
             }
         }
+
     }
     public void Exit()
     {

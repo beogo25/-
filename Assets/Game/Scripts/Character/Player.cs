@@ -5,47 +5,50 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public  int           attackValue;
-    public  static bool   isLockedOn = false;
-                          
-    private Animator      animator;
-    public  static bool   isMoveAble = true;
-    public  Transform     attackParticleParent;
-    public  Transform     useParticleParent;
-
-    public  GameObject    lockOnPrefab;
-    public  GameObject    lockOnObject = null;
-                          
-    public  bool          isGround = true;
-    private float         jumpInputTime;
-    private float         movementSpeed;
-    private CharacterMove characterMove;
-    private Rigidbody     playerRigidbody;
-
-    [SerializeField]
-    private ComboSystem   combo;
-    [SerializeField]
-    private CameraMove    cameraMove;
-
-    [SerializeField]
-    private AttackData[]  attackDatas;
-
-    private Vector3       moveDir;
-    private bool          isClickAble;
-
-    public  bool    talkState = false;
+    public  int            attackValue;
+    public  static bool    isLockedOn = false;
+                           
+    private Animator       animator;
+    public  static bool    isMoveAble = true;
+    public  Transform      attackParticleParent;
+    public  Transform      useParticleParent;
+                           
+    public  GameObject     lockOnPrefab;
+    public  GameObject     lockOnObject = null;
+                           
+    public  bool           isGround = true;
+    private float          jumpInputTime;
+    private float          movementSpeed;
+    private CharacterMove  characterMove;
+    private Rigidbody      playerRigidbody;
+                           
+    [SerializeField]       
+    private ComboSystem    combo;
+    [SerializeField]       
+    private CameraMove     cameraMove;
+                           
+    [SerializeField]       
+    private AttackData[]   attackDatas;
+                           
+    private Vector3        moveDir;
+    private bool           isClickAble;
+                           
+    public  bool           talkState  = false;
+    public  bool           isRollAble = true;
+    public  bool           isCollectable = false;
 
     WaitForSecondsRealtime colorDelay = new WaitForSecondsRealtime(0.0005f);
-    public Renderer renderers;
-    public Quest? orderQuest=null;
-    private PlayerStatus status;
+    public Renderer        renderers;
+    public Quest?          orderQuest = null;
+    private PlayerStatus   status;
+
     void Start()
     {
         Player player      = this;
         status             = transform.parent.GetComponent<PlayerStatus>();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
-        playerRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody    = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator>();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
 
@@ -111,10 +114,10 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
             StartCoroutine(TriggerCheck(combo.Input(EnumKey.PUNCH, Time.time)));
 
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && !isCollectable)
             StartCoroutine(TriggerCheck(combo.Input(EnumKey.POWERPUNCH, Time.time)));
 
-        if (Input.GetButtonDown("Jump") && isGround)
+        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround)
         {
             jumpInputTime = Time.time;
             isGround = false;
@@ -123,14 +126,14 @@ public class Player : MonoBehaviour
         }
 
 
-        if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade") && status.Stamina>=10)
+        if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade") && status.Stamina>=10 && isRollAble)
             StartCoroutine(TriggerCheck("Evade"));
 
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetButtonDown("L Bumper"))
             StartCoroutine(cameraMove.CameraFocus());
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("R 3"))
             LockOn();
     }
 

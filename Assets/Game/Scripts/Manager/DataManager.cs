@@ -8,63 +8,63 @@ using UnityEngine.UI;
 [System.Serializable]
 public class MaterialData
 {
-    public List<string> itemname       = new List<string>();
-    public List<string> contents       = new List<string>();
-    public List<int>    value          = new List<int>();
-    public List<int>    imageNum       = new List<int>();
+    public List<string> itemname        = new List<string>();
+    public List<string> contents        = new List<string>();
+    public List<int>    value           = new List<int>();
+    public List<int>    imageNum        = new List<int>();
 }
 
 [System.Serializable]
 public class EquipmentData
 {
-    public List<string> itemname       = new List<string>();
-    public List<string> contents       = new List<string>();
-    public List<int>    value          = new List<int>();
-    public List<int>    imageNum       = new List<int>();
-    public List<int>    itemtype       = new List<int>();
-    public List<int>    equipmentValue = new List<int>();
-}
-
-[System.Serializable]
-public class UseItemData
-{
-    public List<string> itemname       = new List<string>();
-    public List<string> contents       = new List<string>();
-    public List<int>    value          = new List<int>();
-    public List<int>    imageNum       = new List<int>();
-    public List<int>    itemtype       = new List<int>();
-    public List<int>    effectValue    = new List<int>();
-    public List<int>    maxStack       = new List<int>();
-    public List<int>    useItemType    = new List<int>();
-}
-
-[System.Serializable]
-public class UseItemRecipeData
-{
-    public List<string> materialA      = new List<string>();
-    public List<string> materialB      = new List<string>();
-    public List<string> result         = new List<string>();
-}
-
-[System.Serializable]
-public class EquipmentItemRecipeData
-{
-    public List<string> materialA      = new List<string>();
-    public List<int>    numA           = new List<int>();
-    public List<string> materialB      = new List<string>();
-    public List<int>    numB           = new List<int>();
-    public List<int>    gold           = new List<int>();
-    public List<string> result         = new List<string>();
+    public List<string> itemname        = new List<string>();
+    public List<string> contents        = new List<string>();
+    public List<int>    value           = new List<int>();
+    public List<int>    imageNum        = new List<int>();
+    public List<int>    itemtype        = new List<int>();
+    public List<int>    equipmentValue  = new List<int>();
+}                                       
+                                        
+[System.Serializable]                   
+public class UseItemData                
+{                                       
+    public List<string> itemname        = new List<string>();
+    public List<string> contents        = new List<string>();
+    public List<int>    value           = new List<int>();
+    public List<int>    imageNum        = new List<int>();
+    public List<int>    itemtype        = new List<int>();
+    public List<int>    effectValue     = new List<int>();
+    public List<int>    maxStack        = new List<int>();
+    public List<int>    useItemType     = new List<int>();
+}                                       
+                                        
+[System.Serializable]                   
+public class UseItemRecipeData          
+{                                       
+    public List<string> materialA       = new List<string>();
+    public List<string> materialB       = new List<string>();
+    public List<string> result          = new List<string>();
+}                                       
+                                        
+[System.Serializable]                   
+public class EquipmentItemRecipeData    
+{                                       
+    public List<string> materialA       = new List<string>();
+    public List<int>    numA            = new List<int>();
+    public List<string> materialB       = new List<string>();
+    public List<int>    numB            = new List<int>();
+    public List<int>    gold            = new List<int>();
+    public List<string> result          = new List<string>();
 }
 
 [System.Serializable]
 public class QuestData
 {
-    public List<int> targetMonster = new List<int>();
-    public List<int> clearGold = new List<int>();
-    public List<string> questName = new List<string>();
-    public List<string> questContents = new List<string>();
-    public List<int> questDifficulty = new List<int>();
+    public List<int>    targetMonster   = new List<int>();
+    public List<int>    clearGold       = new List<int>();
+    public List<string> questName       = new List<string>();
+    public List<string> questContents   = new List<string>();
+    public List<int>    questDifficulty = new List<int>();
 }
 
 public class DataManager : Singleton<DataManager>
