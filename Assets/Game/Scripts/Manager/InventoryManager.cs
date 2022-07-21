@@ -18,6 +18,8 @@ public class InventoryManager : Singleton<InventoryManager>
     public  BattleItemSystem     itemUI;
     public  StatusUI             statusUI;
 
+    public  SkinnedMeshRenderer  weaponRender;
+
     public int ItemCount
     {
         get { return itemCount; }
@@ -39,6 +41,7 @@ public class InventoryManager : Singleton<InventoryManager>
             AddItem(DataManager.instance.useItemDic["±«·Â¾à"]);
             AddItem(DataManager.instance.useItemDic["ÀÎ³»¾à"]);
             WarehouseManager.instance.itemDelegate(DataManager.instance.equipmentDic["Ã¶°Ë"]);
+            WarehouseManager.instance.itemDelegate(DataManager.instance.equipmentDic["°­Ã¶°Ë"]);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -162,7 +165,11 @@ public class InventoryManager : Singleton<InventoryManager>
             equipmentList[(int)target.equipmentType] = target;
         }
         if (target.equipmentType == EquipmentType.WEAPON)
+        {
             status.Atk += target.equipmentValue;
+            weaponRender.materials[0]=DataManager.instance.weaponDataDic[target.itemName].weaponMaterial;
+            weaponRender.sharedMesh = DataManager.instance.weaponDataDic[target.itemName].weaponMesh;
+        }
         else
             status.Def += target.equipmentValue;
         equipmentInventory.Refresh();
@@ -171,7 +178,11 @@ public class InventoryManager : Singleton<InventoryManager>
     public void UnEquip(EquipmentType target)
     {
         if (target == EquipmentType.WEAPON)
+        {
             status.Atk -= equipmentList[(int)target].equipmentValue;
+            weaponRender.materials[0] = DataManager.instance.weaponDataDic[""].weaponMaterial;
+            weaponRender.sharedMesh = DataManager.instance.weaponDataDic[""].weaponMesh;
+        }
         else
             status.Def -= equipmentList[(int)target].equipmentValue;
         WarehouseManager.instance.AddItem(equipmentList[(int)target]);

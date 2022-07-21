@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EquipmentInventoryUI : WarehouseUI
 {
+    public bool warehouseCheck;
+    
     public override void Refresh()
     {
         int num = slots.Length;
@@ -28,7 +30,14 @@ public class EquipmentInventoryUI : WarehouseUI
     public override void ItemInformationChange(int num)
     {
         itemInformation.Item = InventoryManager.instance.equipmentList[num];
-        itemInformation.WareHouseBool = false;
+        if(warehouseCheck)
+            itemInformation.ButtonSet(false);
+        else
+            itemInformation.ButtonSet();
         itemInformation.targetNum = num;
+    }
+    public void WarehouseCheck(bool input)
+    {
+        warehouseCheck = input;
     }
 }

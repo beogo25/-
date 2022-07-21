@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -38,10 +39,11 @@ public class Player : MonoBehaviour
     public  bool           isCollectable = false;
 
     WaitForSecondsRealtime colorDelay = new WaitForSecondsRealtime(0.0005f);
-    public Renderer        renderers;
-    public Quest?          orderQuest = null;
-    private PlayerStatus   status;
+    public Renderer renderers;
+    public Quest? orderQuest=null;
+    private PlayerStatus status;
 
+    public Action rollDelegate;
     void Start()
     {
         Player player      = this;
@@ -84,12 +86,12 @@ public class Player : MonoBehaviour
             animator.SetBool("Dash", false);
     }
 
-    //¾Ö´Ï¸ŞÀÌÅÍ Æ®¸®°Å Ã¼Å©
+    //ì• ë‹ˆë©”ì´í„° íŠ¸ë¦¬ê±° ì²´í¬
     IEnumerator TriggerCheck(string skillName)
     {
         if (skillName != "")
         {
-            if (skillName == "Evade" || !animator.GetBool("Land")) { }      // ±¸¸£±â¶û °øÁßÀÏ¶§¸¸ »©°í YÃà °íÁ¤
+            if (skillName == "Evade" || !animator.GetBool("Land")) { }      // êµ¬ë¥´ê¸°ë‘ ê³µì¤‘ì¼ë•Œë§Œ ë¹¼ê³  Yì¶• ê³ ì •
             else playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
 
             animator.SetTrigger(skillName);
@@ -100,11 +102,15 @@ public class Player : MonoBehaviour
         { }
     }
 
-    //Ä³¸¯ÅÍ°¡ ¹Ş´Â ¸ğµç ÀÎÇ²
+    //ìºë¦­í„°ê°€ ë°›ëŠ” ëª¨ë“  ì¸í’‹
     private void InputSetting()
     {
+        //ì„ì‹œ
         if (Input.GetKeyDown(KeyCode.B))
-            StartCoroutine(HitDown(3));
+        {
+            //status.PlayerHit(1, 0, Vector3.zero, AttackType.BURN);
+            status.PlayerHit(1, 0, Vector3.zero, AttackType.POISON);
+        }
 
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Loop"))
             isMoveAble = true;
@@ -137,7 +143,7 @@ public class Player : MonoBehaviour
             LockOn();
     }
 
-    #region ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®
+    #region ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸
     public void Jump()
     {
         characterMove.Jump();
@@ -157,21 +163,21 @@ public class Player : MonoBehaviour
         playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
         playerRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
     }
-    // ¾Ö´Ï¸ŞÀÌ¼Ç¿¡¼­ »ç¿ëÇÕ´Ï´Ù.
+    // ì• ë‹ˆë©”ì´ì…˜ì—ì„œ ì‚¬ìš©í•©ë‹ˆë‹¤.
     IEnumerator AttackMove(float distance)
     {
         for (int i = 0; i < 50; i++)
         {
             transform.Translate(transform.forward * distance / 50, Space.World);
             yield return new WaitForSeconds(0.0001f);
-            //if (Input.GetKey(KeyCode.S))  ¾Æ¸¶ ¹öÆ¼ÄÃÀÌ -1ÀÏ¶§ µÚ·Î ¾È°¡°Ô ÇÏ¸é µÊ
+            //if (Input.GetKey(KeyCode.S))  ì•„ë§ˆ ë²„í‹°ì»¬ì´ -1ì¼ë•Œ ë’¤ë¡œ ì•ˆê°€ê²Œ í•˜ë©´ ë¨
             //    break;
         }
     }
     IEnumerator HitDown(float power)
     {
-        //¸®Áöµå¹Ùµğ ³ÖÀº ´ÙÀ½ ±×¶ó¿îµåÃ¼Å© Ãß°¡ÇÏ¸é ¼öÁ¤ÇØ¾ßÇÕ´Ï´Ù.
-        //Èû¿¡µû¶ó ³¯¶ó°¡´Â ºÎºĞµµ »ó´ë¹æ°ú º¤ÅÍ°ª Ã¼Å©¸¦ ÇØ¼­ ¿Ã¹Ù¸¥ ¹æÇâÀ¸·Î ³¯¾Æ°¡µµ·Ï ¸¸µé¾î¾ßÇÔ
+        //ë¦¬ì§€ë“œë°”ë”” ë„£ì€ ë‹¤ìŒ ê·¸ë¼ìš´ë“œì²´í¬ ì¶”ê°€í•˜ë©´ ìˆ˜ì •í•´ì•¼í•©ë‹ˆë‹¤.
+        //í˜ì—ë”°ë¼ ë‚ ë¼ê°€ëŠ” ë¶€ë¶„ë„ ìƒëŒ€ë°©ê³¼ ë²¡í„°ê°’ ì²´í¬ë¥¼ í•´ì„œ ì˜¬ë°”ë¥¸ ë°©í–¥ìœ¼ë¡œ ë‚ ì•„ê°€ë„ë¡ ë§Œë“¤ì–´ì•¼í•¨
         animator.SetBool("Down", true);
         StartCoroutine(TriggerCheck("DownTrigger"));
         StartCoroutine(AttackMove(-power));
@@ -191,6 +197,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Roll()
     {
+        rollDelegate();
         StartCoroutine(combo.DelayCheck(0.2f));
         Vector3 rollDir = moveDir;
         if (rollDir == Vector3.zero)
@@ -213,7 +220,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    #endregion ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®
+    #endregion ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸
 
     private void LockOn()
     {
@@ -259,12 +266,6 @@ public class Player : MonoBehaviour
             movementSpeed = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         }
     }
-
-    public void StaminaDecrease(int value)
-    {
-        status.Stamina -= value;
-    }
-
     private void PlayerMove()
     {
         moveDir = new Vector3().GetDirectionByCameraRaw(Camera.main);
@@ -283,7 +284,7 @@ public class Player : MonoBehaviour
             }
 
 
-        //Æ÷Áö¼Ç 0ÀÏ¶§ Å° ÀÔ·Â ÃÊ±âÈ­ + ¸ğ¼Ç ÃÊ±âÈ­
+        //í¬ì§€ì…˜ 0ì¼ë•Œ í‚¤ ì…ë ¥ ì´ˆê¸°í™” + ëª¨ì…˜ ì´ˆê¸°í™”
         if (moveDir == Vector3.zero)
         {
             isClickAble = true;
@@ -297,14 +298,14 @@ public class Player : MonoBehaviour
     private void CheckOnGround()
     {
         if (Time.time < jumpInputTime + 0.2f)
-            return; // Á¡ÇÁÅ° ´­·¶À»¶§´Â 0.2ÃÊ°£ ½ÇÇà±İÁö (·¹ÀÌÄ³½ºÆ®°¡ Äİ¶óÀÌ´õº¸´Ù ±æ±â¶§¹®¿¡)
+            return; // ì í”„í‚¤ ëˆŒë €ì„ë•ŒëŠ” 0.2ì´ˆê°„ ì‹¤í–‰ê¸ˆì§€ (ë ˆì´ìºìŠ¤íŠ¸ê°€ ì½œë¼ì´ë”ë³´ë‹¤ ê¸¸ê¸°ë•Œë¬¸ì—)
 
         RaycastHit ground;
         Physics.Raycast(transform.position + (transform.up * 0.1f), Vector3.down, out ground, 20f, 1 << LayerMask.NameToLayer("Ground"));
 
         if (ground.distance > 0 && ground.distance <= 0.3f)
         {
-            if (!isGround)  // ¶¥ÀÌ ¾Æ´Ï¿´´Ù°¡ ¶¥¿¡ ´êÀ»½Ã "ÇÑ¹ø"¸¸ ½ÇÇàµÇµµ·Ï
+            if (!isGround)  // ë•…ì´ ì•„ë‹ˆì˜€ë‹¤ê°€ ë•…ì— ë‹¿ì„ì‹œ "í•œë²ˆ"ë§Œ ì‹¤í–‰ë˜ë„ë¡
             {
                 playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
                 playerRigidbody.velocity = Vector3.zero;
@@ -313,17 +314,17 @@ public class Player : MonoBehaviour
             }
             isGround = true;
         }
-        else if (ground.distance == 0 || ground.distance > 2f)   // ¶¥ÀÌ ¾ø°Å³ª ¶¥°úÀÇ °Å¸®°¡ 1f ÀÌ»óÀÏ¶§
+        else if (ground.distance == 0 || ground.distance > 2f)   // ë•…ì´ ì—†ê±°ë‚˜ ë•…ê³¼ì˜ ê±°ë¦¬ê°€ 1f ì´ìƒì¼ë•Œ
         {
-            if (isGround)   // ¶¥ÀÌ ¿´´Ù°¡ °øÁßÀÏ¶§ "ÇÑ¹ø"¸¸ ½ÇÇàµÇµµ·Ï
+            if (isGround)   // ë•…ì´ ì˜€ë‹¤ê°€ ê³µì¤‘ì¼ë•Œ "í•œë²ˆ"ë§Œ ì‹¤í–‰ë˜ë„ë¡
             {
-                animator.SetBool("Land", false);    // ¶³¾îÁö´Â »óÅÂ
+                animator.SetBool("Land", false);    // ë–¨ì–´ì§€ëŠ” ìƒíƒœ
             }
             isGround = false;
         }
     }
     
-    //¼º´ÉÀ» ¸¹ÀÌ Àâ¾Æ¸Ô¾î¼­ ¼º´É ¹®Á¦½Ã »èÁ¦ 1¼øÀ§
+    //ì„±ëŠ¥ì„ ë§ì´ ì¡ì•„ë¨¹ì–´ì„œ ì„±ëŠ¥ ë¬¸ì œì‹œ ì‚­ì œ 1ìˆœìœ„
     public IEnumerator RimLight(Color color)
     {
         for (int i = 0; i < renderers.materials.Length; i++)

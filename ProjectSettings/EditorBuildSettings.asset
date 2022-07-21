@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Game/Scenes/YJ Test.unity
-    guid: 18a18fd20463ced4089a130bc0ac59db
+    path: Assets/Game/Scenes/Loading.unity
+    guid: 386ef16318f83b441b75a763f8127fd4
+  - enabled: 1
+    path: Assets/Game/Scenes/Master.unity
+    guid: 6ffe5d437131a1a4b877fd4de2441e65
   m_configObjects: {}

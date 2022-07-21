@@ -72,6 +72,8 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<string, MaterialItem>  materialsDic    = new Dictionary<string, MaterialItem>();
     public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
     public Dictionary<string, UseItem>       useItemDic      = new Dictionary<string, UseItem>();
+    public Dictionary<string, WeaponData>    weaponDataDic   = new Dictionary<string, WeaponData>();
+    
 
     public List<UseItemRecipe>       useItemRecipeList       = new List<UseItemRecipe>();
     public List<EqiupmentItemRecipe> eqiupmentItemRecipeList = new List<EqiupmentItemRecipe>();
@@ -207,6 +209,17 @@ public class DataManager : Singleton<DataManager>
                 quest.targetMonster = loadData.targetMonster[i];
                 quest.questNum = i;
                 questList.Add(quest);
+            }
+        }
+
+        //장비 렌더러 정보
+        WeaponData[] weaponDatas;
+        weaponDatas = Resources.LoadAll<WeaponData>("WeaponData");
+        if(weaponDatas != null)
+        {
+            for (int i = 0; i < weaponDatas.Length; i++)
+            {
+                weaponDataDic.Add(weaponDatas[i].weaponName, weaponDatas[i]);
             }
         }
     }

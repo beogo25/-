@@ -7,7 +7,8 @@ public class MaterialWarehouseUI : WarehouseUI
     public override void ItemInformationChange(int num)
     {
         itemInformation.Item = WarehouseManager.instance.materialItemList[num];
-        base.ItemInformationChange(num);
+        itemInformation.ButtonSet();
+        itemInformation.targetNum = num;
     }
     public override void Refresh()
     {

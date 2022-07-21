@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerStatus : MonoBehaviour
 {
     [SerializeField]
-    private int hp;
+    private float hp;
     private float stamina;
     public int maxHp=100;
     public float maxStamina = 100;
@@ -14,6 +14,8 @@ public class PlayerStatus : MonoBehaviour
     private int atk = 50;
     private int def = 0;
     public static int gold = 10000;
+
+    public int burnCount;
 
     public Slider hpSlider;
     public Slider staminaSlider;
@@ -23,6 +25,8 @@ public class PlayerStatus : MonoBehaviour
 
     private IEnumerator atkIEnumerator = null;
     private IEnumerator defIEnumerator = null;
+    private IEnumerator poisonIEnumerator = null;
+    private IEnumerator burnIEnumerator = null;
     private IEnumerator staminaHealthIEnumerator;
 
     private Player player;
@@ -57,7 +61,7 @@ public class PlayerStatus : MonoBehaviour
         get { return def+ buffDef; }
         set { def = value - buffDef; }
     }
-    public int Hp
+    public float Hp
     {
         get { return hp; }
         set 
@@ -94,6 +98,15 @@ public class PlayerStatus : MonoBehaviour
         Hp = maxHp;
         Stamina = maxStamina;
         player=FindObjectOfType<Player>();
+        player.rollDelegate += () => { 
+            Stamina -= 15;
+            burnCount--;
+        };
+    }
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.X))
+            Hp -= 10;
     }
     public void UseItemEffect(UseItemType useItemType, int value=0)
     {
@@ -104,6 +117,9 @@ public class PlayerStatus : MonoBehaviour
                 player.useParticleParent.GetChild(0).gameObject.SetActive(true);
                 break;
             case UseItemType.ANTIDOTE:
+                if (poisonIEnumerator != null)
+                    StopCoroutine(poisonIEnumerator);
+                Ailment &= ~StatusAilment.POISON;
                 player.useParticleParent.GetChild(1).gameObject.SetActive(true);
                 break;
             case UseItemType.ATK_UP:
@@ -128,7 +144,52 @@ public class PlayerStatus : MonoBehaviour
                 break;
         }
     }
+    public void PlayerHit(int damage, float knockBackPower, Vector3 position, AttackType attackType = AttackType.NORMAL)
+    {
+        Hp -= damage;
+        switch (attackType)
+        {
+            case AttackType.POISON:
+                if(poisonIEnumerator!=null)
+                    StopCoroutine(poisonIEnumerator);
+                poisonIEnumerator = Poison();
+                StartCoroutine(poisonIEnumerator);   
+                break;
+            case AttackType.BURN:
+                if (burnIEnumerator != null)
+                    StopCoroutine(burnIEnumerator);
+                burnIEnumerator = Burn();
+                StartCoroutine(burnIEnumerator);
+                break;
+            default:
+                break;
+        }
+        //³Ë¹é ³Ö±â
+    }
     
+    public IEnumerator Poison()
+    {   
+        Ailment |= StatusAilment.POISON;
+        for (int i = 0; i < 30; i++)
+        {
+            Hp -= 2;
+            yield return new WaitForSecondsRealtime(1);
+        }
+        Ailment &= ~StatusAilment.POISON;
+    }
+    public IEnumerator Burn()
+    {
+        burnCount = 3;
+        Ailment |= StatusAilment.BURN;
+        for (int i = 0; i < 60; i++)
+        {
+            if (burnCount <= 0)
+                break;
+            Hp -= 1;
+            yield return new WaitForSecondsRealtime(0.5f);
+        }
+        Ailment &= ~StatusAilment.BURN;
+    }
     public IEnumerator StaminaHeath()
     {
         yield return new WaitForSecondsRealtime(2); 
@@ -158,12 +219,5 @@ public class PlayerStatus : MonoBehaviour
         }
         yield return null;
     }
-
-
-
-    private void Update()
-    {
-        if(Input.GetKeyUp(KeyCode.X))
-            Hp -= 10;
-    }
+    
 }
