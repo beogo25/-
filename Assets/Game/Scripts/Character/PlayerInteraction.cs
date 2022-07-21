@@ -31,6 +31,7 @@ public class PlayerInteraction : MonoBehaviour
         Collider[] nearTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Collective"));
         if (nearTarget.Length > 0)
         {
+            player.isCollectable = true;
             Transform nearestTarget = nearTarget[0].transform;
             float nearestDis = 2;
 
@@ -47,14 +48,16 @@ public class PlayerInteraction : MonoBehaviour
                 ItemUI.SetActive(true);
             else
                 ItemUI.SetActive(false);
+
             ItemUI.transform.LookAt(Camera.main.transform.position);
+
             if (text.text != nearestTarget.GetComponent<InteractionObject>().objectName)
             {
                 text.text = nearestTarget.GetComponent<InteractionObject>().objectName;
                 image.sprite = nearestTarget.GetComponent<InteractionObject>().imageSprite;
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetButtonDown("InteractionObject") && player.isGround)
             {
                 if (nearestTarget.GetComponent<InteractionObject>() != null)
                     nearestTarget.GetComponent<InteractionObject>().Interaction();
@@ -62,6 +65,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
+            player.isCollectable = false;
             ItemUI.SetActive(false);
         }
 
@@ -70,10 +74,15 @@ public class PlayerInteraction : MonoBehaviour
             Collider[] npcTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Npc"));
             if (npcTarget.Length > 0)
             {
-                if (Input.GetKeyDown(KeyCode.F))
+                player.isRollAble = false;
+                if (Input.GetButtonDown("InteractionNpc") && player.isGround)
                 {
                     if (npcTarget[0].transform.GetComponent<IInteraction>() != null)
                         npcTarget[0].transform.GetComponent<IInteraction>().Interaction();
+                }
+                else
+                {
+                    player.isRollAble = true;
                 }
             }
         }

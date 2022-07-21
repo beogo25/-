@@ -126,53 +126,105 @@ PrefabInstance:
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198059123877132844, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198253973725970970, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198253973725970970, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198426332533860100, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198426332533860100, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198456359825978342, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198456359825978342, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198529925846312674, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198529925846312674, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198543418159014348, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198543418159014348, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198544149579144254, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198544149579144254, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198564373976423268, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198564373976423268, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198565858584182686, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198565858584182686, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198662300647181020, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198662300647181020, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 198716411377258286, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198716411377258286, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198815561965611524, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198815561965611524, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198926773067066594, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198926773067066594, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 199150639670641078, guid: fbab27c98b168764eb295cfff1e9f61f, type: 3}
       propertyPath: m_Materials.Array.size

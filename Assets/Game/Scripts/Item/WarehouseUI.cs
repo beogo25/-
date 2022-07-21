@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public abstract class WarehouseUI : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public abstract class WarehouseUI : MonoBehaviour
     public int selectSlot = 0;
     public WarehouseSlot[] slots;
     public GameObject[] exitTarget;
-    
+    public EventSystem eventSystem;
+
     private Player player;
     public int SelectSlot
     {
@@ -35,7 +37,7 @@ public abstract class WarehouseUI : MonoBehaviour
     }
     public virtual void ItemInformationChange(int num)
     {
-        itemInformation.WareHouseBool = true;
+        itemInformation.ButtonSet(true);
         itemInformation.targetNum = num;
     }
     public abstract void Refresh();

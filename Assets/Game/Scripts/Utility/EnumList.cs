@@ -63,3 +63,11 @@ public enum StatusAilment
     POISON = 4,
     BURN = 8
 }
+
+//공격 타입
+public enum AttackType
+{
+    NORMAL,
+    POISON,
+    BURN
+}

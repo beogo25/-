@@ -20,6 +20,8 @@ public class EquipmentCombinationSystem : MonoBehaviour
     public TextMeshProUGUI playerGold;
 
     public GameObject combinationButton;
+    public MeshFilter weaponMesh;
+    public MeshRenderer weaponRenderer;
 
     private int target;
     private void OnEnable()
@@ -69,6 +71,15 @@ public class EquipmentCombinationSystem : MonoBehaviour
             combinationButton.SetActive(true);
         else
             combinationButton.SetActive(false);
+        if(equipmentItem.equipmentType==EquipmentType.WEAPON)
+        {
+            weaponMesh.mesh = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMesh;
+            weaponRenderer.materials[0] = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMaterial;
+        }
+        else
+        {
+            weaponMesh.mesh = null;
+        }
     }
 
     public void Combination()

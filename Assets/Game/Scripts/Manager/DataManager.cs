@@ -8,63 +8,63 @@ using UnityEngine.UI;
 [System.Serializable]
 public class MaterialData
 {
-    public List<string> itemname       = new List<string>();
-    public List<string> contents       = new List<string>();
-    public List<int>    value          = new List<int>();
-    public List<int>    imageNum       = new List<int>();
+    public List<string> itemname        = new List<string>();
+    public List<string> contents        = new List<string>();
+    public List<int>    value           = new List<int>();
+    public List<int>    imageNum        = new List<int>();
 }
 
 [System.Serializable]
 public class EquipmentData
 {
-    public List<string> itemname       = new List<string>();
-    public List<string> contents       = new List<string>();
-    public List<int>    value          = new List<int>();
-    public List<int>    imageNum       = new List<int>();
-    public List<int>    itemtype       = new List<int>();
-    public List<int>    equipmentValue = new List<int>();
-}
-
-[System.Serializable]
-public class UseItemData
-{
-    public List<string> itemname       = new List<string>();
-    public List<string> contents       = new List<string>();
-    public List<int>    value          = new List<int>();
-    public List<int>    imageNum       = new List<int>();
-    public List<int>    itemtype       = new List<int>();
-    public List<int>    effectValue    = new List<int>();
-    public List<int>    maxStack       = new List<int>();
-    public List<int>    useItemType    = new List<int>();
-}
-
-[System.Serializable]
-public class UseItemRecipeData
-{
-    public List<string> materialA      = new List<string>();
-    public List<string> materialB      = new List<string>();
-    public List<string> result         = new List<string>();
-}
-
-[System.Serializable]
-public class EquipmentItemRecipeData
-{
-    public List<string> materialA      = new List<string>();
-    public List<int>    numA           = new List<int>();
-    public List<string> materialB      = new List<string>();
-    public List<int>    numB           = new List<int>();
-    public List<int>    gold           = new List<int>();
-    public List<string> result         = new List<string>();
+    public List<string> itemname        = new List<string>();
+    public List<string> contents        = new List<string>();
+    public List<int>    value           = new List<int>();
+    public List<int>    imageNum        = new List<int>();
+    public List<int>    itemtype        = new List<int>();
+    public List<int>    equipmentValue  = new List<int>();
+}                                       
+                                        
+[System.Serializable]                   
+public class UseItemData                
+{                                       
+    public List<string> itemname        = new List<string>();
+    public List<string> contents        = new List<string>();
+    public List<int>    value           = new List<int>();
+    public List<int>    imageNum        = new List<int>();
+    public List<int>    itemtype        = new List<int>();
+    public List<int>    effectValue     = new List<int>();
+    public List<int>    maxStack        = new List<int>();
+    public List<int>    useItemType     = new List<int>();
+}                                       
+                                        
+[System.Serializable]                   
+public class UseItemRecipeData          
+{                                       
+    public List<string> materialA       = new List<string>();
+    public List<string> materialB       = new List<string>();
+    public List<string> result          = new List<string>();
+}                                       
+                                        
+[System.Serializable]                   
+public class EquipmentItemRecipeData    
+{                                       
+    public List<string> materialA       = new List<string>();
+    public List<int>    numA            = new List<int>();
+    public List<string> materialB       = new List<string>();
+    public List<int>    numB            = new List<int>();
+    public List<int>    gold            = new List<int>();
+    public List<string> result          = new List<string>();
 }
 
 [System.Serializable]
 public class QuestData
 {
-    public List<int> targetMonster = new List<int>();
-    public List<int> clearGold = new List<int>();
-    public List<string> questName = new List<string>();
-    public List<string> questContents = new List<string>();
-    public List<int> questDifficulty = new List<int>();
+    public List<int>    targetMonster   = new List<int>();
+    public List<int>    clearGold       = new List<int>();
+    public List<string> questName       = new List<string>();
+    public List<string> questContents   = new List<string>();
+    public List<int>    questDifficulty = new List<int>();
 }
 
 public class DataManager : Singleton<DataManager>
@@ -72,6 +72,8 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<string, MaterialItem>  materialsDic    = new Dictionary<string, MaterialItem>();
     public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
     public Dictionary<string, UseItem>       useItemDic      = new Dictionary<string, UseItem>();
+    public Dictionary<string, WeaponData>    weaponDataDic   = new Dictionary<string, WeaponData>();
+    
 
     public List<UseItemRecipe>       useItemRecipeList       = new List<UseItemRecipe>();
     public List<EqiupmentItemRecipe> eqiupmentItemRecipeList = new List<EqiupmentItemRecipe>();
@@ -207,6 +209,17 @@ public class DataManager : Singleton<DataManager>
                 quest.targetMonster = loadData.targetMonster[i];
                 quest.questNum = i;
                 questList.Add(quest);
+            }
+        }
+
+        //장비 렌더러 정보
+        WeaponData[] weaponDatas;
+        weaponDatas = Resources.LoadAll<WeaponData>("WeaponData");
+        if(weaponDatas != null)
+        {
+            for (int i = 0; i < weaponDatas.Length; i++)
+            {
+                weaponDataDic.Add(weaponDatas[i].weaponName, weaponDatas[i]);
             }
         }
     }
