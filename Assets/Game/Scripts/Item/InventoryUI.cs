@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryUI : WarehouseUI
 {
     public bool warehouseCheck;
+
     public override void Refresh()
     {
         int num = slots.Length;

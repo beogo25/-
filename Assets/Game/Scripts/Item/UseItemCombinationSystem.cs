@@ -6,33 +6,31 @@ using TMPro;
 
 public class UseItemCombinationSystem : MonoBehaviour
 {
-    public GameObject contents;
-    public GameObject contentsPrifab;
-    private RectTransform contentsRectTransform;
+    public  GameObject      contents;
+    public  GameObject      contentsPrefab;
+    private RectTransform   contentsRectTransform;
 
-    public Image resultImage;
-    public Image materialAImage;
-    public Image materialBImage;
-    public TextMeshProUGUI resultContents;
-    public TextMeshProUGUI materialAName;
-    public TextMeshProUGUI materialBName;
-
-    public GameObject combinationButton;
-    private int target;
+    public  Image           resultImage;
+    public  Image           materialAImage;
+    public  Image           materialBImage;
+    public  TextMeshProUGUI resultContents;
+    public  TextMeshProUGUI materialAName;
+    public  TextMeshProUGUI materialBName;
+            
+    public  GameObject      combinationButton;
+    private int             target;
 
     private void OnEnable()
     {
+        GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         combinationButton.SetActive(false);
     }
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
-    }
-    private void Start()
-    {
-        for(int i = 0; i < DataManager.instance.useItemRecipeList.Count; i++)
+        for (int i = 0; i < DataManager.instance.useItemRecipeList.Count; i++)
         {
-            CombiContentsUI temp = Instantiate(contentsPrifab, contents.transform).GetComponent<CombiContentsUI>();
+            CombiContentsUI temp = Instantiate(contentsPrefab, contents.transform).GetComponent<CombiContentsUI>();
             temp.image.sprite = DataManager.instance.useItemDic[DataManager.instance.useItemRecipeList[i].result].sprite;
             temp.textMeshProUGUI.text = DataManager.instance.useItemRecipeList[i].result;
             int tempint = i;
@@ -59,9 +57,16 @@ public class UseItemCombinationSystem : MonoBehaviour
         materialAName.text = materialItemA.itemName + "1 (" + materialAnum + ")";
         materialBName.text = materialItemB.itemName + "1 (" + materialBnum + ")";
         if(materialAnum>0 && materialBnum>0)
+        {
             combinationButton.SetActive(true);
+            GameManager.instance.eventSystem.SetSelectedGameObject(combinationButton);
+        }
         else
+        {
             combinationButton.SetActive(false);
+            if(GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
+                GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+        }
     }
 
     public void Combination()

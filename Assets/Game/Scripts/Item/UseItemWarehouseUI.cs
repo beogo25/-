@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UseItemWarehouseUI : WarehouseUI
 {
+    public Button        itemInventorySlot;
     public override void ItemInformationChange(int num)
     {
         itemInformation.Item = WarehouseManager.instance.useItemList[num];
@@ -11,6 +13,11 @@ public class UseItemWarehouseUI : WarehouseUI
     }
     public override void Refresh()
     {
+        if (itemInventorySlot.interactable == false)
+            GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
+        else
+            GameManager.instance.eventSystem.SetSelectedGameObject(itemInventorySlot.transform.gameObject);
+
         int num = slots.Length;
         if (num > WarehouseManager.instance.useItemList.Count)
             num = WarehouseManager.instance.useItemList.Count;

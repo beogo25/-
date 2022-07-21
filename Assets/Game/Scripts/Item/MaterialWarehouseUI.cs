@@ -12,7 +12,7 @@ public class MaterialWarehouseUI : WarehouseUI
     }
     public override void Refresh()
     {
-        eventSystem.m_CurrentSelected = slots[0].transform.GetChild(2).transform.gameObject;
+        GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
         int num = slots.Length;
         if (num > WarehouseManager.instance.materialItemList.Count)
             num = WarehouseManager.instance.materialItemList.Count;

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public abstract class WarehouseUI : MonoBehaviour
 {
@@ -9,7 +8,6 @@ public abstract class WarehouseUI : MonoBehaviour
     public int selectSlot = 0;
     public WarehouseSlot[] slots;
     public GameObject[] exitTarget;
-    public EventSystem eventSystem;
 
     private Player player;
     public int SelectSlot
@@ -24,6 +22,7 @@ public abstract class WarehouseUI : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<Player>();
+
         for (int i = 0; i < slots.Length; i++)
             slots[i].num = i;
     }
