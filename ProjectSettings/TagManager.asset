@@ -22,11 +22,8 @@ TagManager:
   - Npc
   - Collective
   - HitAble
-<<<<<<< HEAD
-  - MonsterFoot
-=======
   - TempWeapon
->>>>>>> master
+  - MonsterFoot
   - 
   - 
   - 
