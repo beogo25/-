@@ -17,7 +17,7 @@ public enum MONSTER_ATTACK_TYPE
     Throw
 }
 
-public class Monster : MonoBehaviour
+public class MonsterAction : MonoBehaviour
 {
     private enum State
     {
@@ -47,8 +47,7 @@ public class Monster : MonoBehaviour
 
     [Header("전투관련"), Space(10)]
     [SerializeField] private GameObject[] throwingObject;
-    [SerializeField] private Collider[] bodyCollider;
-    [SerializeField] private Transform rightHand;
+    [SerializeField] private Transform  rightHand;
     [SerializeField] private GameObject attackParticle;
     void Start()
     {
@@ -346,15 +345,13 @@ public class Monster : MonoBehaviour
     IEnumerator InBattle()
     {
         float targetDistance;
-        
+        float randomValue;
         InitState();                                                // 몬스터 상태 초기화
         yield return StartCoroutine(LookatTarget());                // 타겟 처다보기
         yield return StartCoroutine(WaitForAnimation("Roar",1f));   // 표효하기
         
         while (true)
         {
-            if (DebugMode)
-                Debug.Log("와일안 공격 타입 : " + attackType);
             targetDistance = Vector3.Distance(transform.position, target.transform.position);
             if (attackCoolTime && (state == State.Idle || state == State.Walk))
             {
@@ -366,47 +363,19 @@ public class Monster : MonoBehaviour
                     state |= State.Rotation | State.Attack;
                     SetDestinationDirection(target.transform);
 
-                    if (targetDistance < 6.5f)     // 밟기 공격
-                    {
-                        if (Random.value <= 0.7f)
-                            attackType = MONSTER_ATTACK_TYPE.Stomp;
-                        else
-                            attackType = MONSTER_ATTACK_TYPE.Swipe;
-                        
-                    }
-                    else if (targetDistance < 8.5f)     // 할퀴기 공격
-                    {
-                        if (Random.value <= 0.7f)
-                            attackType = MONSTER_ATTACK_TYPE.Swipe;
-                        else
-                            attackType = MONSTER_ATTACK_TYPE.Roar;
-                    }
-                    else if (targetDistance < 16)
-                    {
-                        if (Random.value <= 0.7f)
-                            attackType = MONSTER_ATTACK_TYPE.JumpAttack;
-                        else
-                            attackType = MONSTER_ATTACK_TYPE.Roar;
-                    }
-                    else        //if (20 < targetDistance && targetDistance < 25) // 원거리 공격
-                    {
-                        if (Random.value <= 0.4f)
-                            attackType = MONSTER_ATTACK_TYPE.Roar;
-                        else
-                            attackType = MONSTER_ATTACK_TYPE.Throw;
-                    }
+                    randomValue = Random.value;
+                    DecideAttackType(targetDistance, randomValue);
                 }
-                else        // 너무 멀어서 추격
+                else                        // 타겟과의 거리가 25f 이상일때 너무 멀어서 추격
                 {
                     state |= State.Walk;
                 }
             }
-            else if(!attackCoolTime)        // 스킬 쿨일때
+            else if(!attackCoolTime)        // 스킬 쿨타임일때 추격
             {
                 state |= State.Walk;
             }
-            if (DebugMode)
-                Debug.Log("현재 공격 타입 : " + attackType);
+
             if (state == State.Attack) // 
             {
                 //Debug.Log("밟기 공격 시작 현재 상태 : " + state);
@@ -435,23 +404,32 @@ public class Monster : MonoBehaviour
                 }
                 state &= ~State.Attack;
 
-                yield return new WaitForSecondsRealtime(1f);
-                if (Random.value < 0.7f)
+                yield return new WaitForSecondsRealtime(Random.Range(0.3f,0.9f));
+
+                randomValue = Random.value;
+                if (randomValue < 0.2f)
                     yield return StartCoroutine(WaitForAnimation("Flexing Muscle", 1f));
+                else if(randomValue < 0.4f)
+                    yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
+                
             }
 
-            if(state.HasFlag(State.Walk))
+            if(state.HasFlag(State.Walk))   // 걷기 상태 ON이면
             {
-                if (targetDistance > 7f)
+                if (targetDistance > 7f)    // 타겟과 거리가 7f 초과일때 추적하기
                 {
                     ChaseTarget();
                 }
-                else
+                else                        // 타겟과 거리가 7f 이하일때 걷기 X
                 {
                     state &= ~State.Walk;
                     animator.SetBool("Walk", false);
-                    if(Random.value < 0.7f)
+
+                    randomValue = Random.value;
+                    if (randomValue < 0.2f)
                         yield return StartCoroutine(WaitForAnimation("Flexing Muscle", 1f));
+                    else if (randomValue < 0.4f)
+                        yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
                 }
             }
 
@@ -490,14 +468,47 @@ public class Monster : MonoBehaviour
         targetD = new Vector3(targetD.x, 0, targetD.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetD.normalized), 2f * Time.deltaTime);
 
-        transform.Translate(targetD * moveSpeed * Time.deltaTime, Space.World);
-
+        transform.Translate(targetD * moveSpeed * Time.deltaTime, Space.World); // 타겟쪽으로 이동
     }
+
+    MONSTER_ATTACK_TYPE DecideAttackType(float targetDistance, float randomValue)
+    {
+        if (targetDistance < 6.5f)     // 밟기 공격
+        {
+            if (randomValue <= 0.7f)
+                return attackType = MONSTER_ATTACK_TYPE.Stomp;
+            else
+                return attackType = MONSTER_ATTACK_TYPE.Swipe;
+
+        }
+        else if (targetDistance < 8.5f)     // 할퀴기 공격
+        {
+            if (randomValue <= 0.7f)
+                return attackType = MONSTER_ATTACK_TYPE.Swipe;
+            else
+                return attackType = MONSTER_ATTACK_TYPE.Roar;
+        }
+        else if (randomValue < 16)
+        {
+            if (randomValue <= 0.7f)
+                return attackType = MONSTER_ATTACK_TYPE.JumpAttack;
+            else
+                return attackType = MONSTER_ATTACK_TYPE.Roar;
+        }
+        else        //if (20 < targetDistance && targetDistance < 25) // 원거리 공격
+        {
+            if (randomValue <= 0.4f)
+                return attackType = MONSTER_ATTACK_TYPE.Roar;
+            else
+                return attackType = MONSTER_ATTACK_TYPE.Throw;
+        }
+    }
+
     float targetOutTime = 0;
     bool CheckTargetIsInArea()          
     {
         NavMeshHit hit;
-        if (!NavMesh.SamplePosition(target.transform.position, out hit, 2.0f, NavMesh.AllAreas)) // 캐릭터가 보스영역이 아니라면       // 타겟이 보스영역 밖으로 나갔을때 
+        if (!NavMesh.SamplePosition(target.transform.position, out hit, 2.0f, NavMesh.AllAreas))    // 타겟이 보스영역 밖으로 나갔을때 
         {
             targetOutTime += Time.deltaTime;
 
@@ -511,9 +522,9 @@ public class Monster : MonoBehaviour
         {
             targetOutTime = 0;
         }
-        
         return false;
     }
+    
     #region 애니메이션 이벤트
     Projectile projectile;
     Vector3 momentTargetPosition;
