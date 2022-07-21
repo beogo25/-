@@ -257,6 +257,10 @@ public class Player : MonoBehaviour
         {
             movementSpeed = 0;
         }
+        if(collision.gameObject.layer == LayerMask.NameToLayer("HitAble"))
+        {
+            Debug.Log("플레이어가 콜라이더에 맞았습니다");
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -345,5 +349,6 @@ public class Player : MonoBehaviour
             yield return colorDelay;
         }
     }
+   
 }
 
