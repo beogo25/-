@@ -28,6 +28,7 @@ public class MainCanvas : MonoBehaviour
         {
             if(Input.GetButtonDown("Start"))
             {
+                GameManager.instance.eventSystem.SetSelectedGameObject(menuUI.transform.GetChild(0).gameObject);
                 menuUI.SetActive(true);
                 blur.SetActive(true);
                 player.talkState = true;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6471,7 +6471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contents: {fileID: 40251873}
-  contentsPrifab: {fileID: 3627865762858412754, guid: f6e0785d839f3fd4f87897c7dec112b5, type: 3}
+  contentsPrefab: {fileID: 0}
   resultImage: {fileID: 377366672}
   materialAImage: {fileID: 720347034}
   materialBImage: {fileID: 1585036554}
@@ -9991,6 +9991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ratio: 0
+  eventSystem: {fileID: 0}
 --- !u!4 &246847917
 Transform:
   m_ObjectHideFlags: 0
@@ -27033,7 +27034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contents: {fileID: 2062793067}
-  contentsPrifab: {fileID: 3627865762858412754, guid: f6e0785d839f3fd4f87897c7dec112b5, type: 3}
+  contentsPrefab: {fileID: 0}
   resultImage: {fileID: 2053538976}
   materialAImage: {fileID: 461556920}
   materialBImage: {fileID: 1231379117}
@@ -39882,15 +39883,16 @@ MonoBehaviour:
   standing: {fileID: 1612668208}
   nameTMP: {fileID: 1375727065}
   talkTMP: {fileID: 2072535730}
-  useItemWarehouseButton: {fileID: 1530689311}
-  equipmentItemWarehouseButton: {fileID: 645658231}
-  materialItemWarehouseButton: {fileID: 1730827367}
-  useItemConbinationButton: {fileID: 2040241006}
-  equipmentItemConbinationButton: {fileID: 77048029}
-  shopButton: {fileID: 1563846576}
-  exitButton: {fileID: 2035790598}
-  questButton: {fileID: 2032215058}
-  blur: {fileID: 1210808307}
+  UIButton:
+  - {fileID: 1530689311}
+  - {fileID: 645658231}
+  - {fileID: 1730827367}
+  - {fileID: 2040241006}
+  - {fileID: 77048029}
+  - {fileID: 1563846576}
+  - {fileID: 2032215058}
+  - {fileID: 2035790598}
+  - {fileID: 1210808307}
   player: {fileID: 7403399901721776766}
 --- !u!4 &1075116279
 Transform:

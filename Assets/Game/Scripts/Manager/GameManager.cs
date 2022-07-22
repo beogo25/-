@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameManager : Singleton<GameManager>
 {
-    private int setWidth    = 1920;
-    private int deviceWidth = Screen.width;
-    public  float ratio;
+    private int         setWidth    = 1920;
+    private int         deviceWidth = Screen.width;
+    public  float       ratio;
+    public  EventSystem eventSystem;
 
     public override void Awake()
     {
