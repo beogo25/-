@@ -167,8 +167,8 @@ public class InventoryManager : Singleton<InventoryManager>
         if (target.equipmentType == EquipmentType.WEAPON)
         {
             status.Atk += target.equipmentValue;
-            //weaponRender.materials[0]=DataManager.instance.weaponDataDic[target.itemName].weaponMaterial;
-            //weaponRender.sharedMesh = DataManager.instance.weaponDataDic[target.itemName].weaponMesh;
+            weaponRender.materials[0]=DataManager.instance.weaponDataDic[target.itemName].weaponMaterial;
+            weaponRender.sharedMesh = DataManager.instance.weaponDataDic[target.itemName].weaponMesh;
         }
         else
             status.Def += target.equipmentValue;
@@ -180,8 +180,8 @@ public class InventoryManager : Singleton<InventoryManager>
         if (target == EquipmentType.WEAPON)
         {
             status.Atk -= equipmentList[(int)target].equipmentValue;
-            //weaponRender.materials[0] = DataManager.instance.weaponDataDic[""].weaponMaterial;
-            //weaponRender.sharedMesh = DataManager.instance.weaponDataDic[""].weaponMesh;
+            weaponRender.materials[0] = DataManager.instance.weaponDataDic[""].weaponMaterial;
+            weaponRender.sharedMesh = DataManager.instance.weaponDataDic[""].weaponMesh;
         }
         else
             status.Def -= equipmentList[(int)target].equipmentValue;

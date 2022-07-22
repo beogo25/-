@@ -20,8 +20,8 @@ public class EquipmentInventoryUI : WarehouseUI
             else
             {
                 slots[i].image.color = Color.white;
-                slots[i].image.sprite = WarehouseManager.instance.equipmentList[i].sprite;
-                slots[i].stack.text = WarehouseManager.instance.equipmentList[i].itemName;
+                slots[i].image.sprite = InventoryManager.instance.equipmentList[i].sprite;
+                slots[i].stack.text = InventoryManager.instance.equipmentList[i].itemName;
                 slots[i].button.interactable = true;
             }
         }

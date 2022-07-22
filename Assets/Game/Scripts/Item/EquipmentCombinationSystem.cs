@@ -76,15 +76,15 @@ public class EquipmentCombinationSystem : MonoBehaviour
             if (GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
                 GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         }
-    //    if(equipmentItem.equipmentType==EquipmentType.WEAPON)
-    //    {
-    //        weaponMesh.mesh = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMesh;
-    //        weaponRenderer.materials[0] = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMaterial;
-    //    }
-    //    else
-    //    {
-    //        weaponMesh.mesh = null;
-    //    }
+        if(equipmentItem.equipmentType==EquipmentType.WEAPON)
+        {
+            weaponMesh.mesh = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMesh;
+            weaponRenderer.materials[0] = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMaterial;
+        }
+        else
+        {
+            weaponMesh.mesh = null;
+        }
     }
 
     public void Combination()
