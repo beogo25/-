@@ -4,69 +4,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-[System.Serializable]
-public class MaterialData
-{
-    public List<string> itemname        = new List<string>();
-    public List<string> contents        = new List<string>();
-    public List<int>    value           = new List<int>();
-    public List<int>    imageNum        = new List<int>();
-}
-
-[System.Serializable]
-public class EquipmentData
-{
-    public List<string> itemname        = new List<string>();
-    public List<string> contents        = new List<string>();
-    public List<int>    value           = new List<int>();
-    public List<int>    imageNum        = new List<int>();
-    public List<int>    itemtype        = new List<int>();
-    public List<int>    equipmentValue  = new List<int>();
-}                                       
-                                        
-[System.Serializable]                   
-public class UseItemData                
-{                                       
-    public List<string> itemname        = new List<string>();
-    public List<string> contents        = new List<string>();
-    public List<int>    value           = new List<int>();
-    public List<int>    imageNum        = new List<int>();
-    public List<int>    itemtype        = new List<int>();
-    public List<int>    effectValue     = new List<int>();
-    public List<int>    maxStack        = new List<int>();
-    public List<int>    useItemType     = new List<int>();
-}                                       
-                                        
-[System.Serializable]                   
-public class UseItemRecipeData          
-{                                       
-    public List<string> materialA       = new List<string>();
-    public List<string> materialB       = new List<string>();
-    public List<string> result          = new List<string>();
-}                                       
-                                        
-[System.Serializable]                   
-public class EquipmentItemRecipeData    
-{                                       
-    public List<string> materialA       = new List<string>();
-    public List<int>    numA            = new List<int>();
-    public List<string> materialB       = new List<string>();
-    public List<int>    numB            = new List<int>();
-    public List<int>    gold            = new List<int>();
-    public List<string> result          = new List<string>();
-}
-
-[System.Serializable]
-public class QuestData
-{
-    public List<int>    targetMonster   = new List<int>();
-    public List<int>    clearGold       = new List<int>();
-    public List<string> questName       = new List<string>();
-    public List<string> questContents   = new List<string>();
-    public List<int>    questDifficulty = new List<int>();
-}
-
 public class DataManager : Singleton<DataManager>
 {
     public Dictionary<string, MaterialItem>  materialsDic    = new Dictionary<string, MaterialItem>();
@@ -84,20 +21,77 @@ public class DataManager : Singleton<DataManager>
         base.Awake();
         LoadItemListData();
     }
-    /*
-    void SaveItemListData()
+    private void Update()
     {
-        itemData  = Resources.LoadAll<ScriptableMaterialItem>("Item/MaterialItem");
-        Data data = new Data();
-        for (int i = 0; i < itemData.Length; i++)
+        if(Input.GetKeyDown(KeyCode.K))
+            SaveData();
+        if(Input.GetKeyDown(KeyCode.L))
+            LoadData();
+    }
+
+    void SaveData()
+    {
+        GameSaveData saveData = new GameSaveData();
+        for(int i = 0; i < WarehouseManager.instance.equipmentList.Count; i++)
         {
-            data.itemname.Add(itemData[i].itemName);
-            data.contents.Add(itemData[i].contents);
-            data.value.Add(itemData[i].value);
-            data.imageNum.Add(int.Parse(itemData[i].sprite.name));
+            saveData.equipmentWarehouseItem.Add(WarehouseManager.instance.equipmentList[i].itemName);
         }
-        File.WriteAllText(Application.dataPath + "/Game/Resources/Json/MaterialItemJson.json", JsonUtility.ToJson(data));
-    }*/
+        for(int i = 0; i < WarehouseManager.instance.useItemList.Count; i++)
+        {
+            saveData.useItemWarehouseItem.Add(WarehouseManager.instance.useItemList[i].itemName);
+            saveData.useItemWarehouseItemNum.Add(WarehouseManager.instance.useItemList[i].stack);
+        }
+        for (int i = 0; i < WarehouseManager.instance.materialItemList.Count; i++)
+        {
+            saveData.materialWarehouseItem.Add(WarehouseManager.instance.materialItemList[i].itemName);
+            saveData.materialWarehouseItemNum.Add(WarehouseManager.instance.materialItemList[i].stack);
+        }
+        for (int i = 0; i < InventoryManager.instance.equipmentList.Length; i++)
+        {
+            if(InventoryManager.instance.equipmentList[i] !=null)
+                saveData.equipInventoryItem.Add(InventoryManager.instance.equipmentList[i].itemName);
+        }
+        for (int i = 0; i < InventoryManager.instance.useItemList.Length; i++)
+        {
+            if (InventoryManager.instance.useItemList[i] != null)
+            {
+                saveData.inventoryItem.Add(InventoryManager.instance.useItemList[i].itemName);
+                saveData.inventoryItemNum.Add(InventoryManager.instance.useItemList[i].stack);
+            }
+        }
+        saveData.gold = PlayerStatus.gold;
+        File.WriteAllText(Application.dataPath + "/Game/Resources/Json/SaveJson.json", JsonUtility.ToJson(saveData));
+    }
+
+    private void LoadData()
+    {
+        string saveData = Resources.Load<TextAsset>("Json/SaveJson").text;
+        if(saveData != null)
+        {
+            GameSaveData loadData = JsonUtility.FromJson<GameSaveData>(saveData);
+            for (int i = 0; i < loadData.equipmentWarehouseItem.Count; i++)
+                WarehouseManager.instance.AddItem(equipmentDic[loadData.equipmentWarehouseItem[i]]);
+            for (int i = 0; i < loadData.useItemWarehouseItem.Count; i++)
+            {
+                for(int j = 0; j < loadData.useItemWarehouseItemNum[i];j++)
+                    WarehouseManager.instance.AddItem(useItemDic[loadData.useItemWarehouseItem[i]]);
+            }
+            for (int i = 0; i < loadData.materialWarehouseItem.Count; i++)
+            {
+                for (int j = 0; j < loadData.materialWarehouseItemNum[i]; j++)
+                    WarehouseManager.instance.AddItem(materialsDic[loadData.materialWarehouseItem[i]]);
+            }
+            for (int i = 0; i < loadData.equipInventoryItem.Count; i++)
+            {
+                InventoryManager.instance.Equip(equipmentDic[loadData.equipInventoryItem[i]]);
+            }
+            for (int i = 0; i < loadData.inventoryItem.Count; i++)
+            {
+                for (int j = 0; j < loadData.inventoryItemNum[i]; j++)
+                    InventoryManager.instance.AddItem(useItemDic[loadData.inventoryItem[i]]);
+            }
+        }
+    }
 
     public void LoadItemListData()
     {
@@ -206,7 +200,9 @@ public class DataManager : Singleton<DataManager>
                 quest.questContents = loadData.questContents[i];
                 quest.questDifficulty = loadData.questDifficulty[i];
                 quest.clearGold = loadData.clearGold[i];
-                quest.targetMonster = loadData.targetMonster[i];
+                quest.target = loadData.target[i];
+                quest.targetNum = loadData.targetNum[i];
+                quest.collectionQuest = loadData.collectionQuest[i];
                 quest.questNum = i;
                 questList.Add(quest);
             }
@@ -224,5 +220,85 @@ public class DataManager : Singleton<DataManager>
         }
     }
 
+    [System.Serializable]
+    public class MaterialData
+    {
+        public List<string> itemname = new List<string>();
+        public List<string> contents = new List<string>();
+        public List<int> value = new List<int>();
+        public List<int> imageNum = new List<int>();
+    }
 
+    [System.Serializable]
+    public class EquipmentData
+    {
+        public List<string> itemname = new List<string>();
+        public List<string> contents = new List<string>();
+        public List<int> value = new List<int>();
+        public List<int> imageNum = new List<int>();
+        public List<int> itemtype = new List<int>();
+        public List<int> equipmentValue = new List<int>();
+    }
+
+    [System.Serializable]
+    public class UseItemData
+    {
+        public List<string> itemname = new List<string>();
+        public List<string> contents = new List<string>();
+        public List<int> value = new List<int>();
+        public List<int> imageNum = new List<int>();
+        public List<int> itemtype = new List<int>();
+        public List<int> effectValue = new List<int>();
+        public List<int> maxStack = new List<int>();
+        public List<int> useItemType = new List<int>();
+    }
+
+    [System.Serializable]
+    public class UseItemRecipeData
+    {
+        public List<string> materialA = new List<string>();
+        public List<string> materialB = new List<string>();
+        public List<string> result = new List<string>();
+    }
+
+    [System.Serializable]
+    public class EquipmentItemRecipeData
+    {
+        public List<string> materialA = new List<string>();
+        public List<int> numA = new List<int>();
+        public List<string> materialB = new List<string>();
+        public List<int> numB = new List<int>();
+        public List<int> gold = new List<int>();
+        public List<string> result = new List<string>();
+    }
+
+    [System.Serializable]
+    public class QuestData
+    {
+        public List<string> target = new List<string>();
+        public List<int> targetNum = new List<int>();
+        public List<int> clearGold = new List<int>();
+        public List<string> questName = new List<string>();
+        public List<string> questContents = new List<string>();
+        public List<int> questDifficulty = new List<int>();
+        public List<bool> collectionQuest = new List<bool>();
+    }
+
+    [System.Serializable]
+    public class GameSaveData
+    {
+        public List<string> equipmentWarehouseItem = new List<string>();
+
+        public List<string> useItemWarehouseItem = new List<string>();
+        public List<int> useItemWarehouseItemNum = new List<int>();
+
+        public List<string> materialWarehouseItem = new List<string>();
+        public List<int> materialWarehouseItemNum = new List<int>();
+
+        public List<string> equipInventoryItem = new List<string>();
+
+        public List<string> inventoryItem = new List<string>();
+        public List<int> inventoryItemNum = new List<int>();
+        public int gold;
+    }
 }

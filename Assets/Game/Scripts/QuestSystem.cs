@@ -47,6 +47,16 @@ public class QuestSystem : MonoBehaviour
         Quest quest = DataManager.instance.questList[num];
         //monsterImage = 몬스터리스트[quest.targetMonster].image
         //monsterName = 몬스터리스트[quest.targetMonster].name
+        if(quest.collectionQuest)
+        {
+            monsterImage.sprite = DataManager.instance.materialsDic[quest.target].sprite;
+            monsterName.text = quest.target+"\n 0/"+quest.targetNum.ToString();
+        }    
+        else
+        {
+            monsterImage.sprite = null;
+            monsterName.text = null;
+        }
         clearGold.text = "보상 : "+quest.clearGold.ToString()+"골드";
         questName.text = quest.questName;
         questContents.text = quest.questContents;
