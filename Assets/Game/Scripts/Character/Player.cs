@@ -86,12 +86,12 @@ public class Player : MonoBehaviour
             animator.SetBool("Dash", false);
     }
 
-    //애니메이터 트리거 체크
+    //?�니메이???�리�?체크
     IEnumerator TriggerCheck(string skillName)
     {
         if (skillName != "")
         {
-            if (skillName == "Evade" || !animator.GetBool("Land")) { }      // 구르기랑 공중일때만 빼고 Y축 고정
+            if (skillName == "Evade" || !animator.GetBool("Land")) { }      // 구르기랑 공중?�때�?빼고 Y�?고정
             else playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
 
             animator.SetTrigger(skillName);
@@ -102,10 +102,10 @@ public class Player : MonoBehaviour
         { }
     }
 
-    //캐릭터가 받는 모든 인풋
+    //캐릭?��? 받는 모든 ?�풋
     private void InputSetting()
     {
-        //임시
+        //?�시
         if (Input.GetKeyDown(KeyCode.B))
         {
             //status.PlayerHit(1, 0, Vector3.zero, AttackType.BURN);
@@ -143,7 +143,7 @@ public class Player : MonoBehaviour
             LockOn();
     }
 
-    #region 애니메이션 이벤트
+    #region ?�니메이???�벤??
     public void Jump()
     {
         characterMove.Jump();
@@ -163,21 +163,21 @@ public class Player : MonoBehaviour
         playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
         playerRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
     }
-    // 애니메이션에서 사용합니다.
+    // ?�니메이?�에???�용?�니??
     IEnumerator AttackMove(float distance)
     {
         for (int i = 0; i < 50; i++)
         {
             transform.Translate(transform.forward * distance / 50, Space.World);
             yield return new WaitForSeconds(0.0001f);
-            //if (Input.GetKey(KeyCode.S))  아마 버티컬이 -1일때 뒤로 안가게 하면 됨
+            //if (Input.GetKey(KeyCode.S))  ?�마 버티컬이 -1?�때 ?�로 ?��?�??�면 ??
             //    break;
         }
     }
     IEnumerator HitDown(float power)
     {
-        //리지드바디 넣은 다음 그라운드체크 추가하면 수정해야합니다.
-        //힘에따라 날라가는 부분도 상대방과 벡터값 체크를 해서 올바른 방향으로 날아가도록 만들어야함
+        //리�??�바???��? ?�음 그라?�드체크 추�??�면 ?�정?�야?�니??
+        //?�에?�라 ?�라가??부분도 ?��?방과 벡터�?체크�??�서 ?�바�?방향?�로 ?�아가?�록 만들?�야??
         animator.SetBool("Down", true);
         StartCoroutine(TriggerCheck("DownTrigger"));
         StartCoroutine(AttackMove(-power));
@@ -220,7 +220,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    #endregion 애니메이션 이벤트
+    #endregion ?�니메이???�벤??
 
     private void LockOn()
     {
@@ -257,10 +257,6 @@ public class Player : MonoBehaviour
         {
             movementSpeed = 0;
         }
-        if(collision.gameObject.layer == LayerMask.NameToLayer("HitAble"))
-        {
-            Debug.Log("�÷��̾ �ݶ��̴��� �¾ҽ��ϴ�");
-        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -288,7 +284,7 @@ public class Player : MonoBehaviour
             }
 
 
-        //포지션 0일때 키 입력 초기화 + 모션 초기화
+        //?��???0?�때 ???�력 초기??+ 모션 초기??
         if (moveDir == Vector3.zero)
         {
             isClickAble = true;
@@ -302,14 +298,14 @@ public class Player : MonoBehaviour
     private void CheckOnGround()
     {
         if (Time.time < jumpInputTime + 0.2f)
-            return; // 점프키 눌렀을때는 0.2초간 실행금지 (레이캐스트가 콜라이더보다 길기때문에)
+            return; // ?�프???��??�때??0.2초간 ?�행금�? (?�이캐스?��? 콜라?�더보다 길기?�문??
 
         RaycastHit ground;
         Physics.Raycast(transform.position + (transform.up * 0.1f), Vector3.down, out ground, 20f, 1 << LayerMask.NameToLayer("Ground"));
 
         if (ground.distance > 0 && ground.distance <= 0.3f)
         {
-            if (!isGround)  // 땅이 아니였다가 땅에 닿을시 "한번"만 실행되도록
+            if (!isGround)  // ?�이 ?�니?�?��? ?�에 ?�을??"?�번"�??�행?�도�?
             {
                 playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
                 playerRigidbody.velocity = Vector3.zero;
@@ -318,17 +314,17 @@ public class Player : MonoBehaviour
             }
             isGround = true;
         }
-        else if (ground.distance == 0 || ground.distance > 2f)   // 땅이 없거나 땅과의 거리가 1f 이상일때
+        else if (ground.distance == 0 || ground.distance > 2f)   // ?�이 ?�거???�과??거리가 1f ?�상?�때
         {
-            if (isGround)   // 땅이 였다가 공중일때 "한번"만 실행되도록
+            if (isGround)   // ?�이 ?�?��? 공중?�때 "?�번"�??�행?�도�?
             {
-                animator.SetBool("Land", false);    // 떨어지는 상태
+                animator.SetBool("Land", false);    // ?�어지???�태
             }
             isGround = false;
         }
     }
     
-    //성능을 많이 잡아먹어서 성능 문제시 삭제 1순위
+    //?�능??많이 ?�아먹어???�능 문제????�� 1?�위
     public IEnumerator RimLight(Color color)
     {
         for (int i = 0; i < renderers.materials.Length; i++)

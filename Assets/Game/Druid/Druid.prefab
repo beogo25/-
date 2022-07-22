@@ -4932,6 +4932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369443455724637}
   - component: {fileID: 7492369443455724636}
+  - component: {fileID: 2452528354048768644}
   m_Layer: 15
   m_Name: RightLeg
   m_TagString: Untagged
@@ -4968,6 +4969,23 @@ CapsuleCollider:
   m_Height: 1.04
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: -0.03}
+--- !u!114 &2452528354048768644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369443455724706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 500
+  damageMultiplier: 1
+  isDestructionPart: 0
+  partDestructionDamageMultiplier: 0
+  skinRenderer: {fileID: 0}
 --- !u!1 &7492369443494025538
 GameObject:
   m_ObjectHideFlags: 0
@@ -5007,7 +5025,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7492369443504207407}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: RightToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5350,7 +5368,7 @@ GameObject:
   - component: {fileID: 7492369443799281650}
   - component: {fileID: 7492369443799281645}
   m_Layer: 15
-  m_Name: GameObject (1)
+  m_Name: Right Horn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5595,7 +5613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369443905589699}
   - component: {fileID: 7492369443905589698}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5673,6 +5691,7 @@ GameObject:
   - component: {fileID: 7492369443916044784}
   - component: {fileID: 7492369443916044790}
   - component: {fileID: 7492369443916044791}
+  - component: {fileID: 25197887104667843}
   m_Layer: 15
   m_Name: Druid
   m_TagString: Untagged
@@ -5734,6 +5753,7 @@ MonoBehaviour:
   throwingObject:
   - {fileID: 100000, guid: a2d308598386f4a0797f87a4b95b9dd1, type: 3}
   - {fileID: 3496844622147120139, guid: e64b3e40ab2f4d9428638518e02c5969, type: 3}
+  hitablePart: []
   rightHand: {fileID: 7492369445154528333}
   attackParticle: {fileID: 2383987587459901927}
 --- !u!54 &7492369443916044791
@@ -5752,6 +5772,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &25197887104667843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369443916044789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c63292751f60e4082a1b0b517edbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyCollider: []
 --- !u!1 &7492369443931329253
 GameObject:
   m_ObjectHideFlags: 0
@@ -5914,7 +5947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7492369444032645690}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: LeftToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5977,8 +6010,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369444069871376}
   - component: {fileID: 7492369444069871379}
+  - component: {fileID: 9157762971473105482}
   m_Layer: 15
-  m_Name: GameObject
+  m_Name: Left Horn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6011,6 +6045,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.2, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9157762971473105482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369444069871377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 100
+  damageMultiplier: 1.5
+  isDestructionPart: 1
+  partDestructionDamageMultiplier: 2
+  skinRenderer: {fileID: 7492369444380825588}
 --- !u!1 &7492369444071076365
 GameObject:
   m_ObjectHideFlags: 0
@@ -6174,6 +6225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369444143288015}
   - component: {fileID: 7492369444143288014}
+  - component: {fileID: 7086672468151149669}
   m_Layer: 15
   m_Name: RightForeArm
   m_TagString: Untagged
@@ -6210,6 +6262,23 @@ CapsuleCollider:
   m_Height: 0.58
   m_Direction: 0
   m_Center: {x: -0.06, y: 0, z: 0}
+--- !u!114 &7086672468151149669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369444143288012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 200
+  damageMultiplier: 1
+  isDestructionPart: 0
+  partDestructionDamageMultiplier: 0
+  skinRenderer: {fileID: 0}
 --- !u!1 &7492369444280463115
 GameObject:
   m_ObjectHideFlags: 0
@@ -6251,6 +6320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369444290495478}
   - component: {fileID: 7492369444290495473}
+  - component: {fileID: 7427239895369946856}
   m_Layer: 15
   m_Name: Head
   m_TagString: Untagged
@@ -6290,6 +6360,23 @@ CapsuleCollider:
   m_Height: 0
   m_Direction: 0
   m_Center: {x: 0, y: 0.18, z: -0.06}
+--- !u!114 &7427239895369946856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369444290495479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 150
+  damageMultiplier: 1.7
+  isDestructionPart: 0
+  partDestructionDamageMultiplier: 0
+  skinRenderer: {fileID: 0}
 --- !u!1 &7492369444350134905
 GameObject:
   m_ObjectHideFlags: 0
@@ -6331,7 +6418,7 @@ GameObject:
   - component: {fileID: 7492369444380825589}
   - component: {fileID: 7492369444380825588}
   m_Layer: 15
-  m_Name: Druid Horn
+  m_Name: Druid Right Horn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6469,7 +6556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7492369444394955816}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: RightToe_End_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6564,7 +6651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369444500158307}
   - component: {fileID: 7492369444500158306}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6702,6 +6789,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369444703050802}
   - component: {fileID: 7492369444703050797}
+  - component: {fileID: 5032174696586768304}
   m_Layer: 15
   m_Name: LeftForeArm
   m_TagString: Untagged
@@ -6738,6 +6826,23 @@ CapsuleCollider:
   m_Height: 0.58
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5032174696586768304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369444703050803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 200
+  damageMultiplier: 1
+  isDestructionPart: 0
+  partDestructionDamageMultiplier: 0
+  skinRenderer: {fileID: 0}
 --- !u!1 &7492369444749329289
 GameObject:
   m_ObjectHideFlags: 0
@@ -6747,7 +6852,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7492369444749329288}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: RightToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6778,7 +6883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7492369444796259071}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: LeftToe_End_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7071,7 +7176,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7492369444931589777}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: LeftToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7103,6 +7208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369444940950804}
   - component: {fileID: 7492369444940950807}
+  - component: {fileID: 9127954195380188913}
   m_Layer: 15
   m_Name: LeftHand
   m_TagString: Untagged
@@ -7142,6 +7248,23 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 0
   m_Center: {x: -0.26, y: 0, z: 0}
+--- !u!114 &9127954195380188913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369444940950805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 200
+  damageMultiplier: 1.2
+  isDestructionPart: 1
+  partDestructionDamageMultiplier: 1.5
+  skinRenderer: {fileID: 0}
 --- !u!1 &7492369444962952257
 GameObject:
   m_ObjectHideFlags: 0
@@ -7460,6 +7583,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369445154528333}
   - component: {fileID: 7492369445154528332}
+  - component: {fileID: 6316622439501749529}
   m_Layer: 15
   m_Name: RightHand
   m_TagString: Untagged
@@ -7500,6 +7624,23 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 0
   m_Center: {x: 0.21, y: 0, z: 0}
+--- !u!114 &6316622439501749529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369445154528338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 200
+  damageMultiplier: 1
+  isDestructionPart: 0
+  partDestructionDamageMultiplier: 0
+  skinRenderer: {fileID: 0}
 --- !u!1 &7492369445160785790
 GameObject:
   m_ObjectHideFlags: 0
@@ -7510,6 +7651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369445160785785}
   - component: {fileID: 7492369445160785784}
+  - component: {fileID: 593241424}
   m_Layer: 15
   m_Name: LeftLeg
   m_TagString: Untagged
@@ -7546,6 +7688,23 @@ CapsuleCollider:
   m_Height: 1.04
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: -0.03}
+--- !u!114 &593241424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369445160785790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 500
+  damageMultiplier: 1
+  isDestructionPart: 0
+  partDestructionDamageMultiplier: 0
+  skinRenderer: {fileID: 0}
 --- !u!1 &7492369445316081379
 GameObject:
   m_ObjectHideFlags: 0

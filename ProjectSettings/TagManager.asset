@@ -17,14 +17,13 @@ TagManager:
   - Wall
   - miniMap
   - Map
-  - 
+  - Character
   - 
   - Npc
   - Collective
   - HitAble
   - TempWeapon
   - MonsterFoot
-  - 
   - 
   - 
   - 

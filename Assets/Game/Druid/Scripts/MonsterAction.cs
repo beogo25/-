@@ -8,33 +8,34 @@ public enum MONSTER_BEHAVIOR_STATE
     SerchingTarget,
     InBattle,
 }
-public enum MONSTER_ATTACK_TYPE
-{
-    Stomp,
-    Swipe,
-    JumpAttack,
-    Roar,
-    Throw
-}
 
+public enum MONSTER_STATE
+{
+    Idle = 0,
+    Walk = 1 << 0,
+    Rotation = 1 << 1,
+    Attack = 1 << 2,
+
+    All = Walk | Rotation | Attack,
+}
 public class MonsterAction : MonoBehaviour
 {
-    private enum State
+    private enum MONSTER_ATTACK_TYPE
     {
-        Idle = 0,
-        Walk = 1 << 0,
-        Rotation = 1 << 1,
-        Attack = 1 << 2,
-
-        All = Walk | Rotation | Attack,
+        Stomp,
+        Swipe,
+        JumpAttack,
+        Roar,
+        Throw
     }
     private MONSTER_BEHAVIOR_STATE behaviorState;
-    private State state = State.Idle;
+    private MONSTER_STATE state = MONSTER_STATE.Idle;
 
     private Collider target;
     private Animator animator;
     private Rigidbody monsterRigidbody;
     
+
     [SerializeField] private Transform moveDestination;
     private bool randomAnimationCoolTime = false;
     private float moveSpeed = 3;
@@ -47,6 +48,7 @@ public class MonsterAction : MonoBehaviour
 
     [Header("전투관련"), Space(10)]
     [SerializeField] private GameObject[] throwingObject;
+    [SerializeField] private MonsterHitablePart[] hitablePart;  // 부위별 정보
     [SerializeField] private Transform  rightHand;
     [SerializeField] private GameObject attackParticle;
     void Start()
@@ -115,12 +117,13 @@ public class MonsterAction : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             DebugMode = !DebugMode;
-            
+            momentTargetPosition = Vector3.zero;
+            StartCoroutine(WaitForAnimation("Throw", 1f, true));
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
             //Debug.Log("랜덤밸루 : " + Random.value);
-            //state |= State.Attack;
+            //state |= MONSTER_STATE.Attack;
             //animator.SetTrigger("Roar");
             
         }
@@ -139,9 +142,9 @@ public class MonsterAction : MonoBehaviour
             switch (serchingTargetState)
             {
                 case SerchingTargetState.Rotation:
-                    if (state == State.Idle)         // Rotation상태로 만들어줌 (상태가 바뀌었을때 한번만 실행되도록) 
+                    if (state == MONSTER_STATE.Idle)         // Rotation상태로 만들어줌 (상태가 바뀌었을때 한번만 실행되도록) 
                     {
-                        state |= State.Rotation;
+                        state |= MONSTER_STATE.Rotation;
                         targetRotation = SetDestinationDirection(moveDestination);
                     }
                     
@@ -159,8 +162,8 @@ public class MonsterAction : MonoBehaviour
                         monsterRigidbody.velocity = Vector3.zero;
                         if (CreateRandomDestination(moveDestination.position, 20f))
                         {
-                            state &= ~State.Walk;
-                            animator.SetBool("Walk", state.HasFlag(State.Walk));
+                            state &= ~MONSTER_STATE.Walk;
+                            animator.SetBool("Walk", state.HasFlag(MONSTER_STATE.Walk));
 
                             yield return new WaitForSecondsRealtime(Random.Range(0.3f, 1.3f));  // 도착했을때 잠깐 대기시간 부여
                             serchingTargetState = SerchingTargetState.Rotation;
@@ -168,13 +171,13 @@ public class MonsterAction : MonoBehaviour
                     }
                     else
                     {
-                        if (state == State.Idle)
+                        if (state == MONSTER_STATE.Idle)
                         {
-                            state |= State.Walk;
-                            animator.SetBool("Walk", state.HasFlag(State.Walk));
+                            state |= MONSTER_STATE.Walk;
+                            animator.SetBool("Walk", state.HasFlag(MONSTER_STATE.Walk));
                         }
 
-                        if (state.HasFlag(State.Walk))
+                        if (state.HasFlag(MONSTER_STATE.Walk))
                             transform.Translate(transform.forward * moveSpeed * Time.deltaTime, Space.World);
 
                         if (randomAnimationCoolTime)
@@ -208,7 +211,7 @@ public class MonsterAction : MonoBehaviour
         Debug.Log("각도차이 : " + angleDifference);
         if (angleDifference >= angleLimit)
         {
-            state &= ~State.Rotation;
+            state &= ~MONSTER_STATE.Rotation;
             return targetRotation;
         }
 
@@ -269,7 +272,7 @@ public class MonsterAction : MonoBehaviour
             transform.Rotate(new Vector3(0, (targetAngle / (exitTime / 0.01f)), 0), Space.Self);
             yield return new WaitForSecondsRealtime(0.01f); ;
         }
-        state &= ~State.Rotation;
+        state &= ~MONSTER_STATE.Rotation;
         animator.SetInteger("Rotation", 0);
         //Debug.Log("로테이션 끝나고 값 : " + state);
     }
@@ -353,30 +356,31 @@ public class MonsterAction : MonoBehaviour
         while (true)
         {
             targetDistance = Vector3.Distance(transform.position, target.transform.position);
-            if (attackCoolTime && (state == State.Idle || state == State.Walk))
+            if (attackCoolTime && (state == MONSTER_STATE.Idle || state == MONSTER_STATE.Walk))
             {
                 //Debug.Log("타겟과의 거리 : " + targetDistance);
                 if (targetDistance < 25)
                 {
-                    state &= ~State.Walk;
+                    state &= ~MONSTER_STATE.Walk;
                     animator.SetBool("Walk", false);
-                    state |= State.Rotation | State.Attack;
+                    state |= MONSTER_STATE.Rotation | MONSTER_STATE.Attack;
                     SetDestinationDirection(target.transform);
 
                     randomValue = Random.value;
-                    DecideAttackType(targetDistance, randomValue);
+                    attackType = DecideAttackType(targetDistance, randomValue);
+                    Debug.Log("attackType : " + attackType);
                 }
                 else                        // 타겟과의 거리가 25f 이상일때 너무 멀어서 추격
                 {
-                    state |= State.Walk;
+                    state |= MONSTER_STATE.Walk;
                 }
             }
             else if(!attackCoolTime)        // 스킬 쿨타임일때 추격
             {
-                state |= State.Walk;
+                state |= MONSTER_STATE.Walk;
             }
 
-            if (state == State.Attack) // 
+            if (state == MONSTER_STATE.Attack) // 
             {
                 //Debug.Log("밟기 공격 시작 현재 상태 : " + state);
                 switch (attackType)
@@ -402,19 +406,19 @@ public class MonsterAction : MonoBehaviour
                         yield return StartCoroutine(WaitForAnimation("Throw",1f,true));
                         break;
                 }
-                state &= ~State.Attack;
+                state &= ~MONSTER_STATE.Attack;
 
                 yield return new WaitForSecondsRealtime(Random.Range(0.3f,0.9f));
 
                 randomValue = Random.value;
-                if (randomValue < 0.2f)
+                if (randomValue < 0.3f)
                     yield return StartCoroutine(WaitForAnimation("Flexing Muscle", 1f));
                 else if(randomValue < 0.4f)
                     yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
                 
             }
 
-            if(state.HasFlag(State.Walk))   // 걷기 상태 ON이면
+            if(state.HasFlag(MONSTER_STATE.Walk))   // 걷기 상태 ON이면
             {
                 if (targetDistance > 7f)    // 타겟과 거리가 7f 초과일때 추적하기
                 {
@@ -422,7 +426,7 @@ public class MonsterAction : MonoBehaviour
                 }
                 else                        // 타겟과 거리가 7f 이하일때 걷기 X
                 {
-                    state &= ~State.Walk;
+                    state &= ~MONSTER_STATE.Walk;
                     animator.SetBool("Walk", false);
 
                     randomValue = Random.value;
@@ -440,9 +444,9 @@ public class MonsterAction : MonoBehaviour
     {
         attackCoolTime = false;
 
-        state = State.Idle;                                 
+        state = MONSTER_STATE.Idle;                                 
         animator.SetInteger("Rotation", 0);
-        animator.SetBool("Walk", state.HasFlag(State.Walk));
+        animator.SetBool("Walk", state.HasFlag(MONSTER_STATE.Walk));
 
         StartCoroutine(CoolTime(Random.Range(3f, 6f), "attackCoolTime"));   // 공격 쿨타임 돌기
         if (rotationCoroutine!=null)
@@ -473,6 +477,7 @@ public class MonsterAction : MonoBehaviour
 
     MONSTER_ATTACK_TYPE DecideAttackType(float targetDistance, float randomValue)
     {
+        Debug.Log("타겟과의 거리 : " +targetDistance);
         if (targetDistance < 6.5f)     // 밟기 공격
         {
             if (randomValue <= 0.7f)
@@ -486,11 +491,11 @@ public class MonsterAction : MonoBehaviour
             if (randomValue <= 0.7f)
                 return attackType = MONSTER_ATTACK_TYPE.Swipe;
             else
-                return attackType = MONSTER_ATTACK_TYPE.Roar;
+                return attackType = MONSTER_ATTACK_TYPE.JumpAttack;
         }
-        else if (randomValue < 16)
+        else if (targetDistance < 16)
         {
-            if (randomValue <= 0.7f)
+            if (randomValue <= 0.6f)
                 return attackType = MONSTER_ATTACK_TYPE.JumpAttack;
             else
                 return attackType = MONSTER_ATTACK_TYPE.Roar;
@@ -560,12 +565,10 @@ public class MonsterAction : MonoBehaviour
     }
     void Roar()
     {
-        Debug.Log("state : " + state);
-        if (state.HasFlag(State.Attack))
+        if (state.HasFlag(MONSTER_STATE.Attack))
         {
             attackParticle.SetActive(true);
         }
-        Debug.Log("끝 state : " + state);
     }
     #endregion 애니메이션 이벤트
 
@@ -596,7 +599,7 @@ public class MonsterAction : MonoBehaviour
         if (isAttackAni)   // 공격애니메이션의 동작이 끝났을때 
         {
             attackCoolTime = false;
-            StartCoroutine(CoolTime(Random.Range(3f, 6f), "attackCoolTime"));
+            StartCoroutine(CoolTime(Random.Range(4f, 7f), "attackCoolTime"));
         }
 
     }

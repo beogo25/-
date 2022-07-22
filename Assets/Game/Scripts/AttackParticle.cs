@@ -54,10 +54,11 @@ public class AttackParticle : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("HitAble") && attackAble)
+        if (other.GetComponent<MonsterHitablePart>() != null && attackAble)
         {
             //여기다 몬스터 데미지 입히기
-            Debug.Log(other.name + player.attackValue * attackDamagePercent);
+            //Debug.Log(other.name + player.attackValue * attackDamagePercent);
+            other.GetComponent<MonsterHitablePart>().Hit(player.attackValue * attackDamagePercent);
             attackAble = false;
             if (hitEffect.Length > 0)
             {
