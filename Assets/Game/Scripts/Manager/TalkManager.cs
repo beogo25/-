@@ -107,15 +107,6 @@ public class TalkManager : Singleton<TalkManager>
 
     public void ExitButton()
     {
-        //exitButton.SetActive(false);
-        //shopButton.SetActive(false);
-        //questButton.SetActive(false);
-        //equipmentItemConbinationButton.SetActive(false);
-        //useItemConbinationButton.SetActive(false);
-        //useItemWarehouseButton.SetActive(false);
-        //materialItemWarehouseButton.SetActive(false);
-        //equipmentItemWarehouseButton.SetActive(false);
-        //blur.SetActive(false);
         for(int i = 0; i < UIButton.Length; i++)
             UIButton[i].SetActive(false);
         talkUI.SetActive(false);

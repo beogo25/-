@@ -6,7 +6,7 @@ using TMPro;
 
 public class OrderQuestUI : MonoBehaviour
 {
-    public Image monsterImage;
+    public Image           monsterImage;
     public TextMeshProUGUI monsterName;
     public TextMeshProUGUI clearGold;
     public TextMeshProUGUI questName;

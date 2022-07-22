@@ -31,9 +31,13 @@ public class InventoryUI : WarehouseUI
     {
         itemInformation.Item = InventoryManager.instance.useItemList[num];
         if (warehouseCheck)
+        {
             itemInformation.ButtonSet(false);
+        }
         else
+        {
             itemInformation.ButtonSet();
+        }
         itemInformation.targetNum = num;
     }
     public void WarehouseCheck(bool input)

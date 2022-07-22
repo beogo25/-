@@ -6,14 +6,18 @@ using TMPro;
 
 public class ItemInformationSystem : MonoBehaviour
 {
-    private Item item;
-    public TextMeshProUGUI itemName;
-    public TextMeshProUGUI contents;
-    public TextMeshProUGUI stack;
-    public Image image;
+    private Item            item;
+    public  TextMeshProUGUI itemName;
+    public  TextMeshProUGUI contents;
+    public  TextMeshProUGUI stack;
+    public  Image           image;
 
-    public GameObject outWarehouseButton;
-    public GameObject outInventoryButton;
+    public  GameObject      outWarehouseButton;
+    public  GameObject      outInventoryButton;
+    public  GameObject      afterItemWareHouseButton;
+    public  GameObject      afterEquipmentWareHouseButton;
+    public  GameObject      afterItemInventoryButton;
+    public  GameObject      afterEquipmentInventoryButton;
    
 
     public int targetNum;
@@ -65,12 +69,14 @@ public class ItemInformationSystem : MonoBehaviour
     {
         if (warehouseBool)
         {
+            Debug.Log("true");
             outWarehouseButton.SetActive(true);
             GameManager.instance.eventSystem.SetSelectedGameObject(outWarehouseButton);
             outInventoryButton.SetActive(false);
         }
         else
         {
+            Debug.Log("false");
             outWarehouseButton.SetActive(false);
             outInventoryButton.SetActive(true);
             GameManager.instance.eventSystem.SetSelectedGameObject(outInventoryButton);
@@ -85,12 +91,16 @@ public class ItemInformationSystem : MonoBehaviour
                 if(InventoryManager.instance.AddItem(DataManager.instance.useItemDic[Item.itemName]))
                 {
                     if (WarehouseManager.instance.useItemList[targetNum].stack == 1)
+                    {
                         outWarehouseButton.SetActive(false);
+                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                    }
                     WarehouseManager.instance.MinusItem(targetNum, ItemType.USEITEM);
                 }
                 break;
             case ItemType.EQUIPMENT:
                 outWarehouseButton.SetActive(false);
+                GameManager.instance.eventSystem.SetSelectedGameObject(afterEquipmentWareHouseButton);
                 InventoryManager.instance.Equip(((EquipmentItem)item));
                 WarehouseManager.instance.MinusItem(targetNum, ItemType.EQUIPMENT);
                 break;
@@ -104,12 +114,16 @@ public class ItemInformationSystem : MonoBehaviour
         {
             case ItemType.USEITEM:
                 if (InventoryManager.instance.useItemList[targetNum].stack == 1)
+                {
                     outInventoryButton.SetActive(false);
+                    GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
+                }
                 InventoryManager.instance.MinusItem(targetNum, 1);
                 WarehouseManager.instance.AddItem(DataManager.instance.useItemDic[Item.itemName]);
                 break;
             case ItemType.EQUIPMENT:
                 outInventoryButton.SetActive(false);
+                GameManager.instance.eventSystem.SetSelectedGameObject(afterEquipmentInventoryButton);
                 InventoryManager.instance.UnEquip(((EquipmentItem)item).equipmentType);
                 break;
             default:
