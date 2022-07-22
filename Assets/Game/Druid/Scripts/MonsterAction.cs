@@ -58,22 +58,22 @@ public class MonsterAction : MonoBehaviour
         
         StartCoroutine(CoolTime(Random.Range(10f, 20f),"RandomAnimation"));
         behaviorState = MONSTER_BEHAVIOR_STATE.SerchingTarget;
-        StartCoroutine(behaviorState.ToString());
+        //StartCoroutine(behaviorState.ToString());
     }
     private void Update()
     {
-        if (behaviorState == MONSTER_BEHAVIOR_STATE.SerchingTarget && target == null)
-        {
-            if (FindTarget())
-            {
-                ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
-            }
-        }
-        else if (behaviorState == MONSTER_BEHAVIOR_STATE.InBattle && target != null)
-        {
-            if (CheckTargetIsInArea())
-                ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
-        }
+        //if (behaviorState == MONSTER_BEHAVIOR_STATE.SerchingTarget && target == null)
+        //{
+        //    if (FindTarget())
+        //    {
+        //        ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
+        //    }
+        //}
+        //else if (behaviorState == MONSTER_BEHAVIOR_STATE.InBattle && target != null)
+        //{
+        //    if (CheckTargetIsInArea())
+        //        ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
+        //}
 
 
 
@@ -208,7 +208,6 @@ public class MonsterAction : MonoBehaviour
         dir = new Vector3(dir.x, 0, dir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
         targetRotation = Quaternion.LookRotation(dir.normalized);   // 내가 바라볼 방향
         float angleDifference = Quaternion.Angle(transform.rotation, targetRotation);   // 내 방향과 목표 방향의 각도차이
-        Debug.Log("각도차이 : " + angleDifference);
         if (angleDifference >= angleLimit)
         {
             state &= ~MONSTER_STATE.Rotation;
@@ -263,7 +262,6 @@ public class MonsterAction : MonoBehaviour
 
         float playTime = 0f;
         float exitTime = animator.GetCurrentAnimatorStateInfo(0).length;
-        Debug.Log("TartgetAngle : " + targetAngle);
         exitTime = exitTime * 0.30f;                        // 현재 실행된 회전 애니메이션의 30%시간동안 코루틴 실행(회전하는 모습이 어색하지 않도록)
         
         while (playTime < exitTime)
@@ -367,8 +365,7 @@ public class MonsterAction : MonoBehaviour
                     SetDestinationDirection(target.transform);
 
                     randomValue = Random.value;
-                    attackType = DecideAttackType(targetDistance, randomValue);
-                    Debug.Log("attackType : " + attackType);
+                    attackType = DecideAttackType(targetDistance, randomValue);                    
                 }
                 else                        // 타겟과의 거리가 25f 이상일때 너무 멀어서 추격
                 {
@@ -477,7 +474,7 @@ public class MonsterAction : MonoBehaviour
 
     MONSTER_ATTACK_TYPE DecideAttackType(float targetDistance, float randomValue)
     {
-        Debug.Log("타겟과의 거리 : " +targetDistance);
+        //Debug.Log("타겟과의 거리 : " +targetDistance);
         if (targetDistance < 6.5f)     // 밟기 공격
         {
             if (randomValue <= 0.7f)

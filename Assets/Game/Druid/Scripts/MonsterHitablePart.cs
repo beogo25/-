@@ -19,7 +19,7 @@ public class MonsterHitablePart : MonoBehaviour
         set 
         { 
             currentHp = value;
-
+            Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp);
             if (currentHp <= 0)
             {
                 currentHp = 0;
@@ -37,12 +37,13 @@ public class MonsterHitablePart : MonoBehaviour
     {
         player = FindObjectOfType<PlayerStatus>();
         monster = FindObjectOfType<MonsterStatus>();
-        currentHp = maxhp;
+        Hp = maxhp;
     }
     public void Hit(float damage)
     {
-        currentHp -= damage * damageMultiplier;
+        Hp -= damage * damageMultiplier;
         monster.Hp -= damage * damageMultiplier;
+        //Debug.Log("hit 실행" +  damage * damageMultiplier);
     }
     public void OnCollisionEnter(Collision collision)
     {
