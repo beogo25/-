@@ -11,13 +11,17 @@ public class UseItemWarehouseUI : WarehouseUI
         itemInformation.Item = WarehouseManager.instance.useItemList[num];
         base.ItemInformationChange(num);
     }
-    public override void Refresh()
+    public override void OnEnable()
     {
-        if (itemInventorySlot.interactable == false)
+        base.OnEnable();
+        if (itemInventorySlot.interactable == true)
             GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
         else
             GameManager.instance.eventSystem.SetSelectedGameObject(itemInventorySlot.transform.gameObject);
+    }
 
+    public override void Refresh()
+    {
         int num = slots.Length;
         if (num > WarehouseManager.instance.useItemList.Count)
             num = WarehouseManager.instance.useItemList.Count;

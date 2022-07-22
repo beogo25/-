@@ -11,16 +11,17 @@ public class EquipmentWarehouseUI : WarehouseUI
         itemInformation.Item = WarehouseManager.instance.equipmentList[num];
         base.ItemInformationChange(num);
     }
-    public override void Refresh()
+
+    public override void OnEnable()
     {
-        if (equipmentInventorySlot.interactable == false)
+        base.OnEnable();
+        if (equipmentInventorySlot.interactable == true)
             GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
         else
             GameManager.instance.eventSystem.SetSelectedGameObject(equipmentInventorySlot.transform.gameObject);
-
-
-
-        GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
+    }
+    public override void Refresh()
+    {
         int num = slots.Length;
         if (num > WarehouseManager.instance.equipmentList.Count)
             num = WarehouseManager.instance.equipmentList.Count;

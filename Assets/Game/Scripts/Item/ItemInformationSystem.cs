@@ -31,9 +31,9 @@ public class ItemInformationSystem : MonoBehaviour
             {
                 itemName.text = item.itemName;
                 contents.text = item.contents;
-                image.sprite = item.sprite;
-                image.color = Color.white;
-                stack.text = "";
+                image.sprite  = item.sprite;
+                image.color   = Color.white;
+                stack.text    = "";
                 switch(item.itemType)
                 {
                     case ItemType.USEITEM:
@@ -54,8 +54,8 @@ public class ItemInformationSystem : MonoBehaviour
             {
                 itemName.text = "";
                 contents.text = "";
-                stack.text = "";
-                image.color = Color.clear;
+                stack.text    = "";
+                image.color   = Color.clear;
             }
         }
     }
@@ -93,7 +93,13 @@ public class ItemInformationSystem : MonoBehaviour
                     if (WarehouseManager.instance.useItemList[targetNum].stack == 1)
                     {
                         outWarehouseButton.SetActive(false);
-                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                        if(afterItemInventoryButton != null)
+                            GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
+                        else
+                        {
+                            GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                            Debug.Log("üũ");
+                        }
                     }
                     WarehouseManager.instance.MinusItem(targetNum, ItemType.USEITEM);
                 }
@@ -116,7 +122,10 @@ public class ItemInformationSystem : MonoBehaviour
                 if (InventoryManager.instance.useItemList[targetNum].stack == 1)
                 {
                     outInventoryButton.SetActive(false);
-                    GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
+                    if (afterItemWareHouseButton != null)
+                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                    else
+                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
                 }
                 InventoryManager.instance.MinusItem(targetNum, 1);
                 WarehouseManager.instance.AddItem(DataManager.instance.useItemDic[Item.itemName]);

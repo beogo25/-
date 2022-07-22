@@ -30,7 +30,7 @@ public abstract class WarehouseUI : MonoBehaviour
     {
         slots = transform.GetComponentsInChildren<WarehouseSlot>();
     }
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         Refresh();
     }
