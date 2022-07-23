@@ -209,7 +209,7 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < 35; i++)
             {
-                transform.position += transform.forward * movementSpeed * 0.02f;
+                transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * 0.02f;
                 yield return new WaitForSeconds(0.01f);
             }
 
@@ -219,7 +219,7 @@ public class Player : MonoBehaviour
             transform.forward = rollDir;
             for (int i = 0; i < 35; i++)
             {
-                transform.position += rollDir * movementSpeed * 0.02f;
+                transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * 0.02f;
                 yield return new WaitForSeconds(0.01f);
             }
         }
@@ -259,7 +259,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            transform.parent.GetComponent<CharacterMove>().movementSpeed = 5;
+            transform.parent.GetComponent<CharacterMove>().movementSpeed = 1;
         }
     }
 
