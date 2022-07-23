@@ -59,7 +59,7 @@ public class AttackParticle : MonoBehaviour
             {
                 //hitEffect[attackNum].transform.position = other.transform.position;
                 hitEffect[attackNum].transform.position = other.ClosestPointOnBounds(player.transform.position);
-                StartCoroutine(HitEffectIE(attackNum));
+                hitEffect[attackNum].SetActive(true);
             }
         }
     }

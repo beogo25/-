@@ -44,6 +44,7 @@ public class MainCanvas : MonoBehaviour
         }
         blur.SetActive(false);
         player.talkState = false;
+        allUI[14].SetActive(true);
         StartCoroutine(Stop());
         
     }
@@ -51,7 +52,7 @@ public class MainCanvas : MonoBehaviour
     private IEnumerator Stop()
     {
         Player.isMoveAble = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         Player.isMoveAble = true;
     }
 }

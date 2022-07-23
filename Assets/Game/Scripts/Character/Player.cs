@@ -43,6 +43,9 @@ public class Player : MonoBehaviour
     public  Quest?         orderQuest    = null;
     private PlayerStatus   status;
 
+    [SerializeField]
+    private GameObject     map;
+
     public  Action         rollDelegate;
     void Start()
     {
@@ -141,6 +144,9 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("R 3"))
             LockOn();
+
+        if(Input.GetButtonDown("Select"))
+            map.SetActive(true);
     }
 
     #region 애니메이션 이벤트

@@ -69,14 +69,12 @@ public class ItemInformationSystem : MonoBehaviour
     {
         if (warehouseBool)
         {
-            Debug.Log("true");
             outWarehouseButton.SetActive(true);
             GameManager.instance.eventSystem.SetSelectedGameObject(outWarehouseButton);
             outInventoryButton.SetActive(false);
         }
         else
         {
-            Debug.Log("false");
             outWarehouseButton.SetActive(false);
             outInventoryButton.SetActive(true);
             GameManager.instance.eventSystem.SetSelectedGameObject(outInventoryButton);
