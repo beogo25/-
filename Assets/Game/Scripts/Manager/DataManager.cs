@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -20,16 +20,16 @@ public class DataManager : Singleton<DataManager>
     {
         base.Awake();
         LoadItemListData();
+        if (GameManager.instance.load)
+            LoadData();
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-            SaveData();
         if(Input.GetKeyDown(KeyCode.L))
             LoadData();
     }
 
-    void SaveData()
+    public void SaveData()
     {
         GameSaveData saveData = new GameSaveData();
         for(int i = 0; i < WarehouseManager.instance.equipmentList.Count; i++)
@@ -63,7 +63,7 @@ public class DataManager : Singleton<DataManager>
         File.WriteAllText(Application.dataPath + "/Game/Resources/Json/SaveJson.json", JsonUtility.ToJson(saveData));
     }
 
-    private void LoadData()
+    public void LoadData()
     {
         string saveData = Resources.Load<TextAsset>("Json/SaveJson").text;
         if(saveData != null)

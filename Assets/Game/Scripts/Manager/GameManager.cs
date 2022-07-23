@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -9,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     private int         deviceWidth = Screen.width;
     public  float       ratio;
     public  EventSystem eventSystem;
+    public  bool        load=false; //새로시작,로드에서 변경
 
     public override void Awake()
     {
@@ -20,9 +22,12 @@ public class GameManager : Singleton<GameManager>
         Screen.SetResolution(1920, 1080, true);
         //해상도를 바꿀때도 UI가 일정한 간격으로 움직일 수 있게 해주는 비율을 받는다.
         ratio = (float)deviceWidth / (float)setWidth;
-        
     }
-
+    public void LoadorNew(bool load)
+    {
+        this.load = load;
+        SceneManager.LoadScene("Loading");
+    }
     public void ApplicationExit()
     {
         Application.Quit();

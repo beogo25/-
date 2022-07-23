@@ -95,11 +95,14 @@ public class BattleItemSystem : MonoBehaviour
     //사용 아이템들 효과 적용
     public void UseItemTrigger()
     {
-        if (InventoryManager.instance.useItemList[selectNum] != null && cooltimeImage.fillAmount <= 0 && InventoryManager.instance.useItemList.Length>0)
+        if (cooltimeImage.fillAmount <= 0 && InventoryManager.instance.useItemList.Length>0)
         {
-            playerStatus.UseItemEffect(InventoryManager.instance.useItemList[selectNum].useItemType, InventoryManager.instance.useItemList[selectNum].effectValue);
-            InventoryManager.instance.MinusItem(SelectNum, 1);
-            StartCoroutine(CooltimeCheck());
+            if(InventoryManager.instance.useItemList[selectNum] != null )
+            {
+                playerStatus.UseItemEffect(InventoryManager.instance.useItemList[selectNum].useItemType, InventoryManager.instance.useItemList[selectNum].effectValue);
+                InventoryManager.instance.MinusItem(SelectNum, 1);
+                StartCoroutine(CooltimeCheck());
+            }
         }
     }
     

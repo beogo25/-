@@ -6,8 +6,9 @@ using TMPro;
 
 public class OrderQuestUI : MonoBehaviour
 {
-    public Image           monsterImage;
-    public TextMeshProUGUI monsterName;
+    public Image           targetImage;
+    public TextMeshProUGUI targetName;
+    public TextMeshProUGUI targetNum;
     public TextMeshProUGUI clearGold;
     public TextMeshProUGUI questName;
     public TextMeshProUGUI questContents;
@@ -28,30 +29,36 @@ public class OrderQuestUI : MonoBehaviour
         if (player.orderQuest != null)
         {
             Quest quest = player.orderQuest ?? new Quest();
-            monsterImage.color = Color.white;
+            targetImage.color = Color.white;
             //몬스터 리스트 내용 추가
             if (quest.collectionQuest)
             {
-                monsterImage.sprite = DataManager.instance.materialsDic[quest.target].sprite;
-                monsterName.text = quest.target + "\n" + WarehouseManager.instance.FindItem(DataManager.instance.materialsDic[quest.target]) + "/" + quest.targetNum.ToString();
+                targetImage.sprite = DataManager.instance.materialsDic[quest.target].sprite;
+                targetName.text = quest.target;
+                targetNum.text = WarehouseManager.instance.FindItem(DataManager.instance.materialsDic[quest.target]) + "/" + quest.targetNum.ToString();
+                targetNum.color = Color.red;
             }
             else
             {
-                monsterImage.sprite = null;
-                monsterName.text = null;
+                targetImage.sprite = null;
+                targetName.text = null;
+                targetNum.text = null;
             }
             clearGold.text = "보상 : " + quest.clearGold.ToString() + "골드";
             questName.text = quest.questName;
             questContents.text = quest.questContents;
             if(quest.targetNum <= WarehouseManager.instance.FindItem(DataManager.instance.materialsDic[quest.target]))
+            {
                 clearButton.SetActive(true);
+                targetNum.color = Color.green;
+            }
             else
                 clearButton.SetActive(false);
         }
         else
         {
-            monsterImage.color = Color.clear;
-            monsterName.text = "";
+            targetImage.color = Color.clear;
+            targetName.text = "";
             clearGold.text = "";
             questName.text = "";
             questContents.text = "퀘스트를 수주하지 않았습니다";
@@ -64,6 +71,6 @@ public class OrderQuestUI : MonoBehaviour
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[quest.target], quest.targetNum);
         PlayerStatus.gold += quest.clearGold;
         player.orderQuest = null;
-        Refresh();
+        gameObject.SetActive(false);    
     }
 }

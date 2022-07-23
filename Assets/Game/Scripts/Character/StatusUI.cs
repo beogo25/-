@@ -10,9 +10,6 @@ public class StatusUI : MonoBehaviour
     public TextMeshProUGUI hp;
     public TextMeshProUGUI atk;
     public TextMeshProUGUI def;
-    private void Awake()
-    {
-    }
     private void OnEnable()
     {
         ReFresh();

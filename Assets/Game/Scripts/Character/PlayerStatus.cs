@@ -15,7 +15,7 @@ public class PlayerStatus : MonoBehaviour
     private int def = 0;
     public static int gold = 10000;
 
-    public int burnCount;
+    private int burnCount;
 
     public Slider hpSlider;
     public Slider staminaSlider;
