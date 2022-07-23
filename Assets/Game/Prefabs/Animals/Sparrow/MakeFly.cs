@@ -29,11 +29,17 @@ public class MakeFly : MonoBehaviour
 
     private IEnumerator FlyCo(GameObject player)
     {
-        transform.forward = player.transform.forward;
+        
+        Debug.Log(transform.forward);
+        Debug.Log(player.transform.forward);
+
         coolTime = true;
         int randNum = Random.Range(20, transform.childCount);
         for(int i = 0; i < randNum; i++)
+        {
+            transform.GetChild(i).transform.rotation = player.transform.rotation;
             transform.GetChild(i).gameObject.SetActive(true);
+        }
 
         yield return new WaitForSeconds(10f);
         for (int i = 0; i < randNum; i++)
