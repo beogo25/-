@@ -12,7 +12,7 @@ public class AttackParticle : MonoBehaviour
 
     public  float        attackDamagePercent;
     public  float        attackDelayTime;
-    public  float        attackNumber;
+    //public  float        attackNumber;
     public  GameObject[] hitEffect;
 
     private void Awake()
@@ -29,7 +29,7 @@ public class AttackParticle : MonoBehaviour
 
     IEnumerator Attack()
     {
-        for (int i = 0; i < attackNumber; i++)
+        for (int i = 0; i < hitEffect.Length; i++)
         {
             attackNum          = i;
             attackAble         = true;
@@ -49,15 +49,17 @@ public class AttackParticle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("HitAble") && attackAble)
+        if (other.GetComponent<MonsterHitablePart>() != null && attackAble)
         {
-            //여기다 몬스터 데미지 입히기
-            Debug.Log(other.name + player.attackValue * attackDamagePercent);
             attackAble = false;
+            //Debug.Log(other.name +"  "+ player.attackValue * attackDamagePercent);
+            other.GetComponent<MonsterHitablePart>().Hit(player.attackValue * attackDamagePercent);
+            
             if (hitEffect.Length > 0)
             {
-                hitEffect[attackNum].transform.position = other.transform.position;
-                hitEffect[attackNum].SetActive(true);
+                //hitEffect[attackNum].transform.position = other.transform.position;
+                hitEffect[attackNum].transform.position = other.ClosestPointOnBounds(player.transform.position);
+                StartCoroutine(HitEffectIE(attackNum));
             }
         }
     }
