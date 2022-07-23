@@ -157,7 +157,7 @@ public class MonsterAction : MonoBehaviour
                     break;
 
                 case SerchingTargetState.Walk:
-                    if (Vector3.Distance(transform.position, moveDestination.position) < 4f)    // 목표와 거리가 4f 이내
+                    if (Vector3.Distance(transform.position, moveDestination.position) < 6f)    // 목표와 거리가 4f 이내
                     {
                         monsterRigidbody.velocity = Vector3.zero;
                         if (CreateRandomDestination(moveDestination.position, 20f))
