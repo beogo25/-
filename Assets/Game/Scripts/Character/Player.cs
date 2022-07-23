@@ -34,24 +34,24 @@ public class Player : MonoBehaviour
     private Vector3        moveDir;
     private bool           isClickAble;
                            
-    public  bool           talkState  = false;
-    public  bool           isRollAble = true;
+    public  bool           talkState     = false;
+    public  bool           isRollAble    = true;
     public  bool           isCollectable = false;
 
-    WaitForSecondsRealtime colorDelay = new WaitForSecondsRealtime(0.0005f);
-    public Renderer renderers;
-    public Quest? orderQuest=null;
-    private PlayerStatus status;
+    WaitForSecondsRealtime colorDelay    = new WaitForSecondsRealtime(0.0005f);
+    public  Renderer       renderers;
+    public  Quest?         orderQuest    = null;
+    private PlayerStatus   status;
 
-    public Action rollDelegate;
+    public  Action         rollDelegate;
     void Start()
     {
         Player player      = this;
-        status             = transform.parent.GetComponent<PlayerStatus>();
+        status             = transform.parent.GetComponent<PlayerStatus >();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         playerRigidbody    = GetComponent<Rigidbody>();
-        animator           = GetComponent<Animator>();
+        animator           = GetComponent<Animator >();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
 
         animator.SetBool("Land", true);
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && !isCollectable)
             StartCoroutine(TriggerCheck(combo.Input(EnumKey.POWERPUNCH, Time.time)));
 
-        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround)
+        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround && isMoveAble)
         {
             jumpInputTime = Time.time;
             isGround = false;
@@ -253,7 +253,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            movementSpeed = 0;
+            transform.parent.GetComponent<CharacterMove>().movementSpeed = 5;
         }
         if(collision.gameObject.layer == LayerMask.NameToLayer("HitAble"))
         {
@@ -265,7 +265,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            movementSpeed = transform.parent.GetComponent<CharacterMove>().movementSpeed;
+            transform.parent.GetComponent<CharacterMove>().movementSpeed = movementSpeed;
         }
     }
     private void PlayerMove()

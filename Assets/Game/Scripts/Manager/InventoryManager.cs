@@ -185,6 +185,7 @@ public class InventoryManager : Singleton<InventoryManager>
         }
         else
             status.Def -= equipmentList[(int)target].equipmentValue;
+
         WarehouseManager.instance.AddItem(equipmentList[(int)target]);
         equipmentList[(int)target] = null;
         equipmentInventory.Refresh();
