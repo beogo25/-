@@ -5367,6 +5367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7492369443799281650}
   - component: {fileID: 7492369443799281645}
+  - component: {fileID: 1109865665}
   m_Layer: 15
   m_Name: Right Horn
   m_TagString: Untagged
@@ -5401,6 +5402,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.2, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1109865665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492369443799281651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ad65e0246bfc94a959e19ea4e7a7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 100
+  damageMultiplier: 1.5
+  isDestructionPart: 0
+  partDestructionDamageMultiplier: 0
+  skinRenderer: {fileID: 0}
 --- !u!1 &7492369443838391286
 GameObject:
   m_ObjectHideFlags: 0
@@ -7264,7 +7282,7 @@ MonoBehaviour:
   damageMultiplier: 1.2
   isDestructionPart: 1
   partDestructionDamageMultiplier: 1.5
-  skinRenderer: {fileID: 0}
+  skinRenderer: {fileID: 7492369443838391280}
 --- !u!1 &7492369444962952257
 GameObject:
   m_ObjectHideFlags: 0
