@@ -23,7 +23,6 @@ public class WarehouseSlot : MonoBehaviour
         if(image.sprite != null)
         {
             warehouse.ItemInformationChange(num);
-            Debug.Log("null พฦดิ");
         }
     }
 }
