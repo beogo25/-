@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -9,25 +10,29 @@ public class GameManager : Singleton<GameManager>
     private int         deviceWidth = Screen.width;
     public  float       ratio;
     public  EventSystem eventSystem;
+    public  bool        load=false; //ìƒˆë¡œì‹œì‘,ë¡œë“œì—ì„œ ë³€ê²½
 
     public override void Awake()
     {
         base.Awake();
-        //ÇØ»óµµ 60ÇÁ·¹ÀÓ °íÁ¤
+        //í•´ìƒë„ 60í”„ë ˆì„ ê³ ì •
         Application.targetFrameRate = 60;
-        //ÇØ»óµµ 1920x1080À¸·Î ½ÃÀÛ
+        //í•´ìƒë„ 1920x1080ìœ¼ë¡œ ì‹œì‘
         //Screen.SetResolution(3840, 2160, true);
         Screen.SetResolution(1920, 1080, true);
-        //ÇØ»óµµ¸¦ ¹Ù²Ü¶§µµ UI°¡ ÀÏÁ¤ÇÑ °£°İÀ¸·Î ¿òÁ÷ÀÏ ¼ö ÀÖ°Ô ÇØÁÖ´Â ºñÀ²À» ¹Ş´Â´Ù.
+        //í•´ìƒë„ë¥¼ ë°”ê¿€ë•Œë„ UIê°€ ì¼ì •í•œ ê°„ê²©ìœ¼ë¡œ ì›€ì§ì¼ ìˆ˜ ìˆê²Œ í•´ì£¼ëŠ” ë¹„ìœ¨ì„ ë°›ëŠ”ë‹¤.
         ratio = (float)deviceWidth / (float)setWidth;
-        
+    }
+    public void LoadorNew(bool load)
+    {
+        this.load = load;
+        SceneManager.LoadScene("Loading");
     }
     public void SetPosition(GameObject selected)
     {
         if(selected != null)
             eventSystem.SetSelectedGameObject(selected);
     }
-
     public void ApplicationExit()
     {
         Application.Quit();

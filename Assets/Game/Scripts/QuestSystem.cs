@@ -10,8 +10,9 @@ public class QuestSystem : MonoBehaviour
     public  GameObject      contentsPrefab;
     private RectTransform   contentsRectTransform;
 
-    public  Image           monsterImage;
-    public  TextMeshProUGUI monsterName;
+    public  Image           targetImage;
+    public  TextMeshProUGUI targetName;
+    public  TextMeshProUGUI targetNum;
     public  TextMeshProUGUI clearGold;
     public  TextMeshProUGUI questName;
     public  TextMeshProUGUI questContents;
@@ -47,6 +48,18 @@ public class QuestSystem : MonoBehaviour
         Quest quest = DataManager.instance.questList[num];
         //monsterImage = 몬스터리스트[quest.targetMonster].image
         //monsterName = 몬스터리스트[quest.targetMonster].name
+        if(quest.collectionQuest)
+        {
+            targetImage.sprite = DataManager.instance.materialsDic[quest.target].sprite;
+            targetName.text = quest.target;
+            targetNum.text = "0/" + quest.targetNum.ToString();
+        }    
+        else
+        {
+            targetImage.sprite = null;
+            targetName.text = null;
+            targetNum.text = null;
+        }
         clearGold.text = "보상 : "+quest.clearGold.ToString()+"골드";
         questName.text = quest.questName;
         questContents.text = quest.questContents;
