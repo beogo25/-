@@ -33,24 +33,25 @@ public class Shop : MonoBehaviour
         player = FindObjectOfType<Player>();
         for (int i = 0; i < saleItem.Length; i++)
         {
-            CombiContentsUI temp = Instantiate(contentsPrefab, contents.transform).GetComponent<CombiContentsUI>();
-            temp.image.sprite = DataManager.instance.useItemDic[saleItem[i]].sprite;
-            temp.textMeshProUGUI.text = saleItem[i];
-            int tempint = i;
-            temp.gameObject.GetComponent<Button>().onClick.AddListener(() => { SaleItemView(saleItem[tempint]); });
+            CombiContentsUI temp            = Instantiate(contentsPrefab, contents.transform).GetComponent<CombiContentsUI>();
+            temp.image.sprite               = DataManager.instance.useItemDic[saleItem[i]].sprite;
+            temp.textMeshProUGUI.text       = saleItem[i];
+            int tempint                     = i;
             contentsRectTransform.sizeDelta = new Vector2(contentsRectTransform.sizeDelta.x, contentsRectTransform.sizeDelta.y + 50);
+
+            temp.gameObject.GetComponent<Button>().onClick.AddListener(() => { SaleItemView(saleItem[tempint]); });
         }
         playerGold.text = "보유 금액 : " + PlayerStatus.gold.ToString();
     }
     public void SaleItemView(string input)
     {
-        target = input;
-        playerGold.text = "보유 금액 : " + PlayerStatus.gold.ToString();
+        target              = input;
+        playerGold.text     = "보유 금액 : " + PlayerStatus.gold.ToString();
         UseItem tempUseItem = DataManager.instance.useItemDic[input];
-        selectImage.sprite = tempUseItem.sprite;
+        selectImage.sprite  = tempUseItem.sprite;
         selectContents.text = tempUseItem.contents;
-        selectName.text = input;
-        needGold.text = tempUseItem.value.ToString() + " 골드";
+        selectName.text     = input;
+        needGold.text       = tempUseItem.value.ToString() + " 골드";
         if (PlayerStatus.gold >= tempUseItem.value)
         {
             purchaseButton.SetActive(true);

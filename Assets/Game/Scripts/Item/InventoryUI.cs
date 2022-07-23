@@ -13,15 +13,15 @@ public class InventoryUI : WarehouseUI
         {
             if (InventoryManager.instance.useItemList[i] == null)
             {
-                slots[i].image.color = Color.clear;
-                slots[i].stack.text = "";
+                slots[i].image.color         = Color.clear;
+                slots[i].stack.text          = "";
                 slots[i].button.interactable = false;
             }
             else
             {
-                slots[i].image.color = Color.white;
-                slots[i].image.sprite = InventoryManager.instance.useItemList[i].sprite;
-                slots[i].stack.text = InventoryManager.instance.useItemList[i].stack.ToString();
+                slots[i].image.color         = Color.white;
+                slots[i].image.sprite        = InventoryManager.instance.useItemList[i].sprite;
+                slots[i].stack.text          = InventoryManager.instance.useItemList[i].stack.ToString();
                 slots[i].button.interactable = true;
             }
         }

@@ -10,9 +10,14 @@ public class MaterialWarehouseUI : WarehouseUI
         itemInformation.ButtonSet();
         itemInformation.targetNum = num;
     }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
+    }
     public override void Refresh()
     {
-        GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
         int num = slots.Length;
         if (num > WarehouseManager.instance.materialItemList.Count)
             num = WarehouseManager.instance.materialItemList.Count;

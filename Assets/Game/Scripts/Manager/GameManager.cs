@@ -22,6 +22,11 @@ public class GameManager : Singleton<GameManager>
         ratio = (float)deviceWidth / (float)setWidth;
         
     }
+    public void SetPosition(GameObject selected)
+    {
+        if(selected != null)
+            eventSystem.SetSelectedGameObject(selected);
+    }
 
     public void ApplicationExit()
     {

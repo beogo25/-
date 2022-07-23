@@ -18,7 +18,7 @@ public class CharacterMove : MonoBehaviour
         player             = transform.GetChild(0).GetComponent<Player>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(!player.talkState)
             Move();
