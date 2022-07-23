@@ -34,24 +34,24 @@ public class Player : MonoBehaviour
     private Vector3        moveDir;
     private bool           isClickAble;
                            
-    public  bool           talkState  = false;
-    public  bool           isRollAble = true;
+    public  bool           talkState     = false;
+    public  bool           isRollAble    = true;
     public  bool           isCollectable = false;
 
-    WaitForSecondsRealtime colorDelay = new WaitForSecondsRealtime(0.0005f);
-    public Renderer renderers;
-    public Quest? orderQuest=null;
-    private PlayerStatus status;
+    WaitForSecondsRealtime colorDelay    = new WaitForSecondsRealtime(0.0005f);
+    public  Renderer       renderers;
+    public  Quest?         orderQuest    = null;
+    private PlayerStatus   status;
 
-    public Action rollDelegate;
+    public  Action         rollDelegate;
     void Start()
     {
         Player player      = this;
-        status             = transform.parent.GetComponent<PlayerStatus>();
+        status             = transform.parent.GetComponent<PlayerStatus >();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         playerRigidbody    = GetComponent<Rigidbody>();
-        animator           = GetComponent<Animator>();
+        animator           = GetComponent<Animator >();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
 
         animator.SetBool("Land", true);
@@ -86,12 +86,12 @@ public class Player : MonoBehaviour
             animator.SetBool("Dash", false);
     }
 
-    //?�니메이???�리�?체크
+    //애니메이터 트리거 체크
     IEnumerator TriggerCheck(string skillName)
     {
         if (skillName != "")
         {
-            if (skillName == "Evade" || !animator.GetBool("Land")) { }      // 구르기랑 공중?�때�?빼고 Y�?고정
+            if (skillName == "Evade" || !animator.GetBool("Land")) { }      
             else playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
 
             animator.SetTrigger(skillName);
@@ -102,13 +102,13 @@ public class Player : MonoBehaviour
         { }
     }
 
-    //캐릭?��? 받는 모든 ?�풋
+    //캐릭터가 받는 모든 인풋
     private void InputSetting()
     {
-        //?�시
+        //임시
         if (Input.GetKeyDown(KeyCode.B))
         {
-            //status.PlayerHit(1, 0, Vector3.zero, AttackType.BURN);
+            status.PlayerHit(1, 0, Vector3.zero, AttackType.BURN);
             status.PlayerHit(1, 0, Vector3.zero, AttackType.POISON);
         }
 
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && !isCollectable)
             StartCoroutine(TriggerCheck(combo.Input(EnumKey.POWERPUNCH, Time.time)));
 
-        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround)
+        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround && isMoveAble)
         {
             jumpInputTime = Time.time;
             isGround = false;
@@ -143,7 +143,7 @@ public class Player : MonoBehaviour
             LockOn();
     }
 
-    #region ?�니메이???�벤??
+    #region 애니메이션 이벤트
     public void Jump()
     {
         characterMove.Jump();
@@ -163,21 +163,20 @@ public class Player : MonoBehaviour
         playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
         playerRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
     }
-    // ?�니메이?�에???�용?�니??
+
+    // 애니메이션에서 사용합니다.
     IEnumerator AttackMove(float distance)
     {
         for (int i = 0; i < 50; i++)
         {
             transform.Translate(transform.forward * distance / 50, Space.World);
             yield return new WaitForSeconds(0.0001f);
-            //if (Input.GetKey(KeyCode.S))  ?�마 버티컬이 -1?�때 ?�로 ?��?�??�면 ??
-            //    break;
         }
     }
     IEnumerator HitDown(float power)
     {
-        //리�??�바???��? ?�음 그라?�드체크 추�??�면 ?�정?�야?�니??
-        //?�에?�라 ?�라가??부분도 ?��?방과 벡터�?체크�??�서 ?�바�?방향?�로 ?�아가?�록 만들?�야??
+        //리지드바디 넣은 다음 그라운드체크 추가하면 수정해야합니다.
+        //힘에따라 날라가는 부분도 상대방과 벡터값 체크를 해서 올바른 방향으로 날아가도록 만들어야함
         animator.SetBool("Down", true);
         StartCoroutine(TriggerCheck("DownTrigger"));
         StartCoroutine(AttackMove(-power));
@@ -219,8 +218,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-    #endregion ?�니메이???�벤??
+    #endregion 애니메이션 이벤트
 
     private void LockOn()
     {
@@ -255,7 +253,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            movementSpeed = 0;
+            transform.parent.GetComponent<CharacterMove>().movementSpeed = 5;
         }
     }
 
@@ -263,7 +261,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            movementSpeed = transform.parent.GetComponent<CharacterMove>().movementSpeed;
+            transform.parent.GetComponent<CharacterMove>().movementSpeed = movementSpeed;
         }
     }
     private void PlayerMove()
@@ -282,9 +280,7 @@ public class Player : MonoBehaviour
                 StartCoroutine(TriggerCheck(combo.Input(EnumKey.BACK, Time.time)));
                 isClickAble = false;
             }
-
-
-        //?��???0?�때 ???�력 초기??+ 모션 초기??
+        //포지션 0일때 키 입력 초기화 + 모션 초기화
         if (moveDir == Vector3.zero)
         {
             isClickAble = true;
@@ -298,14 +294,14 @@ public class Player : MonoBehaviour
     private void CheckOnGround()
     {
         if (Time.time < jumpInputTime + 0.2f)
-            return; // ?�프???��??�때??0.2초간 ?�행금�? (?�이캐스?��? 콜라?�더보다 길기?�문??
+            return; // 점프키 눌렀을때는 0.2초간 실행금지 (레이캐스트가 콜라이더보다 길기때문에)
 
         RaycastHit ground;
         Physics.Raycast(transform.position + (transform.up * 0.1f), Vector3.down, out ground, 20f, 1 << LayerMask.NameToLayer("Ground"));
 
         if (ground.distance > 0 && ground.distance <= 0.3f)
         {
-            if (!isGround)  // ?�이 ?�니?�?��? ?�에 ?�을??"?�번"�??�행?�도�?
+            if (!isGround)  // 땅이 아니였다가 땅에 닿을시 "한번"만 실행되도록
             {
                 playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
                 playerRigidbody.velocity = Vector3.zero;
@@ -314,17 +310,17 @@ public class Player : MonoBehaviour
             }
             isGround = true;
         }
-        else if (ground.distance == 0 || ground.distance > 2f)   // ?�이 ?�거???�과??거리가 1f ?�상?�때
+        else if (ground.distance == 0 || ground.distance > 2f)   // 땅이 없거나 땅과의 거리가 1f 이상일때
         {
-            if (isGround)   // ?�이 ?�?��? 공중?�때 "?�번"�??�행?�도�?
+            if (isGround)   // 땅이 였다가 공중일때 "한번"만 실행되도록
             {
-                animator.SetBool("Land", false);    // ?�어지???�태
+                animator.SetBool("Land", false);    // 떨어지는 상태
             }
             isGround = false;
         }
     }
     
-    //?�능??많이 ?�아먹어???�능 문제????�� 1?�위
+    //성능에 문제 생길시 삭제 1순위
     public IEnumerator RimLight(Color color)
     {
         for (int i = 0; i < renderers.materials.Length; i++)

@@ -2,7 +2,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class TalkManager : Singleton<TalkManager>
 {
@@ -10,7 +9,6 @@ public class TalkManager : Singleton<TalkManager>
     public  Image           standing;
     public  TextMeshProUGUI nameTMP;
     public  TextMeshProUGUI talkTMP;
-    public  EventSystem     eventSystem;
 
     private string          npcName;
     private string[]        talkText;
@@ -20,20 +18,9 @@ public class TalkManager : Singleton<TalkManager>
 
     private WaitForSecondsRealtime talkDelay = new WaitForSecondsRealtime(0.1f);
 
-    //public GameObject useItemWarehouseButton;
-    //public GameObject equipmentItemWarehouseButton;
-    //public GameObject materialItemWarehouseButton;
-    //public GameObject useItemConbinationButton;
-    //public GameObject equipmentItemConbinationButton;
-    //public GameObject shopButton;
-    //public GameObject exitButton;
-    //public GameObject questButton;
-    //public GameObject blur;
-
     public GameObject[] UIButton = new GameObject[0];
-
-
     public Player player;
+
 
     private void Update()
     {
@@ -89,7 +76,7 @@ public class TalkManager : Singleton<TalkManager>
                         UIButton[(int)uiTypes[i]].SetActive(true);
                     }
                     UIButton[7].SetActive(true);
-                    eventSystem.m_CurrentSelected = UIButton[(int)uiTypes[0]];
+                    GameManager.instance.eventSystem.SetSelectedGameObject(UIButton[(int)uiTypes[0]]);
                 }
             }
             else
@@ -120,15 +107,6 @@ public class TalkManager : Singleton<TalkManager>
 
     public void ExitButton()
     {
-        //exitButton.SetActive(false);
-        //shopButton.SetActive(false);
-        //questButton.SetActive(false);
-        //equipmentItemConbinationButton.SetActive(false);
-        //useItemConbinationButton.SetActive(false);
-        //useItemWarehouseButton.SetActive(false);
-        //materialItemWarehouseButton.SetActive(false);
-        //equipmentItemWarehouseButton.SetActive(false);
-        //blur.SetActive(false);
         for(int i = 0; i < UIButton.Length; i++)
             UIButton[i].SetActive(false);
         talkUI.SetActive(false);

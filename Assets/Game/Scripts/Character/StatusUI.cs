@@ -6,14 +6,10 @@ using TMPro;
 
 public class StatusUI : MonoBehaviour
 {
-    private PlayerStatus status;
+    public PlayerStatus status;
     public TextMeshProUGUI hp;
     public TextMeshProUGUI atk;
     public TextMeshProUGUI def;
-    private void Awake()
-    {
-        status = FindObjectOfType<PlayerStatus>();
-    }
     private void OnEnable()
     {
         ReFresh();

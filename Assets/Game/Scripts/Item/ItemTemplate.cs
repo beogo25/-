@@ -79,11 +79,13 @@ public struct EqiupmentItemRecipe
 
 public struct Quest
 {
-    public int targetMonster;
+    public string target;
+    public int targetNum;
     public int clearGold;
     public string questName;
     public string questContents;
     public int questNum;
     public int questDifficulty;
+    public bool collectionQuest;
 }
 

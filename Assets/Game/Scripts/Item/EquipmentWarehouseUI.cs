@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EquipmentWarehouseUI : WarehouseUI
 {
-
+    public Button equipmentInventorySlot;
     public override void ItemInformationChange(int num)
     {
         itemInformation.Item = WarehouseManager.instance.equipmentList[num];
         base.ItemInformationChange(num);
     }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        if (equipmentInventorySlot.interactable == true)
+            GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
+        else
+            GameManager.instance.eventSystem.SetSelectedGameObject(equipmentInventorySlot.transform.gameObject);
+    }
     public override void Refresh()
     {
-        eventSystem.m_CurrentSelected = slots[0].transform.GetChild(2).transform.gameObject;
         int num = slots.Length;
         if (num > WarehouseManager.instance.equipmentList.Count)
             num = WarehouseManager.instance.equipmentList.Count;

@@ -21,6 +21,9 @@ public class WarehouseSlot : MonoBehaviour
     public void OnClickEvent()
     {
         if(image.sprite != null)
+        {
             warehouse.ItemInformationChange(num);
+            Debug.Log("null พฦดิ");
+        }
     }
 }

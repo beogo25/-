@@ -82,9 +82,9 @@ public class InteractionObject: MonoBehaviour, IInteraction
     }
    
     //실제 채집
-    public void Interaction()
+    public virtual void Interaction()
     {
-        if(isCollectable)
+        if (isCollectable)
         {
             string itemName = table.itemDic[table.Choose()];
             WarehouseManager.instance.itemDelegate(DataManager.instance.materialsDic[itemName]);

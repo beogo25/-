@@ -7,7 +7,7 @@ using TMPro;
 public class EquipmentCombinationSystem : MonoBehaviour
 {
     public GameObject contents;
-    public GameObject contentsPrifab;
+    public GameObject contentsPrefab;
     private RectTransform contentsRectTransform;
 
     public Image resultImage;
@@ -26,17 +26,15 @@ public class EquipmentCombinationSystem : MonoBehaviour
     private int target;
     private void OnEnable()
     {
+        GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         combinationButton.SetActive(false);
     }
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
-    }
-    private void Start()
-    {
         for (int i = 0; i < DataManager.instance.eqiupmentItemRecipeList.Count; i++)
         {
-            CombiContentsUI temp = Instantiate(contentsPrifab, contents.transform).GetComponent<CombiContentsUI>();
+            CombiContentsUI temp = Instantiate(contentsPrefab, contents.transform).GetComponent<CombiContentsUI>();
             temp.image.sprite = DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[i].result].sprite;
             temp.textMeshProUGUI.text = DataManager.instance.eqiupmentItemRecipeList[i].result;
             int tempint = i;
@@ -68,9 +66,16 @@ public class EquipmentCombinationSystem : MonoBehaviour
         materialBName.text = materialItemB.itemName + DataManager.instance.eqiupmentItemRecipeList[num].numB + " (" + materialBnum + ")";
         needGold.text = DataManager.instance.eqiupmentItemRecipeList[num].gold.ToString()+" °ñµå";
         if (materialAnum >= DataManager.instance.eqiupmentItemRecipeList[num].numA && materialBnum >= DataManager.instance.eqiupmentItemRecipeList[num].numB && PlayerStatus.gold >= DataManager.instance.eqiupmentItemRecipeList[num].gold)
+        {
+            GameManager.instance.eventSystem.SetSelectedGameObject(combinationButton);
             combinationButton.SetActive(true);
+        }
         else
+        {
             combinationButton.SetActive(false);
+            if (GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
+                GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+        }
         if(equipmentItem.equipmentType==EquipmentType.WEAPON)
         {
             weaponMesh.mesh = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMesh;

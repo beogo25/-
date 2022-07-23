@@ -34,7 +34,8 @@ public class AttackParticle : MonoBehaviour
             attackNum          = i;
             attackAble         = true;
             myCollider.enabled = true;
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
             myCollider.enabled = false;
             yield return new WaitForSeconds(attackDelayTime);
         }
@@ -46,12 +47,6 @@ public class AttackParticle : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    IEnumerator HitEffectIE(int num)
-    {
-        hitEffect[num].SetActive(true);
-        yield return new WaitForSeconds(0.2f);
-        hitEffect[num].SetActive(false);
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<MonsterHitablePart>() != null && attackAble)

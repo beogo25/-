@@ -6,57 +6,64 @@ using TMPro;
 
 public class Shop : MonoBehaviour
 {
-    public GameObject contents;
-    public GameObject contentsPrifab;
-    private RectTransform contentsRectTransform;
+    public  GameObject      contents;
+    public  GameObject      contentsPrefab;
+    private RectTransform   contentsRectTransform;
 
-    public Image selectImage;
-    public TextMeshProUGUI selectContents;
-    public TextMeshProUGUI selectName;
-    public TextMeshProUGUI needGold;
-    public TextMeshProUGUI playerGold;
+    public  Image           selectImage;
+    public  TextMeshProUGUI selectContents;
+    public  TextMeshProUGUI selectName;
+    public  TextMeshProUGUI needGold;
+    public  TextMeshProUGUI playerGold;
+            
+    public  GameObject      purchaseButton;
+    private string          target;
 
-    public GameObject purchaseButton;
-    private string target;
-
-    public GameObject blur;
-    private Player player;
-    public string[] saleItem;
+    public  GameObject      blur;
+    private Player          player;
+    public  string[]        saleItem;
     private void OnEnable()
     {
+        GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         purchaseButton.SetActive(false);
     }
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
         player = FindObjectOfType<Player>();
-    }
-    void Start()
-    {
         for (int i = 0; i < saleItem.Length; i++)
         {
-            CombiContentsUI temp = Instantiate(contentsPrifab, contents.transform).GetComponent<CombiContentsUI>();
-            temp.image.sprite = DataManager.instance.useItemDic[saleItem[i]].sprite;
-            temp.textMeshProUGUI.text = saleItem[i];
-            int tempint = i;
-            temp.gameObject.GetComponent<Button>().onClick.AddListener(() => { SaleItemView(saleItem[tempint]); });
+            CombiContentsUI temp            = Instantiate(contentsPrefab, contents.transform).GetComponent<CombiContentsUI>();
+            temp.image.sprite               = DataManager.instance.useItemDic[saleItem[i]].sprite;
+            temp.textMeshProUGUI.text       = saleItem[i];
+            int tempint                     = i;
             contentsRectTransform.sizeDelta = new Vector2(contentsRectTransform.sizeDelta.x, contentsRectTransform.sizeDelta.y + 50);
+
+            temp.gameObject.GetComponent<Button>().onClick.AddListener(() => { SaleItemView(saleItem[tempint]); });
         }
         playerGold.text = "보유 금액 : " + PlayerStatus.gold.ToString();
     }
     public void SaleItemView(string input)
     {
-        target = input;
-        playerGold.text = "보유 금액 : " + PlayerStatus.gold.ToString();
+        target              = input;
+        playerGold.text     = "보유 금액 : " + PlayerStatus.gold.ToString();
         UseItem tempUseItem = DataManager.instance.useItemDic[input];
-        selectImage.sprite = tempUseItem.sprite;
+        selectImage.sprite  = tempUseItem.sprite;
         selectContents.text = tempUseItem.contents;
-        selectName.text = input;
-        needGold.text = tempUseItem.value.ToString() + " 골드";
+        selectName.text     = input;
+        needGold.text       = tempUseItem.value.ToString() + " 골드";
         if (PlayerStatus.gold >= tempUseItem.value)
+        {
             purchaseButton.SetActive(true);
+            GameManager.instance.eventSystem.SetSelectedGameObject(purchaseButton);
+        }
         else
+        {
             purchaseButton.SetActive(false);
+            if (GameManager.instance.eventSystem.currentSelectedGameObject == purchaseButton)
+                GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+
+        }
     }
     public  void Purchase()
     {

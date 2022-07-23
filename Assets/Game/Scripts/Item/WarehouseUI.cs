@@ -1,17 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public abstract class WarehouseUI : MonoBehaviour
 {
     public ItemInformationSystem itemInformation;
-    public int selectSlot = 0;
-    public WarehouseSlot[] slots;
-    public GameObject[] exitTarget;
-    public EventSystem eventSystem;
+    public int                   selectSlot = 0;
+    public WarehouseSlot[]       slots;
+    public GameObject[]          exitTarget;
 
-    private Player player;
     public int SelectSlot
     {
         get { return selectSlot; }
@@ -23,7 +20,7 @@ public abstract class WarehouseUI : MonoBehaviour
     }
     private void Awake()
     {
-        player = FindObjectOfType<Player>();
+
         for (int i = 0; i < slots.Length; i++)
             slots[i].num = i;
     }
@@ -31,7 +28,7 @@ public abstract class WarehouseUI : MonoBehaviour
     {
         slots = transform.GetComponentsInChildren<WarehouseSlot>();
     }
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         Refresh();
     }

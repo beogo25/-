@@ -28,6 +28,7 @@ public class MainCanvas : MonoBehaviour
         {
             if(Input.GetButtonDown("Start"))
             {
+                GameManager.instance.eventSystem.SetSelectedGameObject(menuUI.transform.GetChild(0).gameObject);
                 menuUI.SetActive(true);
                 blur.SetActive(true);
                 player.talkState = true;
@@ -43,5 +44,14 @@ public class MainCanvas : MonoBehaviour
         }
         blur.SetActive(false);
         player.talkState = false;
+        StartCoroutine(Stop());
+        
+    }
+
+    private IEnumerator Stop()
+    {
+        Player.isMoveAble = false;
+        yield return new WaitForSeconds(0.5f);
+        Player.isMoveAble = true;
     }
 }
