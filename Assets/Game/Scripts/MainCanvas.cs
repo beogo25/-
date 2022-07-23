@@ -44,5 +44,14 @@ public class MainCanvas : MonoBehaviour
         }
         blur.SetActive(false);
         player.talkState = false;
+        StartCoroutine(Stop());
+        
+    }
+
+    private IEnumerator Stop()
+    {
+        Player.isMoveAble = false;
+        yield return new WaitForSeconds(0.5f);
+        Player.isMoveAble = true;
     }
 }
