@@ -7,23 +7,33 @@ public class MonsterStatus : MonoBehaviour
     [SerializeField] protected Collider[] bodyCollider; // 이게 필요한가?
     public event Action HitDel;
 
-    protected float hp;
-
-    public float Hp
+    [SerializeField] protected float maxHp;
+    protected float currentHp;
+    protected float atk;
+    public virtual float Hp
     {
-        get { return hp; }
+        get { return currentHp; }
         set
         {
-            hp = value;
+            currentHp = value;
 
-            if(hp <= 0)
+            if (currentHp <= 0)
             {
-                hp = 0;
+                currentHp = 0;
                 // 죽는 모션
             }
         }
     }
-   
+
+    public virtual float Atk
+    {
+        get { return atk; }
+        set
+        {
+            atk = value;
+        }
+    }
+
 
 
 }
