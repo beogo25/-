@@ -40,7 +40,7 @@ public class TalkManager : Singleton<TalkManager>
 
         UIButton[UIButton.Length-1].SetActive(true);
 
-        player.talkState = true;
+        player.TalkState = true;
         num      = 0;
         talkUI.SetActive(true);
         uiTypes  = inputUITypes; 
@@ -67,7 +67,7 @@ public class TalkManager : Singleton<TalkManager>
                     talkUI.SetActive(false);
                     //blur.SetActive(false);
                     UIButton[UIButton.Length - 1].SetActive(true);
-                    player.talkState = false;
+                    player.TalkState = false;
                 }
                 else
                 {
@@ -110,6 +110,6 @@ public class TalkManager : Singleton<TalkManager>
         for(int i = 0; i < UIButton.Length; i++)
             UIButton[i].SetActive(false);
         talkUI.SetActive(false);
-        player.talkState = false;
+        player.TalkState = false;
     }
 }

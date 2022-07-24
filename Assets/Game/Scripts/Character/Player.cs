@@ -47,6 +47,25 @@ public class Player : MonoBehaviour
     private GameObject     map;
 
     public  Action         rollDelegate;
+
+    public bool TalkState
+    {
+        get { return talkState; }
+        set 
+        {
+            talkState = value;
+            if(talkState)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+    }
     void Start()
     {
         Player player      = this;
@@ -65,7 +84,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!talkState)
+        if (!TalkState)
             InputSetting();
         else
             animator.SetBool("Dash", false);
@@ -78,7 +97,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!talkState)
+        if(!TalkState)
             PlayerMove();
     }
 
