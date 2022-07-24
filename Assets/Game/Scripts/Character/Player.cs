@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < 50; i++)
         {
             transform.Translate(transform.forward * distance / 50, Space.World);
-            yield return new WaitForSeconds(0.0001f);
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator HitDown(float power)
@@ -205,22 +205,25 @@ public class Player : MonoBehaviour
         rollDelegate();
         StartCoroutine(combo.DelayCheck(0.2f));
         Vector3 rollDir = moveDir;
+        float rollSpeed = 0.070f;
         if (rollDir == Vector3.zero)
         {
-            for (int i = 0; i < 35; i++)
+            for (int i = 0; i < 50; i++)
             {
-                transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * 0.02f;
-                yield return new WaitForSeconds(0.01f);
+                transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                rollSpeed -= 0.001f;
+                yield return new WaitForFixedUpdate();
             }
 
         }
         else
         {
             transform.forward = rollDir;
-            for (int i = 0; i < 35; i++)
+            for (int i = 0; i < 50; i++)
             {
-                transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * 0.02f;
-                yield return new WaitForSeconds(0.01f);
+                transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                rollSpeed -= 0.001f;
+                yield return new WaitForFixedUpdate();
             }
         }
     }
