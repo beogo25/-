@@ -44,7 +44,7 @@ public class MainCanvas : MonoBehaviour
         }
         blur.SetActive(false);
         player.talkState = false;
-        allUI[14].SetActive(true);
+        //allUI[14].SetActive(true);
         StartCoroutine(Stop());
         
     }
