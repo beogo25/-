@@ -19,24 +19,30 @@ public class MonsterHitablePart : MonoBehaviour
         set 
         { 
             currentHp = value;
-            Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp);
+            
             if (currentHp <= 0)
             {
-                currentHp = 0;
+                //currentHp = 0;
+                
                 if(isDestructionPart)   // 부위파괴가 가능하다면 
                 {
                     isDestructionPart = false;
                     damageMultiplier = partDestructionDamageMultiplier;     // 데미지 배율을 부위파괴시 배율로
                     skinRenderer.gameObject.SetActive(false);
                 }
+
+                // 경직일어나도록..
+                currentHp = maxhp * 1.2f;
             }
+
+            Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp);
         }
     }
     
     private void Start()
     {
         player = FindObjectOfType<PlayerStatus>();
-        monster = FindObjectOfType<MonsterStatus>();
+        monster = FindObjectOfType<DruidStatus>();
         Hp = maxhp;
     }
     public void Hit(float damage)

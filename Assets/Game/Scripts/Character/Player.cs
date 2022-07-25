@@ -91,7 +91,10 @@ public class Player : MonoBehaviour
 
         CheckOnGround();
 
-
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("isGround : " + isGround + ", isMoveAble : " + isMoveAble);
+        }
 
     }
 
@@ -325,9 +328,9 @@ public class Player : MonoBehaviour
             return; // 점프키 눌렀을때는 0.2초간 실행금지 (레이캐스트가 콜라이더보다 길기때문에)
 
         RaycastHit ground;
-        Physics.Raycast(transform.position + (transform.up * 0.1f), Vector3.down, out ground, 20f, 1 << LayerMask.NameToLayer("Ground"));
+        Physics.Raycast(transform.position + (transform.up * 0.5f), Vector3.down, out ground, 20f, 1 << LayerMask.NameToLayer("Ground"));
 
-        if (ground.distance > 0 && ground.distance <= 0.3f)
+        if (ground.distance > 0 && ground.distance <= 1f)           // 땅과의 거리가 1f 이하일때 땅에 닿고 있는걸로 취급
         {
             if (!isGround)  // 땅이 아니였다가 땅에 닿을시 "한번"만 실행되도록
             {
@@ -338,7 +341,7 @@ public class Player : MonoBehaviour
             }
             isGround = true;
         }
-        else if (ground.distance == 0 || ground.distance > 2f)   // 땅이 없거나 땅과의 거리가 1f 이상일때
+        else if (ground.distance == 0 || ground.distance > 4f)      // 땅이 없거나 땅과의 거리가 4f 이상일때 공중으로 취급
         {
             if (isGround)   // 땅이 였다가 공중일때 "한번"만 실행되도록
             {
