@@ -1285,7 +1285,7 @@ Material:
     - m_start_pointToPoint: 0
     - m_start_reflectionRim: 0
     - m_start_rimHueShift: 0
-    - m_start_rimLightOptions: 0
+    - m_start_rimLightOptions: 1
     - m_start_rimWidthNoise: 0
     - m_start_scrollingEmissionOptions: 0
     - m_start_scrollingEmissionOptions1: 0
@@ -1294,7 +1294,7 @@ Material:
     - m_start_subsurface: 0
     - m_start_vertexManipulation: 0
     - m_start_voronoiRandom: 0
-    - shader_is_using_thry_editor: 0
+    - shader_is_using_thry_editor: 69
     - shader_master_label: 0
     - shader_presets: 0
     - shader_properties_label_file: 0

@@ -44,18 +44,22 @@ public class PlayerInteraction : MonoBehaviour
                     nearestTarget = nearTarget[i].transform;
                 }
             }
-            if (nearestTarget.GetComponent<InteractionObject>().isCollectable)
-                ItemUI.SetActive(true);
-            else
-                ItemUI.SetActive(false);
+            if(nearestTarget.GetComponent<InteractionObject>() != null)
+            {
+                if (nearestTarget.GetComponent<InteractionObject>().isCollectable)
+                    ItemUI.SetActive(true);
+                else
+                    ItemUI.SetActive(false);
+
+                if (text.text != nearestTarget.GetComponent<InteractionObject>().objectName)
+                {
+                    text.text = nearestTarget.GetComponent<InteractionObject>().objectName;
+                    image.sprite = nearestTarget.GetComponent<InteractionObject>().imageSprite;
+                }
+            }
 
             ItemUI.transform.LookAt(Camera.main.transform.position);
 
-            if (text.text != nearestTarget.GetComponent<InteractionObject>().objectName)
-            {
-                text.text = nearestTarget.GetComponent<InteractionObject>().objectName;
-                image.sprite = nearestTarget.GetComponent<InteractionObject>().imageSprite;
-            }
 
             if (Input.GetButtonDown("InteractionObject") && player.isGround)
             {

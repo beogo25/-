@@ -6,18 +6,19 @@ public class InteractionNature : InteractionObject, IGlow
 {
     private Renderer objectRenderer;
     private bool isLoop = false;
-
+    
     private void Awake()
     {
         objectRenderer = GetComponent<Renderer>();
 
-        if(transform.childCount != 0)
-            for(int i = 0; i < transform.childCount; i++)
+        if (GetComponent<LODGroup>() == null)
+        {
+            for (int i = 0; i < transform.childCount; i++)
             {
-                if(transform.GetChild(i).GetComponent<MeshRenderer>() != null)
+                if (transform.GetChild(i).GetComponent<MeshRenderer>() != null)
                     transform.GetChild(i).GetComponent<Renderer>().material = objectRenderer.materials[i];
             }
-        //else { };
+        }
         //메테리얼 설정
         for(int i = 0; i < objectRenderer.materials.Length; i++)
         {

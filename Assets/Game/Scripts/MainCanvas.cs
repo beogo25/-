@@ -43,6 +43,8 @@ public class MainCanvas : MonoBehaviour
             allUI[i].gameObject.SetActive(false);
         }
         blur.SetActive(false);
+        player.talkState = false;
+        //allUI[14].SetActive(true);
         player.TalkState = false;
         allUI[14].SetActive(true);
         StartCoroutine(Stop());
