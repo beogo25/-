@@ -7,7 +7,7 @@ public class EagleFly : MonoBehaviour
     private Vector3 point;
     private float speed;
 
-
+    [SerializeField] Collider collider;
     private void Start()
     {
         StartCoroutine(GetRandomPosition());
