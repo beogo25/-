@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
                            
     public  bool           isGround = true;
     private float          jumpInputTime;
-    private float          movementSpeed;
+    private float          backupSpeed;
     private CharacterMove  characterMove;
     private Rigidbody      playerRigidbody;
                            
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         Player player      = this;
         status             = transform.parent.GetComponent<PlayerStatus >();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
-        movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
+        backupSpeed        = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         playerRigidbody    = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator >();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && !isCollectable)
             StartCoroutine(TriggerCheck(combo.Input(EnumKey.POWERPUNCH, Time.time)));
 
-        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround && isMoveAble)
+        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround)
         {
             jumpInputTime = Time.time;
             isGround = false;
@@ -232,15 +232,16 @@ public class Player : MonoBehaviour
         {
             for (int i = 0; i < 30; i++)
             {
-                transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
                 rollSpeed -= 0.001f;
                 yield return new WaitForFixedUpdate();
             }
             if (animator.GetBool("Dash"))
             {
+                Debug.Log("Dash중");
                 for (int i = 0; i < 20; i++)
                 {
-                    transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                    transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
                     rollSpeed -= 0.001f;
                     yield return new WaitForFixedUpdate();
                 }
@@ -251,7 +252,7 @@ public class Player : MonoBehaviour
             transform.forward = rollDir;
             for (int i = 0; i < 30; i++)
             {
-                transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                transform.position += rollDir * characterMove.movementSpeed * rollSpeed;
                 rollSpeed -= 0.001f;
                 yield return new WaitForFixedUpdate();
             }
@@ -259,7 +260,7 @@ public class Player : MonoBehaviour
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                    transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
                     rollSpeed -= 0.001f;
                     yield return new WaitForFixedUpdate();
                 }
@@ -301,7 +302,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            transform.parent.GetComponent<CharacterMove>().movementSpeed = 1;
+            characterMove.movementSpeed = 1;
         }
     }
 
@@ -309,7 +310,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            transform.parent.GetComponent<CharacterMove>().movementSpeed = movementSpeed;
+            characterMove.movementSpeed = backupSpeed;
         }
     }
     private void PlayerMove()
