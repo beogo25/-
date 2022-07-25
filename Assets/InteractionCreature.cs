@@ -6,7 +6,8 @@ public class InteractionCreature : InteractionObject
 {
     public GameObject particle;
     public GameObject mesh;
-    private PlayerStatus player;
+    [HideInInspector]
+    public PlayerStatus player;
     private void Awake()
     {
         player = FindObjectOfType<PlayerStatus>();
@@ -24,7 +25,7 @@ public class InteractionCreature : InteractionObject
     {
         for(int i=0;i<50;i++)
         {
-            mesh.transform.Translate(Vector3.forward * 0.1f);
+            mesh.transform.Translate(new Vector3(0,Random.Range(0f,1f),Random.Range(0.5f,1f)) * 0.15f);
             yield return new WaitForFixedUpdate();
         }
         mesh.SetActive(false);
@@ -36,7 +37,6 @@ public class InteractionCreature : InteractionObject
         {
             StartCoroutine(MeshMove());
             particle.SetActive(true);
-            player.Hp += 30;
             CollectNumber--;
         }
     }

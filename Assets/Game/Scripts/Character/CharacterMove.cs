@@ -20,7 +20,7 @@ public class CharacterMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!player.talkState)
+        if(!player.TalkState)
             Move();
     }
 

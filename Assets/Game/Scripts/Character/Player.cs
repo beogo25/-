@@ -47,6 +47,25 @@ public class Player : MonoBehaviour
     private GameObject     map;
 
     public  Action         rollDelegate;
+
+    public bool TalkState
+    {
+        get { return talkState; }
+        set 
+        {
+            talkState = value;
+            if(talkState)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+    }
     void Start()
     {
         Player player      = this;
@@ -65,20 +84,23 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!talkState)
+        if (!TalkState)
             InputSetting();
         else
             animator.SetBool("Dash", false);
 
         CheckOnGround();
 
-
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("isGround : " + isGround + ", isMoveAble : " + isMoveAble);
+        }
 
     }
 
     private void FixedUpdate()
     {
-        if(!talkState)
+        if(!TalkState)
             PlayerMove();
     }
 
@@ -176,7 +198,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < 50; i++)
         {
             transform.Translate(transform.forward * distance / 50, Space.World);
-            yield return new WaitForSeconds(0.0001f);
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator HitDown(float power)
@@ -205,22 +227,25 @@ public class Player : MonoBehaviour
         rollDelegate();
         StartCoroutine(combo.DelayCheck(0.2f));
         Vector3 rollDir = moveDir;
+        float rollSpeed = 0.070f;
         if (rollDir == Vector3.zero)
         {
-            for (int i = 0; i < 35; i++)
+            for (int i = 0; i < 50; i++)
             {
-                transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * 0.02f;
-                yield return new WaitForSeconds(0.01f);
+                transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                rollSpeed -= 0.001f;
+                yield return new WaitForFixedUpdate();
             }
 
         }
         else
         {
             transform.forward = rollDir;
-            for (int i = 0; i < 35; i++)
+            for (int i = 0; i < 50; i++)
             {
-                transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * 0.02f;
-                yield return new WaitForSeconds(0.01f);
+                transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                rollSpeed -= 0.001f;
+                yield return new WaitForFixedUpdate();
             }
         }
     }
@@ -303,9 +328,9 @@ public class Player : MonoBehaviour
             return; // 점프키 눌렀을때는 0.2초간 실행금지 (레이캐스트가 콜라이더보다 길기때문에)
 
         RaycastHit ground;
-        Physics.Raycast(transform.position + (transform.up * 0.1f), Vector3.down, out ground, 20f, 1 << LayerMask.NameToLayer("Ground"));
+        Physics.Raycast(transform.position + (transform.up * 0.5f), Vector3.down, out ground, 20f, 1 << LayerMask.NameToLayer("Ground"));
 
-        if (ground.distance > 0 && ground.distance <= 0.3f)
+        if (ground.distance > 0 && ground.distance <= 1f)           // 땅과의 거리가 1f 이하일때 땅에 닿고 있는걸로 취급
         {
             if (!isGround)  // 땅이 아니였다가 땅에 닿을시 "한번"만 실행되도록
             {
@@ -316,7 +341,7 @@ public class Player : MonoBehaviour
             }
             isGround = true;
         }
-        else if (ground.distance == 0 || ground.distance > 2f)   // 땅이 없거나 땅과의 거리가 1f 이상일때
+        else if (ground.distance == 0 || ground.distance > 4f)      // 땅이 없거나 땅과의 거리가 4f 이상일때 공중으로 취급
         {
             if (isGround)   // 땅이 였다가 공중일때 "한번"만 실행되도록
             {

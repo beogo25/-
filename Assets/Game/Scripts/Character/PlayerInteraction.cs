@@ -73,7 +73,7 @@ public class PlayerInteraction : MonoBehaviour
             ItemUI.SetActive(false);
         }
 
-        if (!player.talkState)
+        if (!player.TalkState)
         {
             Collider[] npcTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Npc"));
             if (npcTarget.Length > 0)
