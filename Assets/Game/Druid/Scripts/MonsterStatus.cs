@@ -16,12 +16,6 @@ public class MonsterStatus : MonoBehaviour
         set
         {
             currentHp = value;
-
-            if (currentHp <= 0)
-            {
-                currentHp = 0;
-                // Á×´Â ¸ð¼Ç
-            }
         }
     }
 
