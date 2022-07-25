@@ -15,6 +15,7 @@ public enum MONSTER_STATE
     Walk = 1 << 0,
     Rotation = 1 << 1,
     Attack = 1 << 2,
+    Stagger = 1<<3,
 
     All = Walk | Rotation | Attack,
 }
@@ -28,10 +29,11 @@ public class MonsterAction : MonoBehaviour
         Roar,
         Throw
     }
-    public MONSTER_BEHAVIOR_STATE behaviorState;
-    public MONSTER_STATE state = MONSTER_STATE.Idle;
 
-    public Collider target;
+    [HideInInspector] public MONSTER_BEHAVIOR_STATE behaviorState;
+    [HideInInspector] public MONSTER_STATE state = MONSTER_STATE.Idle;
+
+    [HideInInspector] public Collider target;
     private Animator animator;
     private Rigidbody monsterRigidbody;
     
@@ -51,6 +53,7 @@ public class MonsterAction : MonoBehaviour
     [SerializeField] private MonsterHitablePart[] hitablePart;  // 부위별 정보
     [SerializeField] private Transform  rightHand;
     [SerializeField] private GameObject attackParticle;
+
     void Start()
     {
         animator = GetComponent<Animator>();
