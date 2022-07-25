@@ -230,22 +230,39 @@ public class Player : MonoBehaviour
         float rollSpeed = 0.070f;
         if (rollDir == Vector3.zero)
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 30; i++)
             {
                 transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
                 rollSpeed -= 0.001f;
                 yield return new WaitForFixedUpdate();
             }
-
+            if(animator.GetBool("Dash"))
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                    rollSpeed -= 0.001f;
+                    yield return new WaitForFixedUpdate();
+                }
+            }
         }
         else
         {
             transform.forward = rollDir;
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 30; i++)
             {
                 transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
                 rollSpeed -= 0.001f;
                 yield return new WaitForFixedUpdate();
+            }
+            if (animator.GetBool("Dash"))
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                    rollSpeed -= 0.001f;
+                    yield return new WaitForFixedUpdate();
+                }
             }
         }
     }
