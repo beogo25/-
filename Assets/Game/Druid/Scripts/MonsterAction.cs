@@ -555,9 +555,9 @@ public class MonsterAction : MonoBehaviour
     #region stagger
     public void StartStaggerState()
     {
-        StopAllCoroutines();
-        state |= MONSTER_STATE.Stagger;
-        StartCoroutine(WaitForAnimation("Dying(Front Up)",1f));
+        //StopAllCoroutines();
+        //state |= MONSTER_STATE.Stagger;
+        //StartCoroutine(WaitForAnimation("Dying(Front Up)",1f));
     }
 
     #endregion stagger

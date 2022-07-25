@@ -13,25 +13,23 @@ public class DruidHitable : MonsterHitablePart
         {
             currentHp = value;
 
-            if (currentHp <= 0)
+            if (currentHp <= 0)             // 체력이 0이하가 된다면
             {
-                if (isDestructionPart)   // 부위파괴가 가능하다면 
+                if (isDestructionPart)      // 부위파괴가 가능하다면 
                 {
                     isDestructionPart = false;
                     damageMultiplier = partDestructionDamageMultiplier;     // 데미지 배율을 부위파괴시 배율로
                     skinRenderer.gameObject.SetActive(false);
                 }
 
-                if (!monsterAction.state.HasFlag(MONSTER_STATE.Stagger))
+                if (!monsterAction.state.HasFlag(MONSTER_STATE.Stagger))    // 경직상태가 아니라면
                 {
                     monsterAction.state |= MONSTER_STATE.Stagger;
-                    monsterAction.StartStaggerState();
+                    monsterAction.StartStaggerState();                      // 경직일으키기
                 }
 
-                currentHp = maxhp * 1.2f;
+                currentHp = maxhp * 1.2f;   // 체력이 0이하 됐을시 최대체력의 20%를 늘려 체력부여
             }
-
-            Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp);
         }
     }
 
@@ -46,7 +44,14 @@ public class DruidHitable : MonsterHitablePart
         //Debug.Log("monster name : " + monster.name + ", monsterAction : " + monsterAction.name);
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public override void Hit(float damage)
+    {
+        Hp -= damage * damageMultiplier;
+        monster.Hp -= damage * damageMultiplier;
+        Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp+ ", 전체체력 : " + monster.Hp +", 데미지 : "+ damage * damageMultiplier);
+    }
+
+    public void OnCollisionEnter(Collision collision)       // 아마 공격할때 쓸듯,,
     {
         //if ()                 // 몬스터가 공격중일때만 충돌시 데미지 들어가도록
         //{

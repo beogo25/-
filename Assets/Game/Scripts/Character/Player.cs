@@ -137,7 +137,8 @@ public class Player : MonoBehaviour
             status.PlayerHit(1, 0, Vector3.zero, AttackType.POISON);
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Loop"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start") 
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("standing"))
             isMoveAble = true;
         else
             isMoveAble = false;
@@ -213,9 +214,11 @@ public class Player : MonoBehaviour
     }
     public void ParticleInstantiate(GameObject attack)
     {
+        Debug.Log("공격 시작시간 : " + Time.time);
         GameObject temp = attackParticleParent.Find(attack.name).gameObject;
         if (temp != null)
         {
+            Debug.Log("공격 시간 : " + Time.time);
             temp.transform.position = transform.position;
             temp.transform.rotation = transform.rotation;
             temp.SetActive(true);

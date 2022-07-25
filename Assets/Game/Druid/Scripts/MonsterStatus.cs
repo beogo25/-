@@ -5,7 +5,7 @@ using System;
 public class MonsterStatus : MonoBehaviour
 {
     [SerializeField] protected Collider[] bodyCollider; // 이게 필요한가?
-    public event Action HitDel;
+    //public event Action HitDel;
 
     [SerializeField] protected float maxHp;
     protected float currentHp;
