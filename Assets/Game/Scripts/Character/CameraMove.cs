@@ -38,7 +38,7 @@ public class CameraMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!playerScript.talkState)
+        if(!playerScript.TalkState)
             CameraMovement();
     }
     private void CameraMovement()
