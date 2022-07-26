@@ -24,6 +24,7 @@ public class UseItemCombinationSystem : MonoBehaviour
     {
         GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         combinationButton.SetActive(false);
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.shop.Path);
     }
     private void Awake()
     {
@@ -67,10 +68,12 @@ public class UseItemCombinationSystem : MonoBehaviour
             if(GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
                 GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         }
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.buttonSound.Path);
     }
 
     public void Combination()
     {
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.mixSuccess.Path);
         WarehouseManager.instance.itemDelegate(DataManager.instance.useItemDic[DataManager.instance.useItemRecipeList[target].result]);
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[target].materialA],1);
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[target].materialB],1);

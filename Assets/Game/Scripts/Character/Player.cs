@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using FMODUnity;
 
 public class Player : MonoBehaviour
 {
@@ -47,6 +48,9 @@ public class Player : MonoBehaviour
     private GameObject     map;
 
     public  Action         rollDelegate;
+
+    [SerializeField]
+    private EventReference soundEvent;
 
     public bool TalkState
     {
@@ -102,6 +106,13 @@ public class Player : MonoBehaviour
     {
         if(!TalkState)
             PlayerMove();
+    }
+    public void PlaySound(int num)
+    {
+        FMOD.Studio.EventInstance eventInstance = RuntimeManager.CreateInstance(soundEvent.Path);
+        eventInstance.setParameterByName("Attack", num);
+        eventInstance.start();
+        eventInstance.release();
     }
 
     IEnumerator DashReset()

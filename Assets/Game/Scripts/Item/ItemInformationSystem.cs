@@ -107,6 +107,7 @@ public class ItemInformationSystem : MonoBehaviour
             default:
                 break;
         }
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.itemMove.Path);
     }
     public void OutInventoryItem()
     {
@@ -131,6 +132,7 @@ public class ItemInformationSystem : MonoBehaviour
             default:
                 break;
         }
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.itemMove.Path);
     }
     private void OnEnable()
     {

@@ -20,7 +20,6 @@ public abstract class WarehouseUI : MonoBehaviour
     }
     private void Awake()
     {
-
         for (int i = 0; i < slots.Length; i++)
             slots[i].num = i;
     }
@@ -31,6 +30,7 @@ public abstract class WarehouseUI : MonoBehaviour
     public virtual void OnEnable()
     {
         Refresh();
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.itemBox.Path);
     }
     public virtual void ItemInformationChange(int num)
     {

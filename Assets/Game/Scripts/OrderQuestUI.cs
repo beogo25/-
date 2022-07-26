@@ -22,6 +22,7 @@ public class OrderQuestUI : MonoBehaviour
 
     private void OnEnable()
     {
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.questOpen.Path);
         Refresh();
     }
     public void Refresh()
