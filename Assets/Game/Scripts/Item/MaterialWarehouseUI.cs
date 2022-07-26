@@ -23,15 +23,15 @@ public class MaterialWarehouseUI : WarehouseUI
             num = WarehouseManager.instance.materialItemList.Count;
         for (int i = 0; i < num; i++)
         {
-            slots[i].image.color = Color.white;
-            slots[i].image.sprite = WarehouseManager.instance.materialItemList[i].sprite;
-            slots[i].stack.text = WarehouseManager.instance.materialItemList[i].stack.ToString();
+            slots[i].image.color         = Color.white;
+            slots[i].image.sprite        = WarehouseManager.instance.materialItemList[i].sprite;
+            slots[i].stack.text          = WarehouseManager.instance.materialItemList[i].stack.ToString();
             slots[i].button.interactable = true;
         }
         for (int i = num; i < slots.Length; i++)
         {
-            slots[i].image.color = Color.clear;
-            slots[i].stack.text = "";
+            slots[i].image.color         = Color.clear;
+            slots[i].stack.text          = "";
             slots[i].button.interactable = false;
         }
     }

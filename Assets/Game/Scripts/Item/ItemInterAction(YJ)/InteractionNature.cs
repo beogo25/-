@@ -19,8 +19,16 @@ public class InteractionNature : InteractionObject, IGlow
                     transform.GetChild(i).GetComponent<Renderer>().material = objectRenderer.materials[i];
             }
         }
+        else
+        {
+            for (int i = 0; i < objectRenderer.materials.Length; i++)
+            {
+                if (transform.GetChild(i).GetComponent<MeshRenderer>() != null)
+                    transform.GetChild(i).GetComponent<Renderer>().material = objectRenderer.materials[i];
+            }
+        }
         //메테리얼 설정
-        for(int i = 0; i < objectRenderer.materials.Length; i++)
+        for (int i = 0; i < objectRenderer.materials.Length; i++)
         {
             objectRenderer.materials[i].SetColor("_RimLightColor", new Color(1, 1, 0, 0));
             objectRenderer.materials[i].SetFloat("_RimWidth"     , 1f);

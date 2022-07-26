@@ -10,7 +10,8 @@ public class GameManager : Singleton<GameManager>
     private int         deviceWidth = Screen.width;
     public  float       ratio;
     public  EventSystem eventSystem;
-    public  bool        load=false; //새로시작,로드에서 변경
+    public  bool        load        = false; //새로시작,로드에서 변경
+
 
     public override void Awake()
     {
@@ -28,6 +29,8 @@ public class GameManager : Singleton<GameManager>
         // 커서 화면에 고정
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+
     public void LoadorNew(bool load)
     {
         this.load = load;

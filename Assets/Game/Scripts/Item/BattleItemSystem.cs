@@ -80,7 +80,10 @@ public class BattleItemSystem : MonoBehaviour
             isScrollMovable = false;
         }
         if (Input.GetButtonDown("Button X") || Input.GetAxis("D-Pad Y") == 1)
+        {
             UseItemTrigger();
+            StartCoroutine(CooltimeCheck());
+        }
         if (Input.GetKeyDown(KeyCode.Alpha3) || (Input.GetAxis("D-Pad X") == -1 && isScrollMovable))
         {
             SelectNum += 1;

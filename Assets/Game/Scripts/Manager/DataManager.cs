@@ -14,7 +14,7 @@ public class DataManager : Singleton<DataManager>
 
     public List<UseItemRecipe>       useItemRecipeList       = new List<UseItemRecipe>();
     public List<EqiupmentItemRecipe> eqiupmentItemRecipeList = new List<EqiupmentItemRecipe>();
-    public List<Quest> questList = new List<Quest>();
+    public List<Quest>               questList               = new List<Quest>();
 
     public override void Awake()
     {
@@ -195,15 +195,15 @@ public class DataManager : Singleton<DataManager>
             QuestData loadData = JsonUtility.FromJson<QuestData>(questData);
             for (int i = 0; i < loadData.questName.Count; i++)
             {
-                Quest quest = new Quest();
-                quest.questName = loadData.questName[i];
-                quest.questContents = loadData.questContents[i];
+                Quest quest           = new Quest();
+                quest.questName       = loadData.questName[i];
+                quest.questContents   = loadData.questContents[i];
                 quest.questDifficulty = loadData.questDifficulty[i];
-                quest.clearGold = loadData.clearGold[i];
-                quest.target = loadData.target[i];
-                quest.targetNum = loadData.targetNum[i];
+                quest.clearGold       = loadData.clearGold[i];
+                quest.target          = loadData.target[i];
+                quest.targetNum       = loadData.targetNum[i];
                 quest.collectionQuest = loadData.collectionQuest[i];
-                quest.questNum = i;
+                quest.questNum        = i;
                 questList.Add(quest);
             }
         }
@@ -225,32 +225,32 @@ public class DataManager : Singleton<DataManager>
     {
         public List<string> itemname = new List<string>();
         public List<string> contents = new List<string>();
-        public List<int> value = new List<int>();
-        public List<int> imageNum = new List<int>();
+        public List<int>    value    = new List<int>();
+        public List<int>    imageNum = new List<int>();
     }
 
     [System.Serializable]
     public class EquipmentData
     {
-        public List<string> itemname = new List<string>();
-        public List<string> contents = new List<string>();
-        public List<int> value = new List<int>();
-        public List<int> imageNum = new List<int>();
-        public List<int> itemtype = new List<int>();
-        public List<int> equipmentValue = new List<int>();
+        public List<string> itemname       = new List<string>();
+        public List<string> contents       = new List<string>();
+        public List<int>    value          = new List<int>();
+        public List<int>    imageNum       = new List<int>();
+        public List<int>    itemtype       = new List<int>();
+        public List<int>    equipmentValue = new List<int>();
     }
 
     [System.Serializable]
     public class UseItemData
     {
-        public List<string> itemname = new List<string>();
-        public List<string> contents = new List<string>();
-        public List<int> value = new List<int>();
-        public List<int> imageNum = new List<int>();
-        public List<int> itemtype = new List<int>();
-        public List<int> effectValue = new List<int>();
-        public List<int> maxStack = new List<int>();
-        public List<int> useItemType = new List<int>();
+        public List<string> itemname    = new List<string>();
+        public List<string> contents    = new List<string>();
+        public List<int>    value       = new List<int>();
+        public List<int>    imageNum    = new List<int>();
+        public List<int>    itemtype    = new List<int>();
+        public List<int>    effectValue = new List<int>();
+        public List<int>    maxStack    = new List<int>();
+        public List<int>    useItemType = new List<int>();
     }
 
     [System.Serializable]
@@ -258,47 +258,47 @@ public class DataManager : Singleton<DataManager>
     {
         public List<string> materialA = new List<string>();
         public List<string> materialB = new List<string>();
-        public List<string> result = new List<string>();
+        public List<string> result    = new List<string>();
     }
 
     [System.Serializable]
     public class EquipmentItemRecipeData
     {
         public List<string> materialA = new List<string>();
-        public List<int> numA = new List<int>();
+        public List<int> numA         = new List<int>();
         public List<string> materialB = new List<string>();
-        public List<int> numB = new List<int>();
-        public List<int> gold = new List<int>();
-        public List<string> result = new List<string>();
+        public List<int> numB         = new List<int>();
+        public List<int> gold         = new List<int>();
+        public List<string> result    = new List<string>();
     }
 
     [System.Serializable]
     public class QuestData
     {
-        public List<string> target = new List<string>();
-        public List<int> targetNum = new List<int>();
-        public List<int> clearGold = new List<int>();
-        public List<string> questName = new List<string>();
-        public List<string> questContents = new List<string>();
-        public List<int> questDifficulty = new List<int>();
-        public List<bool> collectionQuest = new List<bool>();
+        public List<string> target          = new List<string>();
+        public List<int>    targetNum       = new List<int>();
+        public List<int>    clearGold       = new List<int>();
+        public List<string> questName       = new List<string>();
+        public List<string> questContents   = new List<string>();
+        public List<int>    questDifficulty = new List<int>();
+        public List<bool>   collectionQuest = new List<bool>();
     }
 
     [System.Serializable]
     public class GameSaveData
     {
-        public List<string> equipmentWarehouseItem = new List<string>();
+        public List<string> equipmentWarehouseItem   = new List<string>();
+                                                     
+        public List<string> useItemWarehouseItem     = new List<string>();
+        public List<int>    useItemWarehouseItemNum  = new List<int>();
 
-        public List<string> useItemWarehouseItem = new List<string>();
-        public List<int> useItemWarehouseItemNum = new List<int>();
+        public List<string> materialWarehouseItem    = new List<string>();
+        public List<int>    materialWarehouseItemNum = new List<int>();
 
-        public List<string> materialWarehouseItem = new List<string>();
-        public List<int> materialWarehouseItemNum = new List<int>();
-
-        public List<string> equipInventoryItem = new List<string>();
-
-        public List<string> inventoryItem = new List<string>();
-        public List<int> inventoryItemNum = new List<int>();
+        public List<string> equipInventoryItem       = new List<string>();
+                                                     
+        public List<string> inventoryItem            = new List<string>();
+        public List<int>    inventoryItemNum         = new List<int>();
         public int gold;
     }
 }

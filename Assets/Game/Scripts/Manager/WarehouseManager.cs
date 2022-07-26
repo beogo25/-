@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 public class WarehouseManager : Singleton<WarehouseManager>
 {
-    public List<MaterialItem> materialItemList = new List<MaterialItem>();
-    public List<EquipmentItem> equipmentList = new List<EquipmentItem>();
-    public List<UseItem> useItemList = new List<UseItem>();
+    public List<MaterialItem>  materialItemList = new List<MaterialItem>();
+    public List<EquipmentItem> equipmentList    = new List<EquipmentItem>();
+    public List<UseItem>       useItemList      = new List<UseItem>();
 
-    public UseItemWarehouseUI useItemWarehouse;
+    public UseItemWarehouseUI   useItemWarehouse;
     public EquipmentWarehouseUI equipmentWarehouse;
-    public MaterialWarehouseUI materialWarehouse;
+    public MaterialWarehouseUI  materialWarehouse;
     public delegate void AdditemDelegate(Item item);
-    public AdditemDelegate itemDelegate;
+    public AdditemDelegate      itemDelegate;
     public override void Awake()
     {
         itemDelegate += AddItem;
