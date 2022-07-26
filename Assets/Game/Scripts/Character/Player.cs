@@ -41,12 +41,15 @@ public class Player : MonoBehaviour
     WaitForSecondsRealtime colorDelay    = new WaitForSecondsRealtime(0.0005f);
     public  Renderer       renderers;
     public  Quest?         orderQuest    = null;
-    private PlayerStatus   status;
+    public  PlayerStatus   status;
 
     [SerializeField]
-    private GameObject     map;
+    private GameObject     bigSizeMap;
+    [SerializeField]
+    private GameObject     miniMap;
 
-    public  Action         rollDelegate;
+
+    public Action         rollDelegate;
 
     public bool TalkState
     {
@@ -58,11 +61,13 @@ public class Player : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+                miniMap.SetActive(false);
             }
             else
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
+                miniMap.SetActive(true);
             }
         }
     }
@@ -168,7 +173,7 @@ public class Player : MonoBehaviour
             LockOn();
 
         if(Input.GetButtonDown("Select"))
-            map.SetActive(true);
+            bigSizeMap.SetActive(true);
     }
 
     #region 애니메이션 이벤트
@@ -227,22 +232,21 @@ public class Player : MonoBehaviour
         rollDelegate();
         StartCoroutine(combo.DelayCheck(0.2f));
         Vector3 rollDir = moveDir;
-        float rollSpeed = 0.070f;
+        float rollSpeed = 0.045f;
         if (rollDir == Vector3.zero)
         {
             for (int i = 0; i < 30; i++)
             {
                 transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                rollSpeed -= 0.001f;
+                rollSpeed -= 0.0005f;
                 yield return new WaitForFixedUpdate();
             }
             if (animator.GetBool("Dash"))
             {
-                Debug.Log("Dash중");
                 for (int i = 0; i < 20; i++)
                 {
                     transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                    rollSpeed -= 0.001f;
+                    rollSpeed -= 0.0005f;
                     yield return new WaitForFixedUpdate();
                 }
             }
@@ -253,15 +257,16 @@ public class Player : MonoBehaviour
             for (int i = 0; i < 30; i++)
             {
                 transform.position += rollDir * characterMove.movementSpeed * rollSpeed;
-                rollSpeed -= 0.001f;
+                rollSpeed -= 0.0005f;
                 yield return new WaitForFixedUpdate();
             }
             if (animator.GetBool("Dash"))
             {
+
                 for (int i = 0; i < 20; i++)
                 {
                     transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                    rollSpeed -= 0.001f;
+                    rollSpeed -= 0.0005f;
                     yield return new WaitForFixedUpdate();
                 }
             }

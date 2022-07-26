@@ -6,12 +6,15 @@ using TMPro;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField]
+    private Player player;
     public Image faceImage;
     public Sprite[] facialSprites = new Sprite[3];
     public TextMeshProUGUI textArea;
     private Transform[] spots = new Transform[4];
     private int number = 0;
     private bool isOpening = false;
+    private bool isProvided = false;
 
     private void Start()
     {
@@ -32,29 +35,23 @@ public class TutorialManager : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(spots[num].position, 35, 1 << LayerMask.NameToLayer("Player"));
         if (colliders.Length != 0)
         {
-            if (number < spots.Length - 1)
+            switch (num)
             {
-                switch(num)
-                {
-                    case 0:
-                        MovementTutorial();
-                        break;
-                    case 1:
-                        LockOnAttackTutorial();
-                        break;
-                    case 2:
-                        CollectTutorial();
-                        break;
-                    case 3:
-                        UseTutorial();
-                        break;
-                    default:
-                        break;
-                }
+                case 0:
+                    MovementTutorial();
+                    break;
+                case 1:
+                    LockOnAttackTutorial();
+                    break;
+                case 2:
+                    CollectTutorial();
+                    break;
+                case 3:
+                    UseTutorial();
+                    break;
+                default:
+                    break;
             }
-            else
-                number = 0;
-
         }
     }
 
@@ -77,7 +74,6 @@ public class TutorialManager : MonoBehaviour
                 StartCoroutine(OpenDoor());
             }
         }
-
     }
 
     void LockOnAttackTutorial()
@@ -95,12 +91,38 @@ public class TutorialManager : MonoBehaviour
 
     void CollectTutorial()
     {
+        Debug.Log("3단계");
+        if(WarehouseManager.instance.useItemList.Count > 0)
+        {
+            if (!isOpening)
+            {
+                Debug.Log("성공");
+                StartCoroutine(OpenDoor());
+            }
+        }
         
     }
 
     void UseTutorial()
     {
+        Debug.Log("4단계");
+        if(!isProvided)
+        {
+            player.status.PlayerHit(1, 0, Vector3.zero, AttackType.BURN);
+            player.status.PlayerHit(1, 0, Vector3.zero, AttackType.POISON);
+            InventoryManager.instance.AddItem(DataManager.instance.useItemDic["비약"]);
+            InventoryManager.instance.AddItem(DataManager.instance.useItemDic["해독제"]);
+            isProvided = true;
+        }
 
+        if (player.status.Ailment == 0 && player.status.Hp == player.status.maxHp)
+        {
+            if (!isOpening)
+            {
+                Debug.Log("성공");
+                StartCoroutine(OpenDoor());
+            }
+        }
     }
 
     IEnumerator OpenDoor()
@@ -112,6 +134,11 @@ public class TutorialManager : MonoBehaviour
             yield return new WaitForSeconds(0.02f);
         }
         isOpening = false;
-        number++;
+        if (number < spots.Length)
+            number++;
+        else
+        {
+            number = 0;
+        }
     }
 }

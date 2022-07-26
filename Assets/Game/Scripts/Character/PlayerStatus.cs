@@ -6,30 +6,30 @@ using UnityEngine.UI;
 public class PlayerStatus : MonoBehaviour
 {
     [SerializeField]
-    private float hp;
-    private float stamina;
-    public int maxHp=100;
-    public float maxStamina = 100;
+    private float     hp;
+    private float     stamina;
+    public  int       maxHp = 100;
+    public  float     maxStamina = 100;
 
-    private int atk = 50;
-    private int def = 0;
+    private int       atk = 50;
+    private int       def = 0;
     public static int gold = 10000;
 
-    private int burnCount;
+    private int       burnCount;
 
-    public Slider hpSlider;
-    public Slider staminaSlider;
+    public  Slider    hpSlider;
+    public  Slider    staminaSlider;
 
-    private int buffAtk;
-    private int buffDef;
+    private int       buffAtk;
+    private int       buffDef;
 
-    private IEnumerator atkIEnumerator = null;
-    private IEnumerator defIEnumerator = null;
+    private IEnumerator atkIEnumerator    = null;
+    private IEnumerator defIEnumerator    = null;
     private IEnumerator poisonIEnumerator = null;
-    private IEnumerator burnIEnumerator = null;
+    private IEnumerator burnIEnumerator   = null;
     private IEnumerator staminaHealthIEnumerator;
 
-    private Player player;
+    private Player    player;
     private WaitForFixedUpdate stamanaHealthDelay = new WaitForFixedUpdate();
     private const float buffDuration = 180;
 

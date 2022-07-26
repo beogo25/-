@@ -27,7 +27,6 @@ public class InteractionObject: MonoBehaviour, IInteraction
         public int Choose()
         {
             int randomPoint = Random.Range(0, 100);
-
             for (int i = 0; i < percent.Length; i++)
             {
                 if (randomPoint < percent[i])
