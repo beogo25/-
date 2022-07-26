@@ -27,6 +27,7 @@ public class EquipmentCombinationSystem : MonoBehaviour
     private void OnEnable()
     {
         GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.shop.Path);
         combinationButton.SetActive(false);
     }
     private void Awake()
@@ -85,6 +86,7 @@ public class EquipmentCombinationSystem : MonoBehaviour
         {
             weaponMesh.mesh = null;
         }
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.buttonSound.Path);
     }
 
     public void Combination()
@@ -94,5 +96,6 @@ public class EquipmentCombinationSystem : MonoBehaviour
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialB], DataManager.instance.eqiupmentItemRecipeList[target].numB);
         PlayerStatus.gold -= DataManager.instance.eqiupmentItemRecipeList[target].gold;
         CombiRecipeView(target);
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.equipmentCombi.Path);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using FMODUnity;
 
 public class Player : MonoBehaviour
 {
@@ -47,6 +48,9 @@ public class Player : MonoBehaviour
     private GameObject     map;
 
     public  Action         rollDelegate;
+
+    [SerializeField]
+    private EventReference soundEvent;
 
     public bool TalkState
     {
@@ -102,6 +106,13 @@ public class Player : MonoBehaviour
     {
         if(!TalkState)
             PlayerMove();
+    }
+    public void PlaySound(int num)
+    {
+        FMOD.Studio.EventInstance eventInstance = RuntimeManager.CreateInstance(soundEvent.Path);
+        eventInstance.setParameterByName("Attack", num);
+        eventInstance.start();
+        eventInstance.release();
     }
 
     IEnumerator DashReset()
@@ -230,22 +241,39 @@ public class Player : MonoBehaviour
         float rollSpeed = 0.070f;
         if (rollDir == Vector3.zero)
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 30; i++)
             {
                 transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
                 rollSpeed -= 0.001f;
                 yield return new WaitForFixedUpdate();
             }
-
+            if(animator.GetBool("Dash"))
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                    rollSpeed -= 0.001f;
+                    yield return new WaitForFixedUpdate();
+                }
+            }
         }
         else
         {
             transform.forward = rollDir;
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 30; i++)
             {
                 transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
                 rollSpeed -= 0.001f;
                 yield return new WaitForFixedUpdate();
+            }
+            if (animator.GetBool("Dash"))
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
+                    rollSpeed -= 0.001f;
+                    yield return new WaitForFixedUpdate();
+                }
             }
         }
     }

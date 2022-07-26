@@ -26,6 +26,7 @@ public class Shop : MonoBehaviour
     {
         GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         purchaseButton.SetActive(false);
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.shop.Path);
     }
     private void Awake()
     {
@@ -64,6 +65,7 @@ public class Shop : MonoBehaviour
                 GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
 
         }
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.buttonSound.Path);
     }
     public  void Purchase()
     {

@@ -28,10 +28,6 @@ public class TalkManager : Singleton<TalkManager>
         {
             ClickButton();
         }
-        if (Input.GetButtonUp("Cancel") && talkUI.activeInHierarchy)
-        {
-            ExitButton();
-        }
     }
     public void TalkStart(string name, string[] talk, Sprite sprite = null, UIType[] inputUITypes = null)
     {
@@ -103,13 +99,5 @@ public class TalkManager : Singleton<TalkManager>
             talkTMP.text += talkText[a][j];
             yield return talkDelay;
         }
-    }
-
-    public void ExitButton()
-    {
-        for(int i = 0; i < UIButton.Length; i++)
-            UIButton[i].SetActive(false);
-        talkUI.SetActive(false);
-        player.TalkState = false;
     }
 }
