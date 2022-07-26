@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
                            
     public  bool           isGround = true;
     private float          jumpInputTime;
-    private float          movementSpeed;
+    private float          backupSpeed;
     private CharacterMove  characterMove;
     private Rigidbody      playerRigidbody;
                            
@@ -42,12 +42,15 @@ public class Player : MonoBehaviour
     WaitForSecondsRealtime colorDelay    = new WaitForSecondsRealtime(0.0005f);
     public  Renderer       renderers;
     public  Quest?         orderQuest    = null;
-    private PlayerStatus   status;
+    public  PlayerStatus   status;
 
     [SerializeField]
-    private GameObject     map;
+    private GameObject     bigSizeMap;
+    [SerializeField]
+    private GameObject     miniMap;
 
-    public  Action         rollDelegate;
+
+    public Action         rollDelegate;
 
     [SerializeField]
     private EventReference soundEvent;
@@ -62,11 +65,13 @@ public class Player : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+                miniMap.SetActive(false);
             }
             else
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
+                miniMap.SetActive(true);
             }
         }
     }
@@ -75,7 +80,7 @@ public class Player : MonoBehaviour
         Player player      = this;
         status             = transform.parent.GetComponent<PlayerStatus >();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
-        movementSpeed      = transform.parent.GetComponent<CharacterMove>().movementSpeed;
+        backupSpeed        = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         playerRigidbody    = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator >();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
@@ -159,7 +164,7 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && !isCollectable)
             StartCoroutine(TriggerCheck(combo.Input(EnumKey.POWERPUNCH, Time.time)));
 
-        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround && isMoveAble)
+        if ((Input.GetButtonDown("Jump") || Input.GetAxis("Jump") > 0) && isGround)
         {
             jumpInputTime = Time.time;
             isGround = false;
@@ -179,7 +184,7 @@ public class Player : MonoBehaviour
             LockOn();
 
         if(Input.GetButtonDown("Select"))
-            map.SetActive(true);
+            bigSizeMap.SetActive(true);
     }
 
     #region 애니메이션 이벤트
@@ -238,21 +243,21 @@ public class Player : MonoBehaviour
         rollDelegate();
         StartCoroutine(combo.DelayCheck(0.2f));
         Vector3 rollDir = moveDir;
-        float rollSpeed = 0.070f;
+        float rollSpeed = 0.045f;
         if (rollDir == Vector3.zero)
         {
             for (int i = 0; i < 30; i++)
             {
-                transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
-                rollSpeed -= 0.001f;
+                transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
+                rollSpeed -= 0.0005f;
                 yield return new WaitForFixedUpdate();
             }
-            if(animator.GetBool("Dash"))
+            if (animator.GetBool("Dash"))
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
-                    rollSpeed -= 0.001f;
+                    transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
+                    rollSpeed -= 0.0005f;
                     yield return new WaitForFixedUpdate();
                 }
             }
@@ -262,17 +267,16 @@ public class Player : MonoBehaviour
             transform.forward = rollDir;
             for (int i = 0; i < 30; i++)
             {
-                transform.position += rollDir * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
-                rollSpeed -= 0.001f;
+                transform.position += rollDir * characterMove.movementSpeed * rollSpeed;
+                rollSpeed -= 0.0005f;
                 yield return new WaitForFixedUpdate();
             }
             if (animator.GetBool("Dash"))
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    transform.position += transform.forward * transform.parent.GetComponent<CharacterMove>().movementSpeed * rollSpeed;
-                    rollSpeed -= 0.001f;
-                    yield return new WaitForFixedUpdate();
+                    transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
+                    rollSpeed -= 0.0005f;
                 }
             }
         }
@@ -312,7 +316,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            transform.parent.GetComponent<CharacterMove>().movementSpeed = 1;
+            characterMove.movementSpeed = 1;
         }
     }
 
@@ -320,7 +324,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
         {
-            transform.parent.GetComponent<CharacterMove>().movementSpeed = movementSpeed;
+            characterMove.movementSpeed = backupSpeed;
         }
     }
     private void PlayerMove()

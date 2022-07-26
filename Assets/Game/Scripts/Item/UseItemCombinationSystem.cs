@@ -43,20 +43,21 @@ public class UseItemCombinationSystem : MonoBehaviour
     public void CombiRecipeView(int num)
     {
         target = num;   
-        UseItem useitem = DataManager.instance.useItemDic[DataManager.instance.useItemRecipeList[num].result];
+        UseItem      useitem       = DataManager.instance.useItemDic[DataManager.instance.useItemRecipeList[num].result];
         MaterialItem materialItemA = DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[num].materialA];
         MaterialItem materialItemB = DataManager.instance.materialsDic[DataManager.instance.useItemRecipeList[num].materialB];
-        int resultNum = WarehouseManager.instance.FindItem(useitem);
-        int materialAnum = WarehouseManager.instance.FindItem(materialItemA);
-        int materialBnum = WarehouseManager.instance.FindItem(materialItemB);
+        int          resultNum     = WarehouseManager.instance.FindItem(useitem);
+        int          materialAnum  = WarehouseManager.instance.FindItem(materialItemA);
+        int          materialBnum  = WarehouseManager.instance.FindItem(materialItemB);
 
-        resultImage.sprite = useitem.sprite;
-        materialAImage.sprite = materialItemA.sprite;
-        materialBImage.sprite = materialItemB.sprite;
+        resultImage.sprite         = useitem.sprite;
+        materialAImage.sprite      = materialItemA.sprite;
+        materialBImage.sprite      = materialItemB.sprite;
 
-        resultContents.text = useitem.contents;
-        materialAName.text = materialItemA.itemName + "1 (" + materialAnum + ")";
-        materialBName.text = materialItemB.itemName + "1 (" + materialBnum + ")";
+        resultContents.text        = useitem.contents;
+        materialAName.text         = materialItemA.itemName + "1 (" + materialAnum + ")";
+        materialBName.text         = materialItemB.itemName + "1 (" + materialBnum + ")";
+
         if(materialAnum>0 && materialBnum>0)
         {
             combinationButton.SetActive(true);

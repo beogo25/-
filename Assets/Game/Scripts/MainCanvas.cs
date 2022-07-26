@@ -56,13 +56,12 @@ public class MainCanvas : Singleton<MainCanvas>
     }
     public void Exit()
     {
-        for(int i = 0; i < allUI.Length; i++)
+        for(int i = 0; i < allUI.Length - 1; i++)
         {
             allUI[i].gameObject.SetActive(false);
         }
         blur.SetActive(false);
         player.TalkState = false;
-        allUI[14].SetActive(true);
         StartCoroutine(Stop());
         RuntimeManager.PlayOneShot(cancelMenu.Path);
         if(TalkManager.instance.gameObject.activeInHierarchy)
