@@ -59,7 +59,6 @@ public class AttackParticle : MonoBehaviour
         if (other.GetComponent<MonsterHitablePart>() != null && attackAble)
         {
             attackAble = false;
-            //Debug.Log(other.name +"  "+ player.attackValue * attackDamagePercent);
             other.GetComponent<MonsterHitablePart>().Hit(player.attackValue * attackDamagePercent);
 
             if (hitEffect.Length > 0)
