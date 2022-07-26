@@ -11,7 +11,7 @@ public class GameManager : Singleton<GameManager>
     public  float       ratio;
     public  EventSystem eventSystem;
     public  bool        load        = false; //새로시작,로드에서 변경
-
+    public  static bool isJoyPadOn;
 
     public override void Awake()
     {
@@ -30,6 +30,10 @@ public class GameManager : Singleton<GameManager>
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void Update()
+    {
+        JoyPadCheck();
+    }
 
     public void LoadorNew(bool load)
     {
@@ -44,5 +48,18 @@ public class GameManager : Singleton<GameManager>
     public void ApplicationExit()
     {
         Application.Quit();
+    }
+
+    private void JoyPadCheck()
+    {
+        //조이패드인지 키보드인지 확인하는 식
+        string[] names = Input.GetJoystickNames();
+        for (int i = 0; i < names.Length; i++)
+        {
+            if (names[i].Length == 33)
+                isJoyPadOn = true;
+            else
+                isJoyPadOn = false;
+        }
     }
 }

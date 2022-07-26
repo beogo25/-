@@ -14,7 +14,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_Sparrow
-    second: {fileID: 2100000, guid: 6e53c9c9544526c488115cb4cfa9aca1, type: 2}
+    second: {fileID: 2100000, guid: 3c7a682549b02aa4baa30992f2b5dd43, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule

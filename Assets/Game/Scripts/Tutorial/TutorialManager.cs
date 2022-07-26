@@ -9,12 +9,33 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]
     private Player player;
     public Image faceImage;
-    public Sprite[] facialSprites = new Sprite[3];
     public TextMeshProUGUI textArea;
     private Transform[] spots = new Transform[4];
+    
     private int number = 0;
-    private bool isOpening = false;
+    
+    
+    private bool isOpening  = false;
     private bool isProvided = false;
+    private bool isTextPlayed = false;
+    
+    [Header("이동 및 카메라")]
+    [TextArea]
+    public string[] linesA = new string[0];
+    
+    [Header("공격 및 락온")]
+    [TextArea]
+    public string[] linesB = new string[0];
+
+    [Header("채집 및 제작")]
+    [TextArea]
+    public string[] linesC = new string[0];
+
+    [Header("상태이상 및 아이템")]
+    [TextArea]
+    public string[] linesD = new string[0];
+
+
 
     private void Start()
     {
@@ -27,6 +48,8 @@ public class TutorialManager : MonoBehaviour
     private void Update()
     {
         TutorialCheck(number);
+
+
 
     }
 
@@ -65,6 +88,7 @@ public class TutorialManager : MonoBehaviour
 
     void MovementTutorial()
     {
+        StartCoroutine(TextChange(linesA));
         Debug.Log("1단계");
         if(Input.GetKeyDown(KeyCode.H))
         {
@@ -128,6 +152,7 @@ public class TutorialManager : MonoBehaviour
     IEnumerator OpenDoor()
     {
         isOpening = true;
+        textArea.text = "잘했어요! 다음 단계로 넘어가요";
         for(int i = 0; i < 50; i++)
         {
             transform.GetChild(number).GetChild(0).transform.Translate(Vector3.down * 0.5f, Space.World);
@@ -135,10 +160,27 @@ public class TutorialManager : MonoBehaviour
         }
         isOpening = false;
         if (number < spots.Length)
+        {
             number++;
+            isTextPlayed = false;
+        }
         else
         {
-            number = 0;
+            Debug.Log("튜토리얼 끝");
         }
     }
+
+    IEnumerator TextChange(string[] strings)
+    {
+        if(!isTextPlayed)
+        {
+            isTextPlayed = true;
+            for (int i = 0; i < strings.Length; i++)
+            {
+                textArea.text = strings[i];
+                yield return new WaitForSeconds(4f);
+            }
+        }
+    }
+
 }
