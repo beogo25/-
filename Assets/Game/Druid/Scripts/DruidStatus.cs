@@ -11,18 +11,21 @@ public class DruidStatus : MonsterStatus
         get { return currentHp; }
         set
         {
+            //if (value < currentHp)  // 체력이 닳은 경우에만 실행되도록 
+            //{
+            //    Debug.Log("체력이 닳았다면 타겟잡고 전투모드로");
+            //    if (monsterAction.behaviorState != MONSTER_BEHAVIOR_STATE.InBattle)    // 플레이어가 선제공격시 전투모드가 아니면 전투모드
+            //    {
+            //        Collider[] targets = Physics.OverlapSphere(transform.position, 30f, 1 << LayerMask.NameToLayer("Player"));
+            //        for (int i = 0; i < targets.Length; i++)
+            //        {
+            //            monsterAction.target = targets[i];
+            //            monsterAction.ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
+            //        }
+            //    }
+            //}
             currentHp = value;
-            Debug.Log("전체체력 : " + Hp);
-
-            if(monsterAction.behaviorState == MONSTER_BEHAVIOR_STATE.SerchingTarget)    // 플레이어가 선제공격시 전투모드로 돌입
-            {
-                Collider[] targets = Physics.OverlapSphere(transform.position, 30f, 1 << LayerMask.NameToLayer("Player"));
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    monsterAction.target = targets[i];
-                    monsterAction.ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
-                }
-            }
+            
 
             if (currentHp <= 0)
             {
@@ -37,10 +40,11 @@ public class DruidStatus : MonsterStatus
         monsterAction = GetComponent<MonsterAction>();
 
         maxHp = 20000;
+        currentHp = maxHp;
     }
     public void Start()
     {
-        Hp = maxHp;
+        
         
     }
 }

@@ -128536,14 +128536,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1.0666667
-    functionName: RangeAttack
+    functionName: CreateRock
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2.4666667
-    functionName: ThrowProjectile
+    functionName: ThrowRock
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

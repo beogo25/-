@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     private float          backupSpeed;
     private CharacterMove  characterMove;
     private Rigidbody      playerRigidbody;
-                           
+    
     [SerializeField]       
     private ComboSystem    combo;
     [SerializeField]       
@@ -49,11 +49,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject     miniMap;
 
-
-    public Action         rollDelegate;
+    public  event Action    AttackStartDelegate;
+    public   Action         rollDelegate;
 
     [SerializeField]
     private EventReference soundEvent;
+
 
     public bool TalkState
     {
@@ -153,7 +154,8 @@ public class Player : MonoBehaviour
             status.PlayerHit(1, 0, Vector3.zero, AttackType.POISON);
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Loop"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start") 
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Loop") || animator.GetCurrentAnimatorStateInfo(0).IsName("standing"))
             isMoveAble = true;
         else
             isMoveAble = false;
@@ -200,11 +202,16 @@ public class Player : MonoBehaviour
     }
     public void Attack_AirSlashStart()
     {
-        playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
+        playerRigidbody.constraints |=  RigidbodyConstraints.FreezePositionY | 
+                                        RigidbodyConstraints.FreezePositionX |
+                                        RigidbodyConstraints.FreezePositionZ;
     }
     public void Attack_AirSlashEnd()
     {
-        playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        playerRigidbody.constraints &=  ~RigidbodyConstraints.FreezePositionY &
+                                        ~RigidbodyConstraints.FreezePositionX &
+                                        ~RigidbodyConstraints.FreezePositionZ;
+
         playerRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
     }
 
@@ -227,8 +234,13 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(3f);
         animator.SetBool("Down", false);
     }
+    public void AttackStart()
+    {
+        //AttackStartDelegate();
+    }
     public void ParticleInstantiate(GameObject attack)
     {
+        Debug.Log(attack);
         GameObject temp = attackParticleParent.Find(attack.name).gameObject;
         if (temp != null)
         {
@@ -277,6 +289,7 @@ public class Player : MonoBehaviour
                 {
                     transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
                     rollSpeed -= 0.0005f;
+                    yield return new WaitForFixedUpdate();
                 }
             }
         }

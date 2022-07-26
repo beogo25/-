@@ -5,7 +5,7 @@ using System;
 public class MonsterStatus : MonoBehaviour
 {
     [SerializeField] protected Collider[] bodyCollider; // 이게 필요한가?
-    public event Action HitDel;
+    //public event Action HitDel;
 
     [SerializeField] protected float maxHp;
     protected float currentHp;
@@ -16,12 +16,6 @@ public class MonsterStatus : MonoBehaviour
         set
         {
             currentHp = value;
-
-            if (currentHp <= 0)
-            {
-                currentHp = 0;
-                // 죽는 모션
-            }
         }
     }
 
