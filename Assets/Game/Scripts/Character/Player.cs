@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private float          movementSpeed;
     private CharacterMove  characterMove;
     private Rigidbody      playerRigidbody;
-                           
+    
     [SerializeField]       
     private ComboSystem    combo;
     [SerializeField]       
@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject     map;
 
+    public  event Action   AttackStartDelegate;
     public  Action         rollDelegate;
 
     public bool TalkState
@@ -185,11 +186,16 @@ public class Player : MonoBehaviour
     }
     public void Attack_AirSlashStart()
     {
-        playerRigidbody.constraints |= RigidbodyConstraints.FreezePositionY;
+        playerRigidbody.constraints |=  RigidbodyConstraints.FreezePositionY | 
+                                        RigidbodyConstraints.FreezePositionX |
+                                        RigidbodyConstraints.FreezePositionZ;
     }
     public void Attack_AirSlashEnd()
     {
-        playerRigidbody.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        playerRigidbody.constraints &=  ~RigidbodyConstraints.FreezePositionY &
+                                        ~RigidbodyConstraints.FreezePositionX &
+                                        ~RigidbodyConstraints.FreezePositionZ;
+
         playerRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
     }
 
@@ -212,13 +218,16 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(3f);
         animator.SetBool("Down", false);
     }
+    public void AttackStart()
+    {
+        //AttackStartDelegate();
+    }
     public void ParticleInstantiate(GameObject attack)
     {
-        Debug.Log("공격 시작시간 : " + Time.time);
+        Debug.Log(attack);
         GameObject temp = attackParticleParent.Find(attack.name).gameObject;
         if (temp != null)
         {
-            Debug.Log("공격 시간 : " + Time.time);
             temp.transform.position = transform.position;
             temp.transform.rotation = transform.rotation;
             temp.SetActive(true);
