@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class PlayerStatus : MonoBehaviour
 {
@@ -23,8 +24,13 @@ public class PlayerStatus : MonoBehaviour
     private int       buffAtk;
     private int       buffDef;
 
+
     private IEnumerator atkIEnumerator    = null;
     private IEnumerator defIEnumerator    = null;
+
+    [SerializeField]
+    private EventReference itemUse;
+
     private IEnumerator poisonIEnumerator = null;
     private IEnumerator burnIEnumerator   = null;
     private IEnumerator staminaHealthIEnumerator;
@@ -143,6 +149,7 @@ public class PlayerStatus : MonoBehaviour
                 player.useParticleParent.GetChild(3).gameObject.SetActive(true);
                 break;
         }
+        RuntimeManager.PlayOneShot(itemUse.Path);
     }
     public void PlayerHit(int damage, float knockBackPower, Vector3 position, AttackType attackType = AttackType.NORMAL)
     {
@@ -164,7 +171,7 @@ public class PlayerStatus : MonoBehaviour
             default:
                 break;
         }
-        //�˹� �ֱ�
+        //³Ë¹é ³Ö±â
     }
     
     public IEnumerator Poison()

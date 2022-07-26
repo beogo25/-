@@ -23,6 +23,7 @@ public class WarehouseSlot : MonoBehaviour
         if(image.sprite != null)
         {
             warehouse.ItemInformationChange(num);
+            MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.buttonSound.Path);
         }
     }
 }

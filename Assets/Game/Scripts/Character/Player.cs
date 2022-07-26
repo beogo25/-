@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using FMODUnity;
 
 public class Player : MonoBehaviour
 {
@@ -50,6 +51,9 @@ public class Player : MonoBehaviour
 
 
     public Action         rollDelegate;
+
+    [SerializeField]
+    private EventReference soundEvent;
 
     public bool TalkState
     {
@@ -107,6 +111,13 @@ public class Player : MonoBehaviour
     {
         if(!TalkState)
             PlayerMove();
+    }
+    public void PlaySound(int num)
+    {
+        FMOD.Studio.EventInstance eventInstance = RuntimeManager.CreateInstance(soundEvent.Path);
+        eventInstance.setParameterByName("Attack", num);
+        eventInstance.start();
+        eventInstance.release();
     }
 
     IEnumerator DashReset()
@@ -262,12 +273,10 @@ public class Player : MonoBehaviour
             }
             if (animator.GetBool("Dash"))
             {
-
                 for (int i = 0; i < 20; i++)
                 {
                     transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
                     rollSpeed -= 0.0005f;
-                    yield return new WaitForFixedUpdate();
                 }
             }
         }

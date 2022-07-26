@@ -11,11 +11,17 @@ public class Loading : MonoBehaviour
     private void Awake()
     {
         slider = GetComponent<Slider>();
+        
+    }
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Z))
+            StartCoroutine(LoadAsynSceneCoroutine());
     }
 
     void Start()
     {
-        StartCoroutine(LoadAsynSceneCoroutine());
+        
     }
 
     IEnumerator LoadAsynSceneCoroutine()

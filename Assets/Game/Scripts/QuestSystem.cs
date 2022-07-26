@@ -39,6 +39,7 @@ public class QuestSystem : MonoBehaviour
     }
     private void OnEnable()
     {
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.questOpen.Path);
         GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         orderButton.SetActive(false);
     }
@@ -65,10 +66,13 @@ public class QuestSystem : MonoBehaviour
         questContents.text = quest.questContents;
         orderButton.SetActive(true);
         GameManager.instance.eventSystem.SetSelectedGameObject(orderButton);
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.nextQuest.Path);
     }
     public void OrderButton()
     {
         //수락했다는 UI 작동
         player.orderQuest = DataManager.instance.questList[target];
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.getQuest.Path);
+        MainCanvas.instance.Exit();
     }
 }

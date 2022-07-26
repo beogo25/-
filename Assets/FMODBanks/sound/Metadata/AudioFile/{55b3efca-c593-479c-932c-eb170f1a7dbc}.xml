@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{55b3efca-c593-479c-932c-eb170f1a7dbc}">
+		<property name="assetPath">
+			<value>lb_box_itemu_get.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.6196666666666667</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{26baf422-ae82-41c7-809e-024396b666f6}</destination>
+		</relationship>
+	</object>
+</objects>
