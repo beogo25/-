@@ -21,6 +21,8 @@ public class MainCanvas : Singleton<MainCanvas>
     public EventReference questOpen;
     public EventReference mixSuccess;
     public EventReference equipmentCombi;
+    public EventReference bubble;
+    public EventReference questClear;
 
     public void PlaySoundOneShot(string input)
     {

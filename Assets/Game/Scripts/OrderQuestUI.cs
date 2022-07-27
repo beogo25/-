@@ -58,6 +58,7 @@ public class OrderQuestUI : MonoBehaviour
         }
         else
         {
+            clearButton.SetActive(false);
             targetImage.color = Color.clear;
             targetName.text = "";
             clearGold.text = "";
@@ -72,6 +73,7 @@ public class OrderQuestUI : MonoBehaviour
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[quest.target], quest.targetNum);
         PlayerStatus.gold += quest.clearGold;
         player.orderQuest = null;
-        gameObject.SetActive(false);    
+        MainCanvas.instance.Exit();
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.questClear.Path);
     }
 }

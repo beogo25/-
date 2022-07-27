@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 using TMPro;
 
 public class PlayerInteraction : MonoBehaviour
@@ -14,6 +15,9 @@ public class PlayerInteraction : MonoBehaviour
     private Image           image;
 
     private Player          player;
+
+    [SerializeField]
+    private EventReference getItem;
 
     private void Awake()
     {
@@ -46,10 +50,16 @@ public class PlayerInteraction : MonoBehaviour
             }
             if(nearestTarget.GetComponent<InteractionObject>() != null)
             {
-                if (nearestTarget.GetComponent<InteractionObject>().isCollectable)
+                if (nearestTarget.GetComponent<InteractionObject>().isCollectable && !ItemUI.activeInHierarchy)
+                {
                     ItemUI.SetActive(true);
-                else
+                    MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.bubble.Path);
+                }
+                if (!nearestTarget.GetComponent<InteractionObject>().isCollectable)
+                {
                     ItemUI.SetActive(false);
+                }
+                    
 
                 if (text.text != nearestTarget.GetComponent<InteractionObject>().objectName)
                 {
@@ -64,7 +74,10 @@ public class PlayerInteraction : MonoBehaviour
             if (Input.GetButtonDown("InteractionObject") && player.isGround)
             {
                 if (nearestTarget.GetComponent<InteractionObject>() != null)
+                {
                     nearestTarget.GetComponent<InteractionObject>().Interaction();
+                    RuntimeManager.PlayOneShot(getItem.Path);
+                }
             }
         }
         else
