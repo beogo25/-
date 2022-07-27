@@ -83,11 +83,17 @@ public class InteractionObject: MonoBehaviour, IInteraction
     //실제 채집
     public virtual void Interaction()
     {
-        if (isCollectable)
+        StartCoroutine(InteractionCo());
+    }
+
+    private IEnumerator InteractionCo()
+    {
+        while (isCollectable)
         {
             string itemName = table.itemDic[table.Choose()];
             WarehouseManager.instance.itemDelegate(DataManager.instance.materialsDic[itemName]);
             CollectNumber--;
+            yield return new WaitForSeconds(0.3f);
         }
     }
 

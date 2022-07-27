@@ -49,8 +49,8 @@ public class Player : MonoBehaviour
     //[SerializeField]
     //private GameObject     miniMap;
 
-    public  event Action    AttackStartDelegate;
-    public   Action         rollDelegate;
+    public  event Action   AttackStartDelegate;
+    public   Action        rollDelegate;
 
     [SerializeField]
     private EventReference soundEvent;
@@ -327,7 +327,7 @@ public class Player : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Fence"))
         {
             characterMove.movementSpeed = 1;
         }
@@ -335,7 +335,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Fence"))
         {
             characterMove.movementSpeed = backupSpeed;
         }

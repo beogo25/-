@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3380234}
   - component: {fileID: 2393040}
   - component: {fileID: 4323849156000035257}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TreeCreator_Small_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,8 +104,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 11.154234, y: 19.14115, z: 9.706551}
-  m_Center: {x: -0.075113535, y: 9.570575, z: 0.17552376}
+  m_Size: {x: 2.634737, y: 19.14115, z: 2.4310303}
+  m_Center: {x: 0.13815594, y: 9.570575, z: 0.45337677}
 --- !u!21 &2179674
 Material:
   serializedVersion: 6
