@@ -74,6 +74,7 @@ public class Shop : MonoBehaviour
             WarehouseManager.instance.AddItem(DataManager.instance.useItemDic[target]); 
         }
         PlayerStatus.gold -= DataManager.instance.useItemDic[target].value;
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.bigButton.Path);
         SaleItemView(target);
     }
 }
