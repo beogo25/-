@@ -53,7 +53,7 @@
 			<destination>{28ff87d7-4a58-4e09-8af4-90fa1effbc9f}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{e4028f71-41c9-41a4-93de-2dd01e71b6ce}</destination>
+			<destination>{4d492535-b4ae-48a2-95c2-9c9d278dbc39}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{63e30f55-c45b-45b1-8ba2-c772bc00d517}" />
@@ -135,10 +135,10 @@
 	</object>
 	<object class="MixerBusPanner" id="{67336908-eceb-4111-a7f2-1dae3552a562}">
 		<property name="surroundPanDirection">
-			<value>35.6398087</value>
+			<value>-45.8069305</value>
 		</property>
 		<property name="surroundPanExtent">
-			<value>57.7025986</value>
+			<value>115.077957</value>
 		</property>
 		<property name="disabledSpeakers">
 			<value>55</value>
@@ -157,7 +157,7 @@
 			<value>1</value>
 		</property>
 		<property name="maximumDistance">
-			<value>50</value>
+			<value>100</value>
 		</property>
 		<property name="overrideRange">
 			<value>true</value>
