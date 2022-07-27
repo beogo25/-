@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[System.Serializable]
+public class KeySetting
+{
+    public string name;
+    public string description;
+    public bool isDone;
+    public Sprite[] images = new Sprite[2];
+}
+
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField]
@@ -11,7 +20,7 @@ public class TutorialManager : MonoBehaviour
     public Image faceImage;
     public TextMeshProUGUI textArea;
     private Transform[] spots = new Transform[4];
-    
+    public KeySetting[] keySettings = new KeySetting[0];
     private int number = 0;
     
     
@@ -35,7 +44,7 @@ public class TutorialManager : MonoBehaviour
     [TextArea]
     public string[] linesD = new string[0];
 
-
+    public GameObject checkList;
 
     private void Start()
     {
@@ -89,22 +98,106 @@ public class TutorialManager : MonoBehaviour
     void MovementTutorial()
     {
         StartCoroutine(TextChange(linesA));
-        Debug.Log("1단계");
-        if(Input.GetKeyDown(KeyCode.H))
+        
+
+        for(int i = 0; i < 4; i++)
         {
-            if(!isOpening)
+            checkList.transform.GetChild(i).transform.gameObject.SetActive(true);
+            checkList.transform.GetChild(i).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = keySettings[i].description;
+            if (!GameManager.isJoyPadOn)
+                checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = keySettings[i].images[0];
+            else
+                checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = keySettings[i].images[1];
+        }
+
+        if(Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        {
+            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[0].isDone = true;
+        }
+
+        if(Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+        {
+            checkList.transform.GetChild(1).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[1].isDone = true;
+        }
+
+        if((Input.GetButtonDown("Jump") && !GameManager.isJoyPadOn) || (Input.GetAxis("Jump") > 0 && GameManager.isJoyPadOn))
+        {
+            checkList.transform.GetChild(2).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[2].isDone = true;
+        }
+
+        if(Input.GetButtonDown("Evade") && player.isGround)
+        {
+            checkList.transform.GetChild(3).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[3].isDone = true;
+        }
+
+
+        if(keySettings[0].isDone && keySettings[1].isDone && keySettings[2].isDone && keySettings[3].isDone)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(false);
+                checkList.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            if (!isOpening)
             {
                 Debug.Log("성공");
                 StartCoroutine(OpenDoor());
             }
         }
+
+
+
+
+
     }
 
     void LockOnAttackTutorial()
     {
-        Debug.Log("2단계");
-        if(Player.isLockedOn)
+        StartCoroutine(TextChange(linesB));
+
+        for (int i = 0; i < 4; i++)
         {
+            checkList.transform.GetChild(i).transform.gameObject.SetActive(true);
+            checkList.transform.GetChild(i).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = keySettings[i + 4].description;
+            if (!GameManager.isJoyPadOn)
+                checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = keySettings[i + 4].images[0];
+            else
+                checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = keySettings[i + 4].images[1];
+        }
+
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[4].isDone = true;
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[5].isDone = true;
+        }
+        if (Input.GetButtonDown("R 3"))
+        {
+            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[6].isDone = true;
+        }
+
+        if (Player.isLockedOn && Input.GetButtonDown("L Bumper"))
+        {
+            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[7].isDone = true;
+        }
+
+
+
+        if (keySettings[4].isDone && keySettings[5].isDone && keySettings[6].isDone && keySettings[7].isDone)
+        {
+            for (int i = 0; i < 4; i++)
+                checkList.transform.GetChild(i).gameObject.SetActive(false);
             if (!isOpening)
             {
                 Debug.Log("성공");
@@ -182,5 +275,4 @@ public class TutorialManager : MonoBehaviour
             }
         }
     }
-
 }

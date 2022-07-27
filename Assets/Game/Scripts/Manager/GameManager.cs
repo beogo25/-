@@ -56,10 +56,16 @@ public class GameManager : Singleton<GameManager>
         string[] names = Input.GetJoystickNames();
         for (int i = 0; i < names.Length; i++)
         {
-            if (names[i].Length == 33)
+            if (names[i].Length > 0)
+            {
                 isJoyPadOn = true;
+                Debug.Log("패드임");
+            }
             else
+            {
                 isJoyPadOn = false;
+                Debug.Log("키보드임");
+            }
         }
     }
 }

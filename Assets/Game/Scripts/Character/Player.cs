@@ -49,8 +49,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject     miniMap;
 
-    public  event Action    AttackStartDelegate;
-    public   Action         rollDelegate;
+    public  event Action   AttackStartDelegate;
+    public   Action        rollDelegate;
 
     [SerializeField]
     private EventReference soundEvent;
