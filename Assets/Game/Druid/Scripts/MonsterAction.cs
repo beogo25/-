@@ -140,7 +140,7 @@ public class MonsterAction : MonoBehaviour
                     break;
 
                 case SerchingTargetState.Walk:
-                    if (Vector3.Distance(transform.position, moveDestination.position) < 7f)    // 목표와 거리가 4f 이내
+                    if (Vector3.Distance(transform.position, moveDestination.position) < 8f)    // 목표와 거리가 8f 이내
                     {
                         monsterRigidbody.velocity = Vector3.zero;
                         if (CreateRandomDestination(moveDestination.position, 20f))
@@ -148,7 +148,7 @@ public class MonsterAction : MonoBehaviour
                             state &= ~MONSTER_STATE.Walk;
                             animator.SetBool("Walk", state.HasFlag(MONSTER_STATE.Walk));
 
-                            yield return new WaitForSecondsRealtime(Random.Range(0.3f, 1.3f));  // 도착했을때 잠깐 대기시간 부여
+                            yield return new WaitForSecondsRealtime(0.3f);  // 도착했을때 잠깐 대기시간 부여
                             serchingTargetState = SerchingTargetState.Rotation;
                         }
                     }
@@ -164,7 +164,7 @@ public class MonsterAction : MonoBehaviour
                         if (state.HasFlag(MONSTER_STATE.Walk))
                             transform.Translate(transform.forward * moveSpeed * Time.deltaTime, Space.World);
 
-                        if (randomAnimationCoolTime && walkTime > Random.Range(0.5f, 2f))
+                        if (randomAnimationCoolTime && walkTime > Random.Range(0.1f, 2.5f))
                         {
 
                             float random = Random.value;
@@ -185,19 +185,21 @@ public class MonsterAction : MonoBehaviour
             yield return null;
         }
     }
-    void SetDestinationDirection(Transform targetPos, float angleLimit = 360f)    // 목적지 방향을 보게 하는 함수
+    void SetDestinationDirection(Transform targetPos, float angleLimit = 0f)    // 목적지 방향을 보게 하는 함수
     {        
         // 몬스터가 얼마나 회전할지 각도 구하기
         Vector3 dir = targetPos.position - transform.position;
         dir = new Vector3(dir.x, 0, dir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
         Quaternion targetRotation = Quaternion.LookRotation(dir.normalized);   // 내가 바라볼 방향
         float angleDifference = Quaternion.Angle(transform.rotation, targetRotation);   // 내 방향과 목표 방향의 각도차이
-        if (angleDifference >= angleLimit)                          // angleLimit 이하의 각도는 돌지 않는다.
+        Debug.Log("타겟과 각도차이 : " + angleDifference + ", 각도제한 : "+ angleLimit);
+        if (angleDifference <= angleLimit)                          // angleLimit 이하의 각도는 돌지 않는다.
         {
             state &= ~MONSTER_STATE.Rotation;
+            rotationCoroutine = null;
             return;
         }
-
+        Debug.Log("도는거 멈췄나?");
         // 몬스터가 어떤 방향으로 회전할지 구하기 
         Vector3 targetDir = targetPos.position - transform.position;                    // 타겟 방향으로 향하는 벡터를 구하기
         Vector3 crossVec = Vector3.Cross(targetDir, this.transform.forward);            // foward와 외적
@@ -217,7 +219,7 @@ public class MonsterAction : MonoBehaviour
         }
         else if (dot < 0) // 오른쪽
         {
-            if (angleDifference > 60)
+            if (angleDifference >= 60)
             {
                 animator.SetInteger("Rotation", 2);
                 rotationCoroutine = Rotation("Turn Right", angleDifference);
@@ -240,13 +242,17 @@ public class MonsterAction : MonoBehaviour
 
         float playTime = 0f;
         float exitTime = animator.GetCurrentAnimatorStateInfo(0).length;
-        exitTime = exitTime * 0.30f;                        // 현재 실행된 회전 애니메이션의 30%시간동안 코루틴 실행(회전하는 모습이 어색하지 않도록)
-        
+
+        if (targetAngle < 60)
+            exitTime = exitTime * 0.90f;    // 현재 실행된 회전 애니메이션의 90%시간동안 코루틴 실행(회전하는 모습이 어색하지 않도록)
+
+
         while (playTime < exitTime)
         {
-            playTime += 0.01f;
-            transform.Rotate(new Vector3(0, (targetAngle / (exitTime / 0.01f)), 0), Space.Self);
-            yield return new WaitForSecondsRealtime(0.01f); ;
+            playTime += 0.02f;
+            transform.Rotate(new Vector3(0, (targetAngle / (exitTime / 0.02f)), 0), Space.Self);
+            
+            yield return new WaitForFixedUpdate();
         }
         serchingTargetState = SerchingTargetState.Walk;
         state &= ~MONSTER_STATE.Rotation;
@@ -350,9 +356,10 @@ public class MonsterAction : MonoBehaviour
                     animator.SetBool("Walk", false);
 
                     state |= MONSTER_STATE.Rotation | MONSTER_STATE.Attack;
-                    SetDestinationDirection(target.transform);                  // 타겟방향찾기(각도, 몬스터기준 좌/우)
-                    yield return StartCoroutine(rotationCoroutine);             // 타겟방향으로 회전
-
+                    SetDestinationDirection(target.transform, 15);                  // 타겟방향찾기(각도, 몬스터기준 좌/우)
+                    if(rotationCoroutine != null)
+                        yield return StartCoroutine(rotationCoroutine);             // 타겟방향으로 회전
+                    
                     randomValue = Random.value;
                     if (attackType == MONSTER_ATTACK_TYPE.Run)                  // Run이 두번 연속 안나오도록
                     {
@@ -399,12 +406,11 @@ public class MonsterAction : MonoBehaviour
                         break;
 
                     case MONSTER_ATTACK_TYPE.Throw:
-                        momentTargetPosition = target.transform.position;   // 돌을 줍는 동작시 타겟 위치 
                         yield return StartCoroutine(WaitForAnimation("Throw",1f));
                         break;
 
                     case MONSTER_ATTACK_TYPE.Run:
-                        momentTargetPosition = target.transform.position;   // 돌을 줍는 동작시 타겟 위치 
+                        momentTargetPosition = target.transform.position;   // 달려갈 위치
                         yield return StartCoroutine(RunToTartget());
                         break;
                 }
@@ -581,14 +587,15 @@ public class MonsterAction : MonoBehaviour
     
     #region 애니메이션 이벤트
     Projectile projectile;
-    Vector3 momentTargetPosition;       // 돌을 줍는 동작시 타겟 위치
-    void CreateRock()           // 애니메이션 이벤트 (돌던지기일때만 발동)
+    Vector3 momentTargetPosition;       // 그 행동을 할때 타겟의 위치
+    void CreateRock()           // 돌 생성
     {
+        momentTargetPosition = target.transform.position;           // 돌을 주을때 타겟의 위치로 돌을 던지기 위함
         projectile = Instantiate(throwingObject[0], rightHand.position + rightHand.right, transform.rotation, rightHand).GetComponent<Rock>();
     }
-    void ThrowRock()            // 애니메이션 이벤트 (돌던지기일때만 발동)
+    void ThrowRock()            // 돌 던지기
     {
-        projectile.Init(momentTargetPosition, 10, 25);   // 매개변수 (타겟의 위치, 공격력, 속도)
+        projectile.Init(momentTargetPosition, 10, 25);              // 매개변수 (타겟의 위치, 공격력, 속도)
     }
     void Roar()
     {
@@ -618,13 +625,13 @@ public class MonsterAction : MonoBehaviour
         switch (attackType)
         {
             case MONSTER_ATTACK_TYPE.Stomp:
-                attackablePart[(int)attackType].Attack(false);
+                attackablePart[(int)attackType].Attack(false);  // 왼발
                 break;
             case MONSTER_ATTACK_TYPE.Swipe:
-                attackablePart[(int)attackType].Attack(false);
+                attackablePart[(int)attackType].Attack(false);  // 왼손
                 break;
             case MONSTER_ATTACK_TYPE.JumpAttack:
-                attackablePart[(int)attackType].Attack(false);
+                attackablePart[(int)attackType].Attack(false);  // 오른발
                 break;
         }
 

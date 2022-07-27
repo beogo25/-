@@ -30,7 +30,7 @@ public class DruidAttackablePart : MonsterAttackablePart
     {
         if (other.GetComponent<PlayerStatus>() != null && isAttackAble)
         {
-            Debug.Log(" 데미지 : " + monster.Atk * damageMultiplier);
+            //Debug.Log(" 데미지 : " + monster.Atk * damageMultiplier);
             isAttackAble = false;
             other.transform.GetComponent<PlayerStatus>().PlayerHit(monster.Atk * damageMultiplier, 20, monster.transform.position);
             myCollider.enabled = false;
