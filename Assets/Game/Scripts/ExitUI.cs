@@ -6,7 +6,8 @@ public class ExitUI : MonoBehaviour
 {
     private void OnEnable()
     {
-        GameManager.instance.eventSystem.SetSelectedGameObject(transform.GetChild(1).gameObject);
+        if(GameManager.isJoyPadOn)
+            GameManager.instance.eventSystem.SetSelectedGameObject(transform.GetChild(1).gameObject);
 
     }
 

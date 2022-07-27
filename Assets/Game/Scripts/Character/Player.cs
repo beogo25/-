@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public  int            attackValue;
     public  static bool    isLockedOn = false;
                            
-    private Animator       animator;
+    public  Animator       animator;
     public  static bool    isMoveAble = true;
     public  Transform      attackParticleParent;
     public  Transform      useParticleParent;
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     private bool           isClickAble;
                            
     public  bool           talkState     = false;
-    public  bool           isRollAble    = true;
+    public  static bool    isRollAble    = true;
     public  bool           isCollectable = false;
 
     WaitForSecondsRealtime colorDelay    = new WaitForSecondsRealtime(0.0005f);
@@ -175,7 +175,7 @@ public class Player : MonoBehaviour
         }
 
 
-        if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade") && status.Stamina>=10 && isRollAble)
+        if (Input.GetButtonDown("Evade") && isGround && !animator.GetCurrentAnimatorStateInfo(0).IsName("Evade") && status.Stamina>=10 && isRollAble == true)
             StartCoroutine(TriggerCheck("Evade"));
 
 
@@ -329,7 +329,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Fence"))
         {
-            characterMove.movementSpeed = 1;
+            characterMove.movementSpeed = 3;
         }
     }
 

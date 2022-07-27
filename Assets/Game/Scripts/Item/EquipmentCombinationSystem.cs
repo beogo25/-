@@ -26,7 +26,8 @@ public class EquipmentCombinationSystem : MonoBehaviour
     private int target;
     private void OnEnable()
     {
-        GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+        if(GameManager.isJoyPadOn)
+            GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.shop.Path);
         combinationButton.SetActive(false);
     }
@@ -68,14 +69,20 @@ public class EquipmentCombinationSystem : MonoBehaviour
         needGold.text = DataManager.instance.eqiupmentItemRecipeList[num].gold.ToString()+" °ñµå";
         if (materialAnum >= DataManager.instance.eqiupmentItemRecipeList[num].numA && materialBnum >= DataManager.instance.eqiupmentItemRecipeList[num].numB && PlayerStatus.gold >= DataManager.instance.eqiupmentItemRecipeList[num].gold)
         {
-            GameManager.instance.eventSystem.SetSelectedGameObject(combinationButton);
-            combinationButton.SetActive(true);
+            if (GameManager.isJoyPadOn)
+            {
+                GameManager.instance.eventSystem.SetSelectedGameObject(combinationButton);
+            }
+                combinationButton.SetActive(true);
         }
         else
         {
-            combinationButton.SetActive(false);
-            if (GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
-                GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+                combinationButton.SetActive(false);
+            if (GameManager.isJoyPadOn)
+            {
+                if (GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+            }
         }
         if(equipmentItem.equipmentType==EquipmentType.WEAPON)
         {

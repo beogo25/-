@@ -32,7 +32,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractionFunc()
     {
-        Collider[] nearTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Collective"));
+        Collider[] nearTarget = Physics.OverlapSphere(transform.position, 3f, 1 << LayerMask.NameToLayer("Collective"));
         if (nearTarget.Length > 0)
         {
             player.isCollectable = true;
@@ -88,19 +88,19 @@ public class PlayerInteraction : MonoBehaviour
 
         if (!player.TalkState)
         {
-            Collider[] npcTarget = Physics.OverlapSphere(transform.position, 2f, 1 << LayerMask.NameToLayer("Npc"));
+            Collider[] npcTarget = Physics.OverlapSphere(transform.position, 3f, 1 << LayerMask.NameToLayer("Npc"));
             if (npcTarget.Length > 0)
             {
-                player.isRollAble = false;
+                Player.isRollAble = false;
                 if (Input.GetButtonDown("InteractionNpc") && player.isGround)
                 {
                     if (npcTarget[0].transform.GetComponent<IInteraction>() != null)
                         npcTarget[0].transform.GetComponent<IInteraction>().Interaction();
                 }
-                else
-                {
-                    player.isRollAble = true;
-                }
+            }
+            else
+            {
+                Player.isRollAble = true;
             }
         }
     }

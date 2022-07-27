@@ -22,7 +22,6 @@ public class GameManager : Singleton<GameManager>
         //Screen.SetResolution(3840, 2160, true);
         Screen.SetResolution(1920, 1080, true);
         //해상도를 바꿀때도 UI가 일정한 간격으로 움직일 수 있게 해주는 비율을 받는다.
-        ratio = (float)deviceWidth / (float)setWidth;
 
         // 커서 화면에 안보이도록
         Cursor.visible = false;
@@ -33,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         JoyPadCheck();
+        ratio = (float)deviceWidth / (float)setWidth;
     }
 
     public void LoadorNew(bool load)
@@ -57,15 +57,9 @@ public class GameManager : Singleton<GameManager>
         for (int i = 0; i < names.Length; i++)
         {
             if (names[i].Length > 0)
-            {
                 isJoyPadOn = true;
-                Debug.Log("패드임");
-            }
             else
-            {
                 isJoyPadOn = false;
-                Debug.Log("키보드임");
-            }
         }
     }
 }

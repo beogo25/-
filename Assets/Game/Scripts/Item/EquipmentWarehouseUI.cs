@@ -15,10 +15,14 @@ public class EquipmentWarehouseUI : WarehouseUI
     public override void OnEnable()
     {
         base.OnEnable();
-        if (equipmentInventorySlot.interactable == true)
-            GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
-        else
-            GameManager.instance.eventSystem.SetSelectedGameObject(equipmentInventorySlot.transform.gameObject);
+        if (GameManager.isJoyPadOn)
+        {
+            if (equipmentInventorySlot.interactable == true)
+                GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
+            else
+                GameManager.instance.eventSystem.SetSelectedGameObject(equipmentInventorySlot.transform.gameObject);
+
+        }
     }
     public override void Refresh()
     {
