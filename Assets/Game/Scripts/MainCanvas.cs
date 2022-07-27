@@ -48,7 +48,8 @@ public class MainCanvas : Singleton<MainCanvas>
         {
             if(Input.GetButtonDown("Start"))
             {
-                GameManager.instance.eventSystem.SetSelectedGameObject(menuUI.transform.GetChild(0).gameObject);
+                if (GameManager.isJoyPadOn)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(menuUI.transform.GetChild(0).gameObject);
                 menuUI.SetActive(true);
                 blur.SetActive(true);
                 player.TalkState = true;

@@ -72,7 +72,8 @@ public class TalkManager : Singleton<TalkManager>
                         UIButton[(int)uiTypes[i]].SetActive(true);
                     }
                     UIButton[7].SetActive(true);
-                    GameManager.instance.eventSystem.SetSelectedGameObject(UIButton[(int)uiTypes[0]]);
+                    if (GameManager.isJoyPadOn)
+                        GameManager.instance.eventSystem.SetSelectedGameObject(UIButton[(int)uiTypes[0]]);
                 }
             }
             else

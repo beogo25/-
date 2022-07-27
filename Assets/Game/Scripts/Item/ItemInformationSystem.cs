@@ -70,14 +70,16 @@ public class ItemInformationSystem : MonoBehaviour
         if (warehouseBool)
         {
             outWarehouseButton.SetActive(true);
-            GameManager.instance.eventSystem.SetSelectedGameObject(outWarehouseButton);
+            if (GameManager.isJoyPadOn)
+                GameManager.instance.eventSystem.SetSelectedGameObject(outWarehouseButton);
             outInventoryButton.SetActive(false);
         }
         else
         {
             outWarehouseButton.SetActive(false);
             outInventoryButton.SetActive(true);
-            GameManager.instance.eventSystem.SetSelectedGameObject(outInventoryButton);
+            if (GameManager.isJoyPadOn)
+                GameManager.instance.eventSystem.SetSelectedGameObject(outInventoryButton);
         }
     }
 
@@ -91,16 +93,21 @@ public class ItemInformationSystem : MonoBehaviour
                     if (WarehouseManager.instance.useItemList[targetNum].stack == 1)
                     {
                         outWarehouseButton.SetActive(false);
-                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
+                        if (GameManager.isJoyPadOn)
+                            GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
                     }
                     WarehouseManager.instance.MinusItem(targetNum, ItemType.USEITEM);
-                    if(GameManager.instance.eventSystem.currentSelectedGameObject == null)
-                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                    if (GameManager.isJoyPadOn)
+                    {
+                        if (GameManager.instance.eventSystem.currentSelectedGameObject == null)
+                            GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                    }
                 }
                 break;
             case ItemType.EQUIPMENT:
                 outWarehouseButton.SetActive(false);
-                GameManager.instance.eventSystem.SetSelectedGameObject(afterEquipmentWareHouseButton);
+                if (GameManager.isJoyPadOn)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(afterEquipmentWareHouseButton);
                 InventoryManager.instance.Equip(((EquipmentItem)item));
                 WarehouseManager.instance.MinusItem(targetNum, ItemType.EQUIPMENT);
                 break;
@@ -117,16 +124,21 @@ public class ItemInformationSystem : MonoBehaviour
                 if (InventoryManager.instance.useItemList[targetNum].stack == 1)
                 {
                     outInventoryButton.SetActive(false);
-                    GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                    if (GameManager.isJoyPadOn)
+                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
                 }
                 InventoryManager.instance.MinusItem(targetNum, 1);
                 WarehouseManager.instance.AddItem(DataManager.instance.useItemDic[Item.itemName]);
-                if(GameManager.instance.eventSystem.currentSelectedGameObject == null)
-                    GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
+                if (GameManager.isJoyPadOn)
+                {
+                    if (GameManager.instance.eventSystem.currentSelectedGameObject == null)
+                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
+                }
                 break;
             case ItemType.EQUIPMENT:
                 outInventoryButton.SetActive(false);
-                GameManager.instance.eventSystem.SetSelectedGameObject(afterEquipmentInventoryButton);
+                if (GameManager.isJoyPadOn)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(afterEquipmentInventoryButton);
                 InventoryManager.instance.UnEquip(((EquipmentItem)item).equipmentType);
                 break;
             default:

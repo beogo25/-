@@ -24,7 +24,8 @@ public class Shop : MonoBehaviour
     public  string[]        saleItem;
     private void OnEnable()
     {
-        GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+        if (GameManager.isJoyPadOn)
+            GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         purchaseButton.SetActive(false);
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.shop.Path);
     }
@@ -56,13 +57,17 @@ public class Shop : MonoBehaviour
         if (PlayerStatus.gold >= tempUseItem.value)
         {
             purchaseButton.SetActive(true);
-            GameManager.instance.eventSystem.SetSelectedGameObject(purchaseButton);
+            if (GameManager.isJoyPadOn)
+                GameManager.instance.eventSystem.SetSelectedGameObject(purchaseButton);
         }
         else
         {
             purchaseButton.SetActive(false);
-            if (GameManager.instance.eventSystem.currentSelectedGameObject == purchaseButton)
-                GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+            if (GameManager.isJoyPadOn)
+            {
+                if (GameManager.instance.eventSystem.currentSelectedGameObject == purchaseButton)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+            }
 
         }
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.buttonSound.Path);

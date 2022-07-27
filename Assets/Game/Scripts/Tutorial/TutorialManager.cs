@@ -7,25 +7,25 @@ using TMPro;
 [System.Serializable]
 public class KeySetting
 {
-    public string name;
-    public string description;
-    public bool isDone;
+    public string   name;
+    public string   description;
+    public bool     isDone;
     public Sprite[] images = new Sprite[2];
 }
 
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField]
-    private Player player;
-    public Image faceImage;
-    public TextMeshProUGUI textArea;
-    private Transform[] spots = new Transform[4];
-    public KeySetting[] keySettings = new KeySetting[0];
-    private int number = 0;
+    private Player          player;
+    public  Image           faceImage;
+    public  TextMeshProUGUI textArea;
+    private Transform[]     spots       = new Transform[4];
+    public  KeySetting[]    keySettings = new KeySetting[0];
+    private int             number = 0;
     
     
-    private bool isOpening  = false;
-    private bool isProvided = false;
+    private bool isOpening    = false;
+    private bool isProvided   = false;
     private bool isTextPlayed = false;
     
     [Header("이동 및 카메라")]
@@ -57,9 +57,10 @@ public class TutorialManager : MonoBehaviour
     private void Update()
     {
         TutorialCheck(number);
-
-
-
+        if(player.TalkState == true)
+            checkList.SetActive(false);
+        else
+            checkList.SetActive(true);
     }
 
     void TutorialCheck(int num)
@@ -122,13 +123,13 @@ public class TutorialManager : MonoBehaviour
             keySettings[1].isDone = true;
         }
 
-        if((Input.GetButtonDown("Jump") && !GameManager.isJoyPadOn) || (Input.GetAxis("Jump") > 0 && GameManager.isJoyPadOn))
+        if(player.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump_Start"))
         {
             checkList.transform.GetChild(2).transform.GetChild(1).transform.gameObject.SetActive(true);
             keySettings[2].isDone = true;
         }
 
-        if(Input.GetButtonDown("Evade") && player.isGround)
+        if(player.animator.GetCurrentAnimatorStateInfo(0).IsName("Evade"))
         {
             checkList.transform.GetChild(3).transform.GetChild(1).transform.gameObject.SetActive(true);
             keySettings[3].isDone = true;
@@ -139,14 +140,11 @@ public class TutorialManager : MonoBehaviour
         {
             for(int i = 0; i < 4; i++)
             {
-                checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(false);
+                checkList.transform.GetChild(i).transform.GetChild(1).transform.gameObject.SetActive(false);
                 checkList.transform.GetChild(i).gameObject.SetActive(false);
             }
             if (!isOpening)
-            {
-                Debug.Log("성공");
                 StartCoroutine(OpenDoor());
-            }
         }
 
 
@@ -170,25 +168,25 @@ public class TutorialManager : MonoBehaviour
         }
 
 
-        if (Input.GetButtonDown("Fire1"))
+        if (player.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack_Slash1"))
         {
             checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
             keySettings[4].isDone = true;
         }
-        if (Input.GetButtonDown("Fire2"))
+        if (player.animator.GetCurrentAnimatorStateInfo(0).IsName("PowerSlash"))
         {
-            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            checkList.transform.GetChild(1).transform.GetChild(1).transform.gameObject.SetActive(true);
             keySettings[5].isDone = true;
         }
         if (Input.GetButtonDown("R 3"))
         {
-            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            checkList.transform.GetChild(2).transform.GetChild(1).transform.gameObject.SetActive(true);
             keySettings[6].isDone = true;
         }
 
         if (Player.isLockedOn && Input.GetButtonDown("L Bumper"))
         {
-            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            checkList.transform.GetChild(3).transform.GetChild(1).transform.gameObject.SetActive(true);
             keySettings[7].isDone = true;
         }
 
@@ -197,69 +195,163 @@ public class TutorialManager : MonoBehaviour
         if (keySettings[4].isDone && keySettings[5].isDone && keySettings[6].isDone && keySettings[7].isDone)
         {
             for (int i = 0; i < 4; i++)
-                checkList.transform.GetChild(i).gameObject.SetActive(false);
-            if (!isOpening)
             {
-                Debug.Log("성공");
-                StartCoroutine(OpenDoor());
+                checkList.transform.GetChild(i).transform.GetChild(1).transform.gameObject.SetActive(false);
+                checkList.transform.GetChild(i).gameObject.SetActive(false);
             }
+            if (!isOpening)
+                StartCoroutine(OpenDoor());
         }
     }
 
     void CollectTutorial()
     {
-        Debug.Log("3단계");
-        if(WarehouseManager.instance.useItemList.Count > 0)
+
+        StartCoroutine(TextChange(linesC));
+
+        for (int i = 0; i < 3; i++)
         {
-            if (!isOpening)
+            checkList.transform.GetChild(i).transform.gameObject.SetActive(true);
+            checkList.transform.GetChild(i).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = keySettings[i + 8].description;
+            if (!GameManager.isJoyPadOn)
             {
-                Debug.Log("성공");
-                StartCoroutine(OpenDoor());
+                if (keySettings[i + 8].images.Length > 0)
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = keySettings[i + 8].images[0];
+                else
+                {
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = null;
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().color = Color.white * 0;
+                }
             }
+            else
+            {
+                if (keySettings[i + 8].images.Length > 0)
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = keySettings[i + 8].images[1];
+                else
+                {
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = null;
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().color = Color.white * 0;
+                }
+            }
+
+        }
+
+        if (WarehouseManager.instance.materialItemList.Count > 0)
+        {
+            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[8].isDone = true;
+        }
+        if(player.TalkState == true)
+        {
+            checkList.transform.GetChild(1).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[9].isDone = true;
+        }
+
+
+        if (WarehouseManager.instance.useItemList.Count > 0)
+        {
+
+            for (int i = 0; i < 3; i++)
+            {
+                checkList.transform.GetChild(i).transform.GetChild(1).transform.gameObject.SetActive(false);
+                checkList.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            if (!isOpening)
+                StartCoroutine(OpenDoor());
+
         }
         
     }
 
     void UseTutorial()
     {
-        Debug.Log("4단계");
-        if(!isProvided)
+        StartCoroutine(TextChange(linesD));
+
+        if (!isProvided)
         {
+            isProvided = true;
             player.status.PlayerHit(1, 0, Vector3.zero, AttackType.BURN);
             player.status.PlayerHit(1, 0, Vector3.zero, AttackType.POISON);
             InventoryManager.instance.AddItem(DataManager.instance.useItemDic["비약"]);
+            InventoryManager.instance.AddItem(DataManager.instance.useItemDic["비약"]);
+            InventoryManager.instance.AddItem(DataManager.instance.useItemDic["포션"]);
+            InventoryManager.instance.AddItem(DataManager.instance.useItemDic["포션"]);
+            InventoryManager.instance.AddItem(DataManager.instance.useItemDic["포션"]);
             InventoryManager.instance.AddItem(DataManager.instance.useItemDic["해독제"]);
-            isProvided = true;
+            
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            checkList.transform.GetChild(i).transform.gameObject.SetActive(true);
+            checkList.transform.GetChild(i).transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = keySettings[i + 11].description;
+            if (!GameManager.isJoyPadOn)
+            {
+                if (keySettings[i + 11].images.Length > 0)
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = keySettings[i + 11].images[0];
+                else
+                {
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = null;
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().color = Color.white * 0;
+                }
+            }
+            else
+            {
+                if (keySettings[i + 11].images.Length > 0)
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = keySettings[i + 11].images[1];
+                else
+                {
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().sprite = null;
+                    checkList.transform.GetChild(i).transform.GetChild(3).GetComponent<Image>().color = Color.white * 0;
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha3) || (Input.GetAxis("D-Pad X") != 0))
+        {
+            checkList.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[11].isDone = true;
+        }
+
+        if (Input.GetButtonDown("Button X") || Input.GetAxis("D-Pad Y") == 1)
+        {
+            checkList.transform.GetChild(1).transform.GetChild(1).transform.gameObject.SetActive(true);
+            keySettings[12].isDone = true;
         }
 
         if (player.status.Ailment == 0 && player.status.Hp == player.status.maxHp)
         {
-            if (!isOpening)
+            for (int i = 0; i < 3; i++)
             {
-                Debug.Log("성공");
-                StartCoroutine(OpenDoor());
+                checkList.transform.GetChild(i).transform.GetChild(1).transform.gameObject.SetActive(false);
+                checkList.transform.GetChild(i).gameObject.SetActive(false);
             }
+                if (!isOpening)
+                StartCoroutine(OpenDoor());
         }
     }
 
     IEnumerator OpenDoor()
     {
+        
         isOpening = true;
         textArea.text = "잘했어요! 다음 단계로 넘어가요";
-        for(int i = 0; i < 50; i++)
+
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < 50; i++)
         {
             transform.GetChild(number).GetChild(0).transform.Translate(Vector3.down * 0.5f, Space.World);
             yield return new WaitForSeconds(0.02f);
         }
         isOpening = false;
-        if (number < spots.Length)
+        if (number < spots.Length - 1)
         {
             number++;
             isTextPlayed = false;
         }
         else
         {
-            Debug.Log("튜토리얼 끝");
+            textArea.text = "수고하셨습니다 마을로 돌아갈께요";
         }
     }
 

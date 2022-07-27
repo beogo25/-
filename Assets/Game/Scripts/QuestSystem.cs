@@ -40,7 +40,8 @@ public class QuestSystem : MonoBehaviour
     private void OnEnable()
     {
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.questOpen.Path);
-        GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+        if (GameManager.isJoyPadOn)
+            GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         orderButton.SetActive(false);
         targetImage.color = Color.clear;
         targetName.text = null;
@@ -72,7 +73,8 @@ public class QuestSystem : MonoBehaviour
         questName.text = quest.questName;
         questContents.text = quest.questContents;
         orderButton.SetActive(true);
-        GameManager.instance.eventSystem.SetSelectedGameObject(orderButton);
+        if (GameManager.isJoyPadOn)
+            GameManager.instance.eventSystem.SetSelectedGameObject(orderButton);
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.nextQuest.Path);
     }
     public void OrderButton()

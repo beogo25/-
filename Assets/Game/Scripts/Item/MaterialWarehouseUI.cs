@@ -14,7 +14,8 @@ public class MaterialWarehouseUI : WarehouseUI
     public override void OnEnable()
     {
         base.OnEnable();
-        GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
+        if (GameManager.isJoyPadOn)
+            GameManager.instance.eventSystem.SetSelectedGameObject(slots[0].transform.GetChild(2).transform.gameObject);
     }
     public override void Refresh()
     {

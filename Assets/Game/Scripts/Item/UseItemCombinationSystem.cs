@@ -22,7 +22,8 @@ public class UseItemCombinationSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+        if (GameManager.isJoyPadOn)
+            GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         combinationButton.SetActive(false);
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.shop.Path);
     }
@@ -61,13 +62,17 @@ public class UseItemCombinationSystem : MonoBehaviour
         if(materialAnum>0 && materialBnum>0)
         {
             combinationButton.SetActive(true);
-            GameManager.instance.eventSystem.SetSelectedGameObject(combinationButton);
+            if (GameManager.isJoyPadOn)
+                GameManager.instance.eventSystem.SetSelectedGameObject(combinationButton);
         }
         else
         {
             combinationButton.SetActive(false);
-            if(GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
-                GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+            if (GameManager.isJoyPadOn)
+            {
+                if (GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+            }
         }
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.buttonSound.Path);
     }
