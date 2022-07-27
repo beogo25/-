@@ -53,7 +53,9 @@ public class Player : MonoBehaviour
     public   Action        rollDelegate;
 
     [SerializeField]
-    private EventReference soundEvent;
+    private EventReference attackVoice;
+    [SerializeField]
+    private EventReference[] soundEffect;
 
 
     public bool TalkState
@@ -113,12 +115,17 @@ public class Player : MonoBehaviour
         if(!TalkState)
             PlayerMove();
     }
-    public void PlaySound(int num)
+    //캐릭터 음성
+    public void PlayVoice(int num)
     {
-        FMOD.Studio.EventInstance eventInstance = RuntimeManager.CreateInstance(soundEvent.Path);
+        FMOD.Studio.EventInstance eventInstance = RuntimeManager.CreateInstance(attackVoice.Path);
         eventInstance.setParameterByName("Attack", num);
         eventInstance.start();
         eventInstance.release();
+    }
+    public void PlayEffectSound(int num)
+    {
+        RuntimeManager.PlayOneShot(soundEffect[num].Path);
     }
 
     IEnumerator DashReset()

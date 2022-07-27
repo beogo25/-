@@ -43,14 +43,21 @@ public class QuestSystem : MonoBehaviour
         if (GameManager.isJoyPadOn)
             GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         orderButton.SetActive(false);
+        targetImage.color = Color.clear;
+        targetName.text = null;
+        targetNum.text = null;
+        clearGold.text = null;
+        questName.text = null;
+        questContents.text = null;
     }
     public void QuestView(int num)
     {
         target = num;
         Quest quest = DataManager.instance.questList[num];
+        targetImage.color = Color.white;
         //monsterImage = 몬스터리스트[quest.targetMonster].image
         //monsterName = 몬스터리스트[quest.targetMonster].name
-        if(quest.collectionQuest)
+        if (quest.collectionQuest)
         {
             targetImage.sprite = DataManager.instance.materialsDic[quest.target].sprite;
             targetName.text = quest.target;
