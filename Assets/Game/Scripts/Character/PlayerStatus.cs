@@ -157,7 +157,7 @@ public class PlayerStatus : MonoBehaviour
     public void PlayerHit(float damage, float knockBackPower, Vector3 position, AttackType attackType = AttackType.NORMAL)
     {
         Hp -= damage;
-        rb.AddForce((transform.position -position).normalized * knockBackPower, ForceMode.Impulse);
+        rb.AddForce((transform.position - position).normalized * knockBackPower, ForceMode.Impulse);
         Debug.Log("knockBackPower : " + knockBackPower);
         switch (attackType)
         {
