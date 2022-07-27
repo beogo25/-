@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using FMODUnity;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
@@ -19,6 +20,9 @@ public class InventoryManager : Singleton<InventoryManager>
     public  StatusUI             statusUI;
 
     public  SkinnedMeshRenderer  weaponRender;
+
+    [SerializeField]
+    private EventReference sortSound;
 
     public int ItemCount
     {
@@ -120,6 +124,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void SortItem(bool ascend = true)
     {
+        RuntimeManager.PlayOneShot(sortSound.Path);
         tempList.Clear();
         for (int i = 0; i < ItemCount; i++)
             tempList.Add(useItemList[i]);
