@@ -41,6 +41,8 @@ public class PlayerStatus : MonoBehaviour
 
     private StatusAilment ailment=0;
     public  Transform ailmentSprites;
+
+    private Rigidbody rb;
     public StatusAilment Ailment
     {
         get { return ailment; }
@@ -101,6 +103,7 @@ public class PlayerStatus : MonoBehaviour
     }
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         Hp = maxHp;
         Stamina = maxStamina;
         player=FindObjectOfType<Player>();
@@ -151,9 +154,11 @@ public class PlayerStatus : MonoBehaviour
         }
         RuntimeManager.PlayOneShot(itemUse.Path);
     }
-    public void PlayerHit(int damage, float knockBackPower, Vector3 position, AttackType attackType = AttackType.NORMAL)
+    public void PlayerHit(float damage, float knockBackPower, Vector3 position, AttackType attackType = AttackType.NORMAL)
     {
         Hp -= damage;
+        rb.AddForce((transform.position - position).normalized * knockBackPower, ForceMode.Impulse);
+        Debug.Log("knockBackPower : " + knockBackPower);
         switch (attackType)
         {
             case AttackType.POISON:
