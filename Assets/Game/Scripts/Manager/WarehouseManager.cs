@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using FMODUnity;
 public class WarehouseManager : Singleton<WarehouseManager>
 {
     public List<MaterialItem>  materialItemList = new List<MaterialItem>();
@@ -11,6 +13,8 @@ public class WarehouseManager : Singleton<WarehouseManager>
     public MaterialWarehouseUI  materialWarehouse;
     public delegate void AdditemDelegate(Item item);
     public AdditemDelegate      itemDelegate;
+    
+    
     public override void Awake()
     {
         itemDelegate += AddItem;

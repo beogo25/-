@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FMODUnity;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -15,6 +16,8 @@ public class DataManager : Singleton<DataManager>
     public List<UseItemRecipe>       useItemRecipeList       = new List<UseItemRecipe>();
     public List<EqiupmentItemRecipe> eqiupmentItemRecipeList = new List<EqiupmentItemRecipe>();
     public List<Quest>               questList               = new List<Quest>();
+
+    public EventReference saveSound;
 
     public override void Awake()
     {
@@ -31,6 +34,7 @@ public class DataManager : Singleton<DataManager>
 
     public void SaveData()
     {
+        MainCanvas.instance.PlaySoundOneShot(saveSound.Path);
         GameSaveData saveData = new GameSaveData();
         for(int i = 0; i < WarehouseManager.instance.equipmentList.Count; i++)
         {

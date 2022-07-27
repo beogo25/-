@@ -44,13 +44,13 @@ public class Player : MonoBehaviour
     public  Quest?         orderQuest    = null;
     public  PlayerStatus   status;
 
-    [SerializeField]
-    private GameObject     bigSizeMap;
-    [SerializeField]
-    private GameObject     miniMap;
+    //[SerializeField]
+    //private GameObject     bigSizeMap;
+    //[SerializeField]
+    //private GameObject     miniMap;
 
-    public  event Action    AttackStartDelegate;
-    public   Action         rollDelegate;
+    public  event Action   AttackStartDelegate;
+    public   Action        rollDelegate;
 
     [SerializeField]
     private EventReference soundEvent;
@@ -66,13 +66,13 @@ public class Player : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
-                miniMap.SetActive(false);
+              //  miniMap.SetActive(false);
             }
             else
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
-                miniMap.SetActive(true);
+               // miniMap.SetActive(true);
             }
         }
     }
@@ -185,8 +185,8 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("R 3"))
             LockOn();
 
-        if(Input.GetButtonDown("Select"))
-            bigSizeMap.SetActive(true);
+       // if(Input.GetButtonDown("Select"))
+            //bigSizeMap.SetActive(true);
     }
 
     #region 애니메이션 이벤트
@@ -327,7 +327,7 @@ public class Player : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Fence"))
         {
             characterMove.movementSpeed = 1;
         }
@@ -335,7 +335,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Map"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Fence"))
         {
             characterMove.movementSpeed = backupSpeed;
         }
