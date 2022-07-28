@@ -57,7 +57,7 @@ public class InteractionObject: MonoBehaviour, IInteraction
             collectNumber = value;
             if (collectNumber == 0)
             {
-                StartCoroutine(Timer(10));
+                StartCoroutine(Timer(30));
             }
         }
     }
@@ -66,7 +66,6 @@ public class InteractionObject: MonoBehaviour, IInteraction
     //시간 설정
     public virtual IEnumerator Timer(int time)
     {
-        isCollectable = false;
         yield return new WaitForSeconds(time);
         isCollectable = true;
         CollectNumber = collectNumberOrigin;
@@ -88,12 +87,13 @@ public class InteractionObject: MonoBehaviour, IInteraction
 
     private IEnumerator InteractionCo()
     {
-        while (isCollectable)
+        while (CollectNumber > 0)
         {
+            isCollectable = false;
             string itemName = table.itemDic[table.Choose()];
             WarehouseManager.instance.itemDelegate(DataManager.instance.materialsDic[itemName]);
             CollectNumber--;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 

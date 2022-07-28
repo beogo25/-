@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Player player      = this;
-        status             = transform.parent.GetComponent<PlayerStatus >();
+        status             = transform.GetComponent<PlayerStatus >();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         backupSpeed        = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         playerRigidbody    = GetComponent<Rigidbody>();
