@@ -11,7 +11,7 @@ public class Npc : MonoBehaviour, IInteraction
     public UIType[] uiTypes;
     public Animator[] animator;
     Player player;
-    private GameObject minimapIcon;
+    public GameObject minimapIcon;
     private Vector3 minimapRotate;
     private CameraMove cameraMove;
 
