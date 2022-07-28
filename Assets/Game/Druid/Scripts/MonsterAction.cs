@@ -410,6 +410,7 @@ public class MonsterAction : MonoBehaviour
                 }
                 state &= ~MONSTER_STATE.Attack;
                 attackCoolTime = false;
+                Debug.Log("공격후 상태 : " + state);
 
                 randomValue = Random.value;
                 if (attackType == MONSTER_ATTACK_TYPE.Run)
@@ -436,7 +437,6 @@ public class MonsterAction : MonoBehaviour
             {
                 if (targetDistance > 7f)    // 타겟과 거리가 7f 초과일때 추적하기
                 {
-                    Debug.Log("걷기상태 적추격중");
                     ChaseTarget();
                 }
                 else                        // 타겟과 거리가 7f 이하일때 걷기 X
@@ -444,12 +444,8 @@ public class MonsterAction : MonoBehaviour
                     state &= ~MONSTER_STATE.Walk;
                     animator.SetBool("Walk", false);
                     attackCoolTime = true;  // 가까워 졌으니 공격 ㄱㄱ
-
-                    //randomValue = Random.value;
-                    //if (randomValue < 0.3f)
-                    //    yield return StartCoroutine(WaitForAnimation("Flexing Muscle", 1f));
-                    //else if (randomValue < 0.4f)
-                    //    yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
+                    // 코루틴 멈추기?
+                    
                 }
             }
 
@@ -502,8 +498,9 @@ public class MonsterAction : MonoBehaviour
             transform.Translate(targetDir * 9 * Time.deltaTime, Space.World); // 타겟쪽으로 이동
             yield return null;
         }
-
+        
         animator.SetBool("Run", false);
+        Debug.Log("달리기 끝");
         yield return null;
     }
     void ChaseTarget()
@@ -676,13 +673,13 @@ public class MonsterAction : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log( "실행된 : " + name);
+        Debug.Log("실행된 : " + name);
         if (name == "Dying(Front Up)")  // 경직상태 
         {
-            Debug.Log("Dying(Front Up)!!!!!!!!!");
-
+            //Debug.Log("Dying(Front Up)!!!!!!!!!");
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
+                Debug.Log("Idle 상태가 아님");
                 yield return null;
             }
             
