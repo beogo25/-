@@ -24,7 +24,10 @@ public class DataManager : Singleton<DataManager>
         base.Awake();
         LoadItemListData();
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     private void Start()
     {
         if (GameManager.instance.load)
