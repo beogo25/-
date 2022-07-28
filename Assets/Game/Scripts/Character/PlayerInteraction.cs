@@ -17,11 +17,16 @@ public class PlayerInteraction : MonoBehaviour
     private Player          player;
 
     [SerializeField]
-    private EventReference getItem;
+    private EventReference  getItem;
+                            
+    [SerializeField]        
+    private Sprite[]        keySprite;
+    private Image           keyImage;     
 
     private void Awake()
     {
         player = FindObjectOfType<Player>();
+        keyImage = ItemUI.transform.GetChild(0).GetChild(1).GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -54,6 +59,11 @@ public class PlayerInteraction : MonoBehaviour
                 {
                     ItemUI.SetActive(true);
                     MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.bubble.Path);
+                    if (GameManager.isJoyPadOn)
+                        keyImage.sprite = keySprite[1];
+                    else
+                        keyImage.sprite = keySprite[0];
+
                 }
                 if (!nearestTarget.GetComponent<InteractionObject>().isCollectable)
                 {
