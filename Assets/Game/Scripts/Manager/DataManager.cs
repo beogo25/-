@@ -28,10 +28,6 @@ public class DataManager : Singleton<DataManager>
         LoadItemListData();
         GameManager.instance.eventSystem = FindObjectOfType<EventSystem>();
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     private void Start()
     {
         if (GameManager.instance.load)
