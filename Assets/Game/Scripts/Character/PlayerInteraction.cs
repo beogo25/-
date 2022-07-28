@@ -60,7 +60,6 @@ public class PlayerInteraction : MonoBehaviour
                     ItemUI.SetActive(true);
 
                 ItemUI.transform.LookAt(Camera.main.transform.position);
-                Player.isRollAble = true;
 
                 //NPC
                 if (nearestTarget.GetComponent<Npc>() != null)
@@ -140,6 +139,7 @@ public class PlayerInteraction : MonoBehaviour
             if (ItemUI.activeInHierarchy)
                 ItemUI.SetActive(false);
             isPlayed = false;
+            Player.isRollAble = true;
         }
     }
 }
