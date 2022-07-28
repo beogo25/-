@@ -25,7 +25,7 @@ public class DruidAttackablePart : MonsterAttackablePart
             isAttackAble = false;
         }
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PlayerStatus>() != null && isAttackAble)

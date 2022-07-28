@@ -28,11 +28,9 @@ public class DruidStatus : MonsterStatus
             currentHp = value;
             
 
-            if (currentHp <= 0)
+            if (currentHp <= 0 && !monsterAction.state.HasFlag(MONSTER_STATE.Dead))     // 체력이 0이하가 되고 죽은상태가 아니면
             {
-                currentHp = 0;
-                // 죽는 모션
-
+                //monsterAction.Dead();
             }
         }
     }

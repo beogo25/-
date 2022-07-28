@@ -42,6 +42,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/sound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
+
   lastModified: 637945317466356097
   FileSizes:
   - Name: 

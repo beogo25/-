@@ -22,9 +22,8 @@ public class DruidHitable : MonsterHitablePart
                     skinRenderer.gameObject.SetActive(false);
                 }
 
-                if (!monsterAction.state.HasFlag(MONSTER_STATE.Stagger))    // 경직상태가 아니라면
+                if (!monsterAction.state.HasFlag(MONSTER_STATE.Stagger) && !monsterAction.state.HasFlag(MONSTER_STATE.Dead))    // 경직 및 사망상태가 아니면
                 {
-                    monsterAction.state |= MONSTER_STATE.Stagger;
                     monsterAction.StartStaggerState();                      // 경직일으키기
                 }
 
@@ -48,6 +47,7 @@ public class DruidHitable : MonsterHitablePart
     {
         Hp -= damage * damageMultiplier;
         monster.Hp -= damage * damageMultiplier;
+
         Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp+ ", 전체체력 : " + monster.Hp +", 데미지 : "+ damage * damageMultiplier);
     }
 

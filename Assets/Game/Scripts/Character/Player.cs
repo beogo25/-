@@ -251,7 +251,7 @@ public class Player : MonoBehaviour
     }
     public void ParticleInstantiate(GameObject attack)
     {
-        Debug.Log(attack);
+        //Debug.Log(attack);
         GameObject temp = attackParticleParent.Find(attack.name).gameObject;
         if (temp != null)
         {

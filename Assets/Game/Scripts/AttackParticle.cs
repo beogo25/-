@@ -66,7 +66,7 @@ public class AttackParticle : MonoBehaviour
             {
                 hitEffect[attackNum].transform.position = other.ClosestPointOnBounds(player.transform.position);
                 hitEffect[attackNum].SetActive(true);
-                Debug.Log(other.name +"  "+ player.attackValue * attackDamagePercent);
+                //Debug.Log(other.name +"  "+ player.attackValue * attackDamagePercent);
             }
         }
     }

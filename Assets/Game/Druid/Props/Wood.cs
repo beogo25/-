@@ -21,7 +21,7 @@ public class Wood : Projectile
             yield return null;
         }
     }
-    public override void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {

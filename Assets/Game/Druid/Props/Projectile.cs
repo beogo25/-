@@ -19,7 +19,7 @@ public abstract class Projectile : MonoBehaviour
         StartCoroutine(throwing(target));
     }
     public abstract IEnumerator throwing(Vector3 targetPos);
-    public abstract void OnCollisionEnter(Collision collision);
+    
     
 
     
