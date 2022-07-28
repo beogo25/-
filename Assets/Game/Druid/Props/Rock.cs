@@ -21,13 +21,16 @@ public class Rock : Projectile
             yield return null;
         }
     }
-    public override void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.layer != LayerMask.NameToLayer("HitAble"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("HitAble")) return;
+        if (other.gameObject.GetComponent<PlayerStatus>() != null)
         {
-            // 캐릭터에 데미지 넣는 함수 실행
-            Debug.Log(collision.gameObject.name + "에 부딪힘");
-            Destroy(gameObject);
+            other.transform.GetComponent<PlayerStatus>().PlayerHit(damage, 15, transform.position);
+            Debug.Log("돌맞음 데미지 : " + damage);
         }
+
+        Destroy(gameObject);
     }
 }
