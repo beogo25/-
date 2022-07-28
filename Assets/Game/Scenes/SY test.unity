@@ -1054,6 +1054,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2544356519893226708, guid: af5da2ef3181c7b48aff2834dcb048d9, type: 3}
   m_PrefabInstance: {fileID: 2544356520666136659}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1406482456 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1328696445824495923, guid: e3d2aa86d79c6b544980d4f9f97d0048, type: 3}
+  m_PrefabInstance: {fileID: 1328696446463998488}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1418475756 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1328696445179740916, guid: e3d2aa86d79c6b544980d4f9f97d0048, type: 3}
@@ -1211,6 +1216,7 @@ MonoBehaviour:
       Data3: -1787490135
       Data4: -641168043
     Path: event:/Save
+  saveUI: {fileID: 2070224773}
 --- !u!4 &1581301363
 Transform:
   m_ObjectHideFlags: 0
@@ -1317,7 +1323,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1328696445824495924, guid: e3d2aa86d79c6b544980d4f9f97d0048, type: 3}
   m_PrefabInstance: {fileID: 1328696446463998488}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1406482456}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 526e6c989a2c02149bcf2e75386d2f49, type: 3}
@@ -1429,6 +1435,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1328696445560519047, guid: e3d2aa86d79c6b544980d4f9f97d0048, type: 3}
   m_PrefabInstance: {fileID: 1328696446463998488}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2070224773 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2070224773, guid: e3d2aa86d79c6b544980d4f9f97d0048, type: 3}
+  m_PrefabInstance: {fileID: 1328696446463998488}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2083180139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1505,6 +1516,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1581301362}
+    - target: {fileID: 1328696445824495924, guid: e3d2aa86d79c6b544980d4f9f97d0048, type: 3}
+      propertyPath: playerStatus
+      value: 
+      objectReference: {fileID: 1933649613}
     - target: {fileID: 1328696445853547034, guid: e3d2aa86d79c6b544980d4f9f97d0048, type: 3}
       propertyPath: weaponMesh
       value: 
@@ -1779,5 +1794,9 @@ PrefabInstance:
       propertyPath: bigSizeMap
       value: 
       objectReference: {fileID: 539512462}
+    - target: {fileID: 7385985702867783952, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: battleInvetoryUI
+      value: 
+      objectReference: {fileID: 1406482456}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}

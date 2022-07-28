@@ -22,11 +22,6 @@ public class GameManager : Singleton<GameManager>
         //Screen.SetResolution(3840, 2160, true);
         Screen.SetResolution(1920, 1080, true);
         //해상도를 바꿀때도 UI가 일정한 간격으로 움직일 수 있게 해주는 비율을 받는다.
-
-        // 커서 화면에 안보이도록
-        Cursor.visible = false;
-        // 커서 화면에 고정
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
