@@ -32,6 +32,11 @@ public class MainCanvas : Singleton<MainCanvas>
     {
         base.Awake();
         player = FindObjectOfType<Player>();
+
+        // 커서 화면에 안보이도록
+        Cursor.visible = false;
+        // 커서 화면에 고정
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()

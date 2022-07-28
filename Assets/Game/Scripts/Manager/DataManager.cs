@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 using FMODUnity;
+using UnityEngine.EventSystems;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -18,11 +20,13 @@ public class DataManager : Singleton<DataManager>
     public List<Quest>               questList               = new List<Quest>();
 
     public EventReference saveSound;
+    public GameObject saveUI;
 
     public override void Awake()
     {
         base.Awake();
         LoadItemListData();
+        GameManager.instance.eventSystem = FindObjectOfType<EventSystem>();
     }
 <<<<<<< HEAD
 
@@ -38,8 +42,28 @@ public class DataManager : Singleton<DataManager>
         if(Input.GetKeyDown(KeyCode.L))
             LoadData();
     }
+    public void SaveButton()
+    {
+        StartCoroutine(Save());
+    }
+    private IEnumerator Save()
+    {
+        saveUI.SetActive(true);
+        try
+        {
+            SaveData();
+        }
+        catch(Exception ex)
+        {
+            Debug.LogException(ex);
+            SceneManager.LoadScene("MainScene");
+        }
+        yield return new WaitForSecondsRealtime(3);
+        saveUI.SetActive(false);
+        MainCanvas.instance.Exit();
+    }
 
-    public void SaveData()
+    private void SaveData()
     {
         MainCanvas.instance.PlaySoundOneShot(saveSound.Path);
         GameSaveData saveData = new GameSaveData();
@@ -74,7 +98,7 @@ public class DataManager : Singleton<DataManager>
         File.WriteAllText(Application.dataPath + "/Game/Resources/Json/SaveJson.json", JsonUtility.ToJson(saveData));
     }
 
-    public void LoadData()
+    private void LoadData()
     {
         string saveData = Resources.Load<TextAsset>("Json/SaveJson").text;
         if(saveData != null)
@@ -104,7 +128,7 @@ public class DataManager : Singleton<DataManager>
         }
     }
 
-    public void LoadItemListData()
+    private void LoadItemListData()
     {
         //마테리얼 아이템
         string materialData               = Resources.Load<TextAsset>("Json/MaterialItemJson").text;

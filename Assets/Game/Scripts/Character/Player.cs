@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
     private GameObject     bigSizeMap;
     [SerializeField]
     private GameObject     miniMap;
+    [SerializeField]
+    private GameObject     battleInvetoryUI;
 
     public  event Action   AttackStartDelegate;
     public   Action        rollDelegate;
@@ -69,12 +71,14 @@ public class Player : MonoBehaviour
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 miniMap.SetActive(false);
+                battleInvetoryUI.SetActive(false);
             }
             else
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 miniMap.SetActive(true);
+                battleInvetoryUI.SetActive(true);
             }
         }
     }

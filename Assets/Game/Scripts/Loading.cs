@@ -6,38 +6,26 @@ using UnityEngine.UI;
 
 public class Loading : MonoBehaviour
 {
-    private Slider slider;
     public string sceneName;
-    private void Awake()
-    {
-        slider = GetComponent<Slider>();
-        
-    }
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Z))
-            StartCoroutine(LoadAsynSceneCoroutine());
-    }
-
     void Start()
     {
-        
+        StartCoroutine(LoadAsynSceneCoroutine());
     }
 
     IEnumerator LoadAsynSceneCoroutine()
     {
+        yield return new WaitForSeconds(1);
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;
         while (!operation.isDone)
         {
-            slider.value = operation.progress;
+            Debug.Log(operation.progress);
             if(operation.progress>=0.9f)
             {
                 break;
             }
         }
-        slider.value = 1;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         operation.allowSceneActivation = true;
     }
 }
