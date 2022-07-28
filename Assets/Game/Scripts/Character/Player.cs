@@ -44,10 +44,10 @@ public class Player : MonoBehaviour
     public  Quest?         orderQuest    = null;
     public  PlayerStatus   status;
 
-    //[SerializeField]
-    //private GameObject     bigSizeMap;
-    //[SerializeField]
-    //private GameObject     miniMap;
+    [SerializeField]
+    private GameObject     bigSizeMap;
+    [SerializeField]
+    private GameObject     miniMap;
 
     public  event Action   AttackStartDelegate;
     public   Action        rollDelegate;
@@ -68,20 +68,20 @@ public class Player : MonoBehaviour
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
-              //  miniMap.SetActive(false);
+                miniMap.SetActive(false);
             }
             else
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
-               // miniMap.SetActive(true);
+                miniMap.SetActive(true);
             }
         }
     }
     void Start()
     {
         Player player      = this;
-        status             = transform.parent.GetComponent<PlayerStatus >();
+        status             = transform.GetComponent<PlayerStatus >();
         characterMove      = transform.parent.GetComponent<CharacterMove>();
         backupSpeed        = transform.parent.GetComponent<CharacterMove>().movementSpeed;
         playerRigidbody    = GetComponent<Rigidbody>();
@@ -192,8 +192,8 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("R 3"))
             LockOn();
 
-       // if(Input.GetButtonDown("Select"))
-            //bigSizeMap.SetActive(true);
+        if(Input.GetButtonDown("Select"))
+            bigSizeMap.SetActive(true);
     }
 
     #region 애니메이션 이벤트
