@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
     WaitForSecondsRealtime colorDelay    = new WaitForSecondsRealtime(0.0005f);
     public  Renderer       renderers;
     public  Quest?         orderQuest    = null;
+    public  int            questCount    = 0;
     public  PlayerStatus   status;
 
     [SerializeField]

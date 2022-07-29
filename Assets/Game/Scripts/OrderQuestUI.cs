@@ -38,23 +38,31 @@ public class OrderQuestUI : MonoBehaviour
                 targetName.text = quest.target;
                 targetNum.text = WarehouseManager.instance.FindItem(DataManager.instance.materialsDic[quest.target]) + "/" + quest.targetNum.ToString();
                 targetNum.color = Color.red;
+                if (quest.targetNum <= WarehouseManager.instance.FindItem(DataManager.instance.materialsDic[quest.target]))
+                {
+                    clearButton.SetActive(true);
+                    targetNum.color = Color.green;
+                }
+                else
+                    clearButton.SetActive(false);
             }
             else
             {
-                targetImage.sprite = null;
-                targetName.text = null;
-                targetNum.text = null;
+                targetImage.sprite = DataManager.instance.monsterDataDic[quest.target].monaterSprite;
+                targetName.text = DataManager.instance.monsterDataDic[quest.target].monsterName;
+                targetNum.text = quest.targetNum - player.questCount+"/"+ quest.targetNum.ToString();
+                if (player.questCount <= 0)
+                {
+                    clearButton.SetActive(true);
+                    targetNum.color = Color.green;
+                }
+                else
+                    clearButton.SetActive(false);
             }
             clearGold.text = "º¸»ó : " + quest.clearGold.ToString() + "°ñµå";
             questName.text = quest.questName;
             questContents.text = quest.questContents;
-            if(quest.targetNum <= WarehouseManager.instance.FindItem(DataManager.instance.materialsDic[quest.target]))
-            {
-                clearButton.SetActive(true);
-                targetNum.color = Color.green;
-            }
-            else
-                clearButton.SetActive(false);
+            
         }
         else
         {

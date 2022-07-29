@@ -13,7 +13,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<string, EquipmentItem> equipmentDic    = new Dictionary<string, EquipmentItem>();
     public Dictionary<string, UseItem>       useItemDic      = new Dictionary<string, UseItem>();
     public Dictionary<string, WeaponData>    weaponDataDic   = new Dictionary<string, WeaponData>();
-    
+    public Dictionary<string, MonsterData>   monsterDataDic  = new Dictionary<string, MonsterData>();
 
     public List<UseItemRecipe>       useItemRecipeList       = new List<UseItemRecipe>();
     public List<EqiupmentItemRecipe> eqiupmentItemRecipeList = new List<EqiupmentItemRecipe>();
@@ -247,6 +247,16 @@ public class DataManager : Singleton<DataManager>
             for (int i = 0; i < weaponDatas.Length; i++)
             {
                 weaponDataDic.Add(weaponDatas[i].weaponName, weaponDatas[i]);
+            }
+        }
+
+        //몬스터 데이터
+        MonsterData[] monsterDatas = Resources.LoadAll<MonsterData>("MonsterData");
+        if(monsterDatas.Length > 0)
+        {
+            for (int i = 0; i < monsterDatas.Length; i++)
+            {
+                monsterDataDic.Add(monsterDatas[i].monsterName, monsterDatas[i]);
             }
         }
     }
