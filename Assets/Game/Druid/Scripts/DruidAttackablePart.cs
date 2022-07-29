@@ -5,10 +5,16 @@ using UnityEngine;
 public class DruidAttackablePart : MonsterAttackablePart
 {
     [SerializeField] private AttackType attackType;
+    //private Vector3 knockBackStandardPosition;
     private void Awake()
     {
         myCollider = GetComponent<Collider>();
         monster = transform.GetComponentInParent<DruidStatus>();
+
+        //if (myCollider is BoxCollider)
+        //    knockBackStandardPosition = ((BoxCollider)myCollider).bounds.center;
+        //else
+        //    knockBackStandardPosition = monster.transform.position;
     }
 
     public void Attack(bool isAttackStart)
