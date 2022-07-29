@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{6553fc2d-e1a1-4593-9039-a7e35b94c24c}">
+		<property name="assetPath">
+			<value>shout9.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.5485714285714286</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{343686ea-61e4-495f-af4b-8943f6b4c417}</destination>
+		</relationship>
+	</object>
+</objects>

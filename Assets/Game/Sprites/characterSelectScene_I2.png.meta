@@ -1,0 +1,444 @@
+fileFormatVersion: 2
+guid: c092053892cb7824d9d3d5d42f5470d4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6024811113235555399
+    second: characterSelectScene_I2_0
+  - first:
+      213: 2223670758331085965
+    second: characterSelectScene_I2_1
+  - first:
+      213: 2626640499327644889
+    second: characterSelectScene_I2_2
+  - first:
+      213: -8648046449914172700
+    second: characterSelectScene_I2_3
+  - first:
+      213: 8917466512385821567
+    second: characterSelectScene_I2_4
+  - first:
+      213: -1698843131744229873
+    second: characterSelectScene_I2_5
+  - first:
+      213: 7849015896266326604
+    second: characterSelectScene_I2_6
+  - first:
+      213: 5940669032454920628
+    second: characterSelectScene_I2_7
+  - first:
+      213: -921081900630868494
+    second: characterSelectScene_I2_8
+  - first:
+      213: 880077438062056591
+    second: characterSelectScene_I2_9
+  - first:
+      213: -5676873147105000383
+    second: characterSelectScene_I2_10
+  - first:
+      213: -3708345328865543063
+    second: characterSelectScene_I2_11
+  - first:
+      213: -519533778833933471
+    second: characterSelectScene_I2_12
+  - first:
+      213: 9078003034529524164
+    second: characterSelectScene_I2_13
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: characterSelectScene_I2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 376
+        width: 437
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bbd4cc9632936ca0800000000000000
+      internalID: -6024811113235555399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_1
+      rect:
+        serializedVersion: 2
+        x: 375
+        y: 444
+        width: 210
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d847fbfe5c01cde10800000000000000
+      internalID: 2223670758331085965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_2
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 446
+        width: 435
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d4341b1e93b37420800000000000000
+      internalID: 2626640499327644889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 174
+        width: 1003
+        height: 267
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4eaa9c7b297fbf780800000000000000
+      internalID: -8648046449914172700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_4
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 379
+        width: 66
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7bc237db8431cb70800000000000000
+      internalID: 8917466512385821567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_5
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 328
+        width: 48
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f06e54b2c2f7c68e0800000000000000
+      internalID: -1698843131744229873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_6
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 195
+        width: 48
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c42495d2f5e4dec60800000000000000
+      internalID: 7849015896266326604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_7
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 111
+        width: 170
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b993af820f717250800000000000000
+      internalID: 5940669032454920628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_8
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 132
+        width: 270
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fdfad734e8a733f0800000000000000
+      internalID: -921081900630868494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_9
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 126
+        width: 277
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f84568e54c9a63c00800000000000000
+      internalID: 880077438062056591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_10
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 128
+        width: 46
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1444ad733f1b731b0800000000000000
+      internalID: -5676873147105000383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_11
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 128
+        width: 130
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96c7d70329f498cc0800000000000000
+      internalID: -3708345328865543063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_12
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 60
+        width: 277
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16b79cfd7ce3ac8f0800000000000000
+      internalID: -519533778833933471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_13
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 72
+        width: 532
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c9ec0f99ab8bfd70800000000000000
+      internalID: 9078003034529524164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: c0ac7bf6c55c3af4abcb0e32be0947b6
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

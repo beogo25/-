@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{c902657a-a815-415c-bd42-5eae92e0ce3d}">
+		<property name="assetPath">
+			<value>shout14.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.4179591836734694</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{343686ea-61e4-495f-af4b-8943f6b4c417}</destination>
+		</relationship>
+	</object>
+</objects>

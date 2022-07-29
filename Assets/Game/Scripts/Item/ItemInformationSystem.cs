@@ -6,18 +6,20 @@ using TMPro;
 
 public class ItemInformationSystem : MonoBehaviour
 {
-    private Item item;
-    public TextMeshProUGUI itemName;
-    public TextMeshProUGUI contents;
-    public TextMeshProUGUI stack;
-    public Image image;
+    private Item            item;
+    public  TextMeshProUGUI itemName;
+    public  TextMeshProUGUI contents;
+    public  TextMeshProUGUI stack;
+    public  Image           image;
 
-    public GameObject outWarehouseButton;
-    public GameObject outInventoryButton;
-
+    public  GameObject      outWarehouseButton;
+    public  GameObject      outInventoryButton;
+    public  GameObject      afterItemWareHouseButton;
+    public  GameObject      afterEquipmentWareHouseButton;
+    public  GameObject      afterItemInventoryButton;
+    public  GameObject      afterEquipmentInventoryButton;
    
 
-    public bool warehouseBool;
     public int targetNum;
     public Item Item
     {
@@ -29,28 +31,55 @@ public class ItemInformationSystem : MonoBehaviour
             {
                 itemName.text = item.itemName;
                 contents.text = item.contents;
-                image.sprite = item.sprite;
+                image.sprite  = item.sprite;
+                image.color   = Color.white;
+                stack.text    = "";
+                switch(item.itemType)
+                {
+                    case ItemType.USEITEM:
+                        stack.text = "최대 : " + ((UseItem)item).maxStack.ToString() + "개";
+                        break;
+                    case ItemType.EQUIPMENT:
+                        if (((EquipmentItem)item).equipmentType == EquipmentType.WEAPON)
+                            stack.text = "공격력 : " + ((EquipmentItem)item).equipmentValue;
+                        else
+                            stack.text = "방어력 : " + ((EquipmentItem)item).equipmentValue;
+                        break;
+                    default:
+                        break;
+                }
                 //아이템  타입에 따라 다른 행동
-            }
-        }
-    }
-    public bool WareHouseBool
-    {
-        get { return warehouseBool; }
-        set
-        {
-            warehouseBool = value;
-            //교환 UI 활성화
-            if(warehouseBool)
-            {
-                outWarehouseButton.SetActive(true);
-                outInventoryButton.SetActive(false);
             }
             else
             {
-                outWarehouseButton.SetActive(false);
-                outInventoryButton.SetActive(true);
+                itemName.text = "";
+                contents.text = "";
+                stack.text    = "";
+                image.color   = Color.clear;
             }
+        }
+    }
+
+    public void ButtonSet()
+    {
+        outWarehouseButton.SetActive(false);
+        outInventoryButton.SetActive(false);
+    }
+    public void ButtonSet(bool warehouseBool)
+    {
+        if (warehouseBool)
+        {
+            outWarehouseButton.SetActive(true);
+            if (GameManager.isJoyPadOn)
+                GameManager.instance.eventSystem.SetSelectedGameObject(outWarehouseButton);
+            outInventoryButton.SetActive(false);
+        }
+        else
+        {
+            outWarehouseButton.SetActive(false);
+            outInventoryButton.SetActive(true);
+            if (GameManager.isJoyPadOn)
+                GameManager.instance.eventSystem.SetSelectedGameObject(outInventoryButton);
         }
     }
 
@@ -62,18 +91,30 @@ public class ItemInformationSystem : MonoBehaviour
                 if(InventoryManager.instance.AddItem(DataManager.instance.useItemDic[Item.itemName]))
                 {
                     if (WarehouseManager.instance.useItemList[targetNum].stack == 1)
+                    {
                         outWarehouseButton.SetActive(false);
+                        if (GameManager.isJoyPadOn)
+                            GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
+                    }
                     WarehouseManager.instance.MinusItem(targetNum, ItemType.USEITEM);
+                    if (GameManager.isJoyPadOn)
+                    {
+                        if (GameManager.instance.eventSystem.currentSelectedGameObject == null)
+                            GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                    }
                 }
                 break;
             case ItemType.EQUIPMENT:
                 outWarehouseButton.SetActive(false);
+                if (GameManager.isJoyPadOn)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(afterEquipmentWareHouseButton);
                 InventoryManager.instance.Equip(((EquipmentItem)item));
                 WarehouseManager.instance.MinusItem(targetNum, ItemType.EQUIPMENT);
                 break;
             default:
                 break;
         }
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.itemMove.Path);
     }
     public void OutInventoryItem()
     {
@@ -81,20 +122,33 @@ public class ItemInformationSystem : MonoBehaviour
         {
             case ItemType.USEITEM:
                 if (InventoryManager.instance.useItemList[targetNum].stack == 1)
+                {
                     outInventoryButton.SetActive(false);
+                    if (GameManager.isJoyPadOn)
+                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemWareHouseButton);
+                }
                 InventoryManager.instance.MinusItem(targetNum, 1);
                 WarehouseManager.instance.AddItem(DataManager.instance.useItemDic[Item.itemName]);
+                if (GameManager.isJoyPadOn)
+                {
+                    if (GameManager.instance.eventSystem.currentSelectedGameObject == null)
+                        GameManager.instance.eventSystem.SetSelectedGameObject(afterItemInventoryButton);
+                }
                 break;
             case ItemType.EQUIPMENT:
                 outInventoryButton.SetActive(false);
+                if (GameManager.isJoyPadOn)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(afterEquipmentInventoryButton);
                 InventoryManager.instance.UnEquip(((EquipmentItem)item).equipmentType);
                 break;
             default:
                 break;
         }
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.itemMove.Path);
     }
     private void OnEnable()
     {
         Item = null;
+        ButtonSet();
     }
 } 

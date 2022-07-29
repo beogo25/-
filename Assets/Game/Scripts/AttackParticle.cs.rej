@@ -1,0 +1,15 @@
+diff a/Assets/Game/Scripts/AttackParticle.cs b/Assets/Game/Scripts/AttackParticle.cs	(rejected hunks)
+@@ -85,10 +85,10 @@
+         {
+             attackNum          = i;
+             attackAble         = true;
+-            myCollider.enabled = true;
++            weapon.enabled = true;
+             yield return new WaitForFixedUpdate();
+-            yield return new WaitForFixedUpdate();
+-            myCollider.enabled = false;
++            //yield return new WaitForFixedUpdate(); // �������� �ǵ��� �κ��ΰ�?
++            weapon.enabled = false;
+             yield return new WaitForSeconds(attackDelayTime);
+         }
+     }

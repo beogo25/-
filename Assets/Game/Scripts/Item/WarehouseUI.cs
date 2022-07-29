@@ -5,8 +5,10 @@ using UnityEngine;
 public abstract class WarehouseUI : MonoBehaviour
 {
     public ItemInformationSystem itemInformation;
-    public int selectSlot = 0;
-    public WarehouseSlot[] slots;
+    public int                   selectSlot = 0;
+    public WarehouseSlot[]       slots;
+    public GameObject[]          exitTarget;
+
     public int SelectSlot
     {
         get { return selectSlot; }
@@ -25,13 +27,14 @@ public abstract class WarehouseUI : MonoBehaviour
     {
         slots = transform.GetComponentsInChildren<WarehouseSlot>();
     }
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         Refresh();
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.itemBox.Path);
     }
     public virtual void ItemInformationChange(int num)
     {
-        itemInformation.WareHouseBool = true;
+        itemInformation.ButtonSet(true);
         itemInformation.targetNum = num;
     }
     public abstract void Refresh();

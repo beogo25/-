@@ -6,6 +6,7 @@ public class CameraMove : MonoBehaviour
     [SerializeField]
     private GameObject playerPoint;
     private GameObject player;
+    private Player playerScript;
 
     private float      cameraX;
     private float      cameraY;
@@ -29,16 +30,16 @@ public class CameraMove : MonoBehaviour
 
     private void Start()
     {
-        player    = playerPoint.transform.parent.gameObject;
-        layerMask = (1 << LayerMask.NameToLayer("Wall") | LayerMask.NameToLayer("Ground"));
-        
+        player       = playerPoint.transform.parent.gameObject;
+        playerScript = player.GetComponent<Player>();
+        layerMask    = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Ground"));
     }
 
     private void FixedUpdate()
     {
-        CameraMovement();
+        if(!playerScript.TalkState)
+            CameraMovement();
     }
-
     private void CameraMovement()
     {
 
@@ -55,17 +56,18 @@ public class CameraMove : MonoBehaviour
 
             cameraX += Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
             cameraY -= Input.GetAxis("Mouse Y") * cameraSpeed * Time.deltaTime;
-            cameraY  = Mathf.Clamp(cameraY, -15, 80);                                                   // 위 아래의 각도 제한
+            cameraY  = Mathf.Clamp(cameraY, -80, 90);                                                   // 위 아래의 각도 제한
             transform.rotation = Quaternion.Euler(cameraY, cameraX, 0);                                 // 이동량에 따라 카메라의 바라보는 방향을 조정(실질적인 값 조정이 필요한 영역)
             transform.position = playerPoint.transform.position - transform.rotation * offset;          // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감
         }
     }
 
-    public IEnumerator CameraFocus()
+    public IEnumerator CameraFocus(GameObject targetInput=null)
     {
         GameObject target = playerPoint.transform.parent.GetComponent<Player>().lockOnObject;           // 타겟 대상 선정
         isFocused = true;
-
+        if (targetInput != null)
+            target = targetInput;
         if (Player.isLockedOn)                                                                          // 락온이 되었다면
         {
             Vector3 angleToTargetVec = target.transform.position - playerPoint.transform.position;      // 타겟에서 플레이어의 벡터를 구하고
@@ -98,7 +100,5 @@ public class CameraMove : MonoBehaviour
 
         isFocused = false;
     }
-
-
 }
 

@@ -6,12 +6,16 @@ using TMPro;
 
 public class BattleItemSystem : MonoBehaviour
 {
-    private int selectNum = 0;
-    public Image leftItem;
-    public Image middleItem;
-    public Image rightItem;
-    public TextMeshProUGUI stackText;
-    public PlayerStatus playerStatus;
+    private int             selectNum = 0;
+    public  Image           leftItem;
+    public  Image           middleItem;
+    public  Image           rightItem;
+    public  TextMeshProUGUI stackText;
+    public  PlayerStatus    playerStatus;
+    public  Image           cooltimeImage;
+    private bool            isScrollMovable = true;
+
+    private WaitForFixedUpdate oneFrame = new WaitForFixedUpdate();
     public int SelectNum
     {
         get { return selectNum; }
@@ -64,29 +68,54 @@ public class BattleItemSystem : MonoBehaviour
             }
         }
     }
-    public void ButtonAction(int num)
-    {
-        SelectNum += num;
-    }
     private void OnEnable()
     {
         selectNum = 0;
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) || (Input.GetAxis("D-Pad X") == 1 && isScrollMovable))
+        {
+            SelectNum -= 1;
+            isScrollMovable = false;
+        }
+        if (Input.GetButtonDown("Button X") || Input.GetAxis("D-Pad Y") == 1)
+        {
+            UseItemTrigger();
+            StartCoroutine(CooltimeCheck());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3) || (Input.GetAxis("D-Pad X") == -1 && isScrollMovable))
+        {
+            SelectNum += 1;
+            isScrollMovable = false;
+        }
+        if(Input.GetAxis("D-Pad X") == 0)
+        {
+            isScrollMovable = true;
+        }
     }
 
     //사용 아이템들 효과 적용
     public void UseItemTrigger()
     {
-        if (InventoryManager.instance.useItemList[selectNum] != null)
+        if (cooltimeImage.fillAmount <= 0 && InventoryManager.instance.useItemList.Length>0)
         {
-            switch(InventoryManager.instance.useItemList[selectNum].useItemType)
+            if(InventoryManager.instance.useItemList[selectNum] != null )
             {
-                case UseItemType.HP_HEALTH:
-                    playerStatus.Hp += InventoryManager.instance.useItemList[selectNum].effectValue;
-                    break;
-                default:
-                    break;
+                playerStatus.UseItemEffect(InventoryManager.instance.useItemList[selectNum].useItemType, InventoryManager.instance.useItemList[selectNum].effectValue);
+                InventoryManager.instance.MinusItem(SelectNum, 1);
+                StartCoroutine(CooltimeCheck());
             }
-            InventoryManager.instance.MinusItem(SelectNum, 1);
+        }
+    }
+    
+    public IEnumerator CooltimeCheck()
+    {
+        cooltimeImage.fillAmount = 1;
+        while(cooltimeImage.fillAmount > 0)
+        {
+            cooltimeImage.fillAmount -= 0.01f;
+            yield return oneFrame; 
         }
     }
 }

@@ -125617,9 +125617,23 @@ AnimationClip:
   - time: 0.24
     functionName: ParticleInstantiate
     data: 
-    objectReferenceParameter: {fileID: 4118222606303123960, guid: 05ca08d7e09ce9b43837c3e6e4d5a513, type: 3}
+    objectReferenceParameter: {fileID: 5506893205982084676, guid: 05ca08d7e09ce9b43837c3e6e4d5a513, type: 3}
     floatParameter: 0
     intParameter: 0
+    messageOptions: 0
+  - time: 0.24
+    functionName: PlayVoice
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.24
+    functionName: PlayEffectSound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 1
     messageOptions: 0
   - time: 1.12
     functionName: Attack_AirSlashEnd

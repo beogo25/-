@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMove : MonoBehaviour
+public class CharacterMove : Singleton<CharacterMove>
 {
     public  float     movementSpeed;
     public  float     jumpPower;
 
     private Rigidbody characterRigidbody;
     private Transform characterBody;
+    private Player    player;
 
     private void Start()
     {
         characterRigidbody = transform.GetChild(0).GetComponent<Rigidbody>();
         characterBody      = transform.GetChild(0).transform;
+        player             = transform.GetChild(0).GetComponent<Player>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        Move();
+        if(!player.TalkState)
+            Move();
     }
 
     private void Move()

@@ -1,44 +1,46 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class TalkManager : Singleton<TalkManager>
 {
-    public GameObject talkUI;
-    public Image standing;
-    public TextMeshProUGUI nameTMP;
-    public TextMeshProUGUI talkTMP;
+    public  GameObject      talkUI;
+    public  Image           standing;
+    public  TextMeshProUGUI nameTMP;
+    public  TextMeshProUGUI talkTMP;
 
-    private string npcName;
-    private string[] talkText;
-    private int num;
-    private UIType[] uiTypes;
-    IEnumerator talkIE;
+    private string          npcName;
+    private string[]        talkText;
+    private int             num;
+    private UIType[]        uiTypes;
+    IEnumerator             talkIE;
 
-    public GameObject useItemWarehouseButton;
-    public GameObject equipmentItemWarehouseButton;
-    public GameObject materialItemWarehouseButton;
-    public GameObject useItemConbinationButton;
-    public GameObject equipmentItemConbinationButton;
-    public GameObject shopButton;
-    public GameObject exitButton;
+    private WaitForSecondsRealtime talkDelay = new WaitForSecondsRealtime(0.1f);
+
+    public GameObject[] UIButton = new GameObject[0];
+    public Player player;
 
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Z))
+        if(Input.GetButtonUp("InteractionNpc") && talkUI.activeInHierarchy)
         {
             ClickButton();
         }
     }
     public void TalkStart(string name, string[] talk, Sprite sprite = null, UIType[] inputUITypes = null)
     {
-        num = 0;
+        for(int i = 0; i < UIButton.Length-1; i++)
+            UIButton[i].SetActive(false);
+
+        UIButton[UIButton.Length-1].SetActive(true);
+
+        player.TalkState = true;
+        num      = 0;
         talkUI.SetActive(true);
-        uiTypes = inputUITypes; 
-        npcName = name;
+        uiTypes  = inputUITypes; 
+        npcName  = name;
         talkText = talk;
         if(sprite != null)
         {
@@ -59,36 +61,19 @@ public class TalkManager : Singleton<TalkManager>
                 if (uiTypes == null || uiTypes.Length == 0) 
                 {
                     talkUI.SetActive(false);
+                    //blur.SetActive(false);
+                    UIButton[UIButton.Length - 1].SetActive(true);
+                    player.TalkState = false;
                 }
                 else
                 {
                     for(int i = 0; i < uiTypes.Length; i++)
                     {
-                        switch (uiTypes[i])
-                        {
-                            case UIType.EQIUPMENT_WAREHOUSE_UI:
-                                equipmentItemWarehouseButton.SetActive(true);
-                                break;
-                            case UIType.MATERIAL_WAREHOUSE_UI:
-                                materialItemWarehouseButton.SetActive(true);
-                                break;
-                            case UIType.USEITEM_WAREHOUSE_UI:
-                                useItemWarehouseButton.SetActive(true);
-                                break;
-                            case UIType.USEITEM_COMBINATION_UI:
-                                useItemConbinationButton.SetActive(true);
-                                break;
-                            case UIType.EQIUPMENT_COMBINATION_UI:
-                                equipmentItemConbinationButton.SetActive(true);
-                                break;
-                            case UIType.SHOP_UI:
-                                shopButton.SetActive(true);
-                                break;
-                            default:
-                                break;
-                        }
-                        exitButton.SetActive(true);
+                        UIButton[(int)uiTypes[i]].SetActive(true);
                     }
+                    UIButton[7].SetActive(true);
+                    if (GameManager.isJoyPadOn)
+                        GameManager.instance.eventSystem.SetSelectedGameObject(UIButton[(int)uiTypes[0]]);
                 }
             }
             else
@@ -113,7 +98,7 @@ public class TalkManager : Singleton<TalkManager>
         for (int j = 0; j < talkText[a].Length; j++)
         {
             talkTMP.text += talkText[a][j];
-            yield return new WaitForSeconds(0.1f);
+            yield return talkDelay;
         }
     }
 }

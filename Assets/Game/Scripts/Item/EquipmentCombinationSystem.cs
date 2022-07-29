@@ -7,35 +7,36 @@ using TMPro;
 public class EquipmentCombinationSystem : MonoBehaviour
 {
     public GameObject contents;
-    public GameObject contentsPrifab;
+    public GameObject contentsPrefab;
     private RectTransform contentsRectTransform;
 
     public Image resultImage;
     public Image materialAImage;
     public Image materialBImage;
-    public TextMeshProUGUI resultName;
+    public TextMeshProUGUI resultContents;
     public TextMeshProUGUI materialAName;
     public TextMeshProUGUI materialBName;
     public TextMeshProUGUI needGold;
     public TextMeshProUGUI playerGold;
 
     public GameObject combinationButton;
+    public MeshFilter weaponMesh;
+    public MeshRenderer weaponRenderer;
 
     private int target;
-
     private void OnEnable()
     {
+        if(GameManager.isJoyPadOn)
+            GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.shop.Path);
         combinationButton.SetActive(false);
     }
     private void Awake()
     {
         contentsRectTransform = contents.GetComponent<RectTransform>();
-    }
-    private void Start()
-    {
         for (int i = 0; i < DataManager.instance.eqiupmentItemRecipeList.Count; i++)
         {
-            CombiContentsUI temp = Instantiate(contentsPrifab, contents.transform).GetComponent<CombiContentsUI>();
+            CombiContentsUI temp = Instantiate(contentsPrefab, contents.transform).GetComponent<CombiContentsUI>();
             temp.image.sprite = DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[i].result].sprite;
             temp.textMeshProUGUI.text = DataManager.instance.eqiupmentItemRecipeList[i].result;
             int tempint = i;
@@ -59,22 +60,49 @@ public class EquipmentCombinationSystem : MonoBehaviour
         materialAImage.sprite = materialItemA.sprite;
         materialBImage.sprite = materialItemB.sprite;
 
-        resultName.text = equipmentItem.itemName;
+        if(equipmentItem.equipmentType == EquipmentType.WEAPON)
+            resultContents.text = "공격력 : "+equipmentItem.equipmentValue;
+        else
+            resultContents.text = "방어력 : " + equipmentItem.equipmentValue;
         materialAName.text = materialItemA.itemName + DataManager.instance.eqiupmentItemRecipeList[num].numA + " (" + materialAnum + ")";
         materialBName.text = materialItemB.itemName + DataManager.instance.eqiupmentItemRecipeList[num].numB + " (" + materialBnum + ")";
-        needGold.text = DataManager.instance.eqiupmentItemRecipeList[num].gold.ToString();
+        needGold.text = DataManager.instance.eqiupmentItemRecipeList[num].gold.ToString()+" 골드";
         if (materialAnum >= DataManager.instance.eqiupmentItemRecipeList[num].numA && materialBnum >= DataManager.instance.eqiupmentItemRecipeList[num].numB && PlayerStatus.gold >= DataManager.instance.eqiupmentItemRecipeList[num].gold)
-            combinationButton.SetActive(true);
+        {
+            if (GameManager.isJoyPadOn)
+            {
+                GameManager.instance.eventSystem.SetSelectedGameObject(combinationButton);
+            }
+                combinationButton.SetActive(true);
+        }
         else
-            combinationButton.SetActive(false);
+        {
+                combinationButton.SetActive(false);
+            if (GameManager.isJoyPadOn)
+            {
+                if (GameManager.instance.eventSystem.currentSelectedGameObject == combinationButton)
+                    GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
+            }
+        }
+        if(equipmentItem.equipmentType==EquipmentType.WEAPON)
+        {
+            weaponMesh.mesh = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMesh;
+            weaponRenderer.materials[0] = DataManager.instance.weaponDataDic[equipmentItem.itemName].weaponMaterial;
+        }
+        else
+        {
+            weaponMesh.mesh = null;
+        }
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.buttonSound.Path);
     }
 
     public void Combination()
     {
-        WarehouseManager.instance.AddItem  (DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[target].result   ]                                                           );
+        WarehouseManager.instance.itemDelegate(DataManager.instance.equipmentDic[DataManager.instance.eqiupmentItemRecipeList[target].result   ]                                                           );
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialA], DataManager.instance.eqiupmentItemRecipeList[target].numA);
         WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[DataManager.instance.eqiupmentItemRecipeList[target].materialB], DataManager.instance.eqiupmentItemRecipeList[target].numB);
         PlayerStatus.gold -= DataManager.instance.eqiupmentItemRecipeList[target].gold;
         CombiRecipeView(target);
+        MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.equipmentCombi.Path);
     }
 }

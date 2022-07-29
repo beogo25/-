@@ -12,22 +12,22 @@ TagManager:
   - LockOn
   - Water
   - UI
-  - HitAble
-  - Collective
   - Player
   - Ground
   - Wall
+  - miniMap
+  - Map
+  - Character
+  - Fence
+  - Npc
+  - Collective
+  - HitAble
+  - TempWeapon
+  - MonsterFoot
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Loading
+  - PostProcess
   - 
   - 
   - 
