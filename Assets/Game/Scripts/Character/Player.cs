@@ -35,9 +35,10 @@ public class Player : MonoBehaviour
     private Vector3        moveDir;
     private bool           isClickAble;
                            
-    public  bool           talkState     = false;
+    private bool           talkState     = false;
     public  static bool    isRollAble    = true;
     public  bool           isCollectable = false;
+    private bool           isMapOpen     = false;
 
     WaitForSecondsRealtime colorDelay    = new WaitForSecondsRealtime(0.0005f);
     public  Renderer       renderers;
@@ -82,6 +83,20 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    public bool IsMapOpen
+    {
+        get { return isMapOpen; }
+        set 
+        { 
+            isMapOpen = value; 
+            if(isMapOpen)
+                bigSizeMap.SetActive(true);
+            else
+                bigSizeMap.SetActive(false);
+        }
+    }
+
     void Start()
     {
         Player player      = this;
@@ -91,6 +106,7 @@ public class Player : MonoBehaviour
         playerRigidbody    = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator >();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
+
 
         animator.SetBool("Land", true);
 
@@ -196,8 +212,8 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("R 3"))
             LockOn();
 
-        if(Input.GetButtonDown("Select"))
-            bigSizeMap.SetActive(true);
+        if (Input.GetButtonDown("Select"))
+            IsMapOpen = !IsMapOpen;
     }
 
     #region 애니메이션 이벤트
