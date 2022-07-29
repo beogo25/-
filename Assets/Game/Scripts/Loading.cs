@@ -19,7 +19,6 @@ public class Loading : MonoBehaviour
         operation.allowSceneActivation = false;
         while (!operation.isDone)
         {
-            Debug.Log(operation.progress);
             if(operation.progress>=0.9f)
             {
                 break;
@@ -27,5 +26,12 @@ public class Loading : MonoBehaviour
         }
         yield return new WaitForSeconds(2);
         operation.allowSceneActivation = true;
+        CharacterMove.instance.gameObject.transform.localPosition = new Vector3(510, 20, 380);
+        CharacterMove.instance.gameObject.transform.GetChild(0).transform.localPosition = Vector3.zero;
+        CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().Attack_AirSlashStart();
+        if(CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().isGround == true)
+        {
+            CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().Attack_AirSlashEnd();
+        }
     }
 }

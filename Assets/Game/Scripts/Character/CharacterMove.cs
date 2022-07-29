@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterMove : MonoBehaviour
+public class CharacterMove : Singleton<CharacterMove>
 {
     public  float     movementSpeed;
     public  float     jumpPower;

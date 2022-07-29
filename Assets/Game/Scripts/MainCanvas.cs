@@ -46,8 +46,14 @@ public class MainCanvas : Singleton<MainCanvas>
         {
             if (Input.GetButtonDown("Start") || Input.GetButtonDown("Cancel"))
             {
+                Debug.Log("ºí·¯");
                 Exit();
             }
+        }
+        else if (player.IsMapOpen == true)
+        {
+            if (Input.GetButtonDown("Start") || Input.GetButtonDown("Cancel"))
+                player.IsMapOpen = false;
         }
         else
         {
@@ -70,6 +76,7 @@ public class MainCanvas : Singleton<MainCanvas>
         }
         blur.SetActive(false);
         player.TalkState = false;
+
         StartCoroutine(Stop());
         RuntimeManager.PlayOneShot(cancelMenu.Path);
         if(TalkManager.instance.gameObject.activeInHierarchy)

@@ -55,8 +55,6 @@ public class QuestSystem : MonoBehaviour
         target = num;
         Quest quest = DataManager.instance.questList[num];
         targetImage.color = Color.white;
-        //monsterImage = 몬스터리스트[quest.targetMonster].image
-        //monsterName = 몬스터리스트[quest.targetMonster].name
         if (quest.collectionQuest)
         {
             targetImage.sprite = DataManager.instance.materialsDic[quest.target].sprite;
@@ -65,9 +63,9 @@ public class QuestSystem : MonoBehaviour
         }    
         else
         {
-            targetImage.sprite = null;
-            targetName.text = null;
-            targetNum.text = null;
+            targetImage.sprite = DataManager.instance.monsterDataDic[quest.target].monaterSprite;
+            targetName.text = DataManager.instance.monsterDataDic[quest.target].monsterName;
+            targetNum.text = "0/"+quest.targetNum.ToString();
         }
         clearGold.text = "보상 : "+quest.clearGold.ToString()+"골드";
         questName.text = quest.questName;
@@ -81,6 +79,8 @@ public class QuestSystem : MonoBehaviour
     {
         //수락했다는 UI 작동
         player.orderQuest = DataManager.instance.questList[target];
+        if (!DataManager.instance.questList[target].collectionQuest)
+            player.questCount = 1;
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.getQuest.Path);
         MainCanvas.instance.Exit();
     }
