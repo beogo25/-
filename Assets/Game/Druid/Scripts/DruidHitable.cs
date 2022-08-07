@@ -51,13 +51,6 @@ public class DruidHitable : MonsterHitablePart
         Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp+ ", 전체체력 : " + monster.Hp +", 데미지 : "+ damage * damageMultiplier);
     }
 
-    public void OnCollisionEnter(Collision collision)       // 아마 공격할때 쓸듯,,
-    {
-        //if ()                 // 몬스터가 공격중일때만 충돌시 데미지 들어가도록
-        //{
-
-        //}
-    }
     // 체력 다 달았을시 경직 일어나는 함수 만들기, 부위별 경직모션 소/중/대/특대, 체력정하고, 데미지 배율
     // 플레이어 공격은 데미지가 고정값인가? -> 파티클에 스크립트를 넣는방식을 할건지? 
 
