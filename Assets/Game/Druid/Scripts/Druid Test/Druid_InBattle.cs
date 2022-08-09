@@ -10,7 +10,7 @@ public class Druid_InBattle : DruidAction
 
     void Update()
     {
-        if (behaviorState != MONSTER_BEHAVIOR_STATE.InBattle) return;     // InBattle 상태가 아닐경우 update 실행X
+        if (druidStatus.behaviorState != MONSTER_BEHAVIOR_STATE.InBattle) return;     // InBattle 상태가 아닐경우 update 실행X
         Debug.Log("전투중");
         if (Input.GetKeyDown(KeyCode.P))
         {

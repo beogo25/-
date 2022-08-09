@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class DruidStatus : MonsterStatus
 {
-
+    [HideInInspector] public MONSTER_BEHAVIOR_STATE behaviorState = MONSTER_BEHAVIOR_STATE.SerchingTarget;
+    [HideInInspector] public MONSTER_STATE state = MONSTER_STATE.Idle;
+    [HideInInspector] public Collider target;
     private MonsterAction monsterAction;
+
     public override float Hp
     {
         get { return currentHp; }
@@ -37,6 +40,8 @@ public class DruidStatus : MonsterStatus
     private void Awake()
     {
         monsterAction = GetComponent<MonsterAction>();
+        //behaviorState = MONSTER_BEHAVIOR_STATE.SerchingTarget;
+        //state = MONSTER_STATE.Idle;
 
         maxHp = 20000;
         atk = 10;

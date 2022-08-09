@@ -22,7 +22,6 @@ using UnityEngine.AI;
 //}
 public class MonsterAction : MonoBehaviour
 {
-
     private enum MONSTER_ATTACK_TYPE
     {
         Stomp,

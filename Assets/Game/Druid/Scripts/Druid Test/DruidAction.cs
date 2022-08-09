@@ -22,22 +22,31 @@ public enum MONSTER_STATE
 
 public abstract class DruidAction : MonoBehaviour
 {
-    static public MONSTER_BEHAVIOR_STATE behaviorState = MONSTER_BEHAVIOR_STATE.SerchingTarget;
+    
     protected DruidAction[] druidAction = new DruidAction[2];
+    public DruidStatus druidStatus;
+    public Animator animator;
 
-    private void Awake()
+
+    protected void Awake()
     {
         druidAction[0] = GetComponent<Druid_SerchingTarget>();
         druidAction[1] = GetComponent<Druid_InBattle>();
-    }
 
+        druidStatus = GetComponent<DruidStatus>();
+        animator = GetComponent<Animator>();
+    }
+    private void Start()
+    {
+        Debug.Log(druidStatus.behaviorState + ", " + animator);
+    }
     public abstract void Init();
     public void ChangeState(MONSTER_BEHAVIOR_STATE newState)
     {
         Debug.Log(newState + "로 상태전환시작, " + (int)newState);
         this.enabled = false;
 
-        behaviorState = newState;
+        druidStatus.behaviorState = newState;
         druidAction[(int)newState].enabled = true;
         druidAction[(int)newState].Init();
         Debug.Log(newState + "로 상태전환");
