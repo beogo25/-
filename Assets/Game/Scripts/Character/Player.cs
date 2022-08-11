@@ -8,17 +8,17 @@ using FMODUnity;
 public class Player : MonoBehaviour
 {
     public  int            attackValue;
-    public  static bool    isLockedOn = false;
+    public  static bool    isLockedOn    = false;
                            
     public  Animator       animator;
-    public  static bool    isMoveAble = true;
+    public  static bool    isMoveAble    = true;
     public  Transform      attackParticleParent;
     public  Transform      useParticleParent;
                            
     public  GameObject     lockOnPrefab;
-    public  GameObject     lockOnObject = null;
+    public  GameObject     lockOnObject  = null;
                            
-    public  bool           isGround = true;
+    public  bool           isGround      = true;
     private float          jumpInputTime;
     private float          backupSpeed;
     private CharacterMove  characterMove;
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
     private GameObject     battleInvetoryUI;
 
     public  event Action   AttackStartDelegate;
-    public   Action        rollDelegate;
+    public        Action   rollDelegate;
 
     [SerializeField]
     private EventReference attackVoice;

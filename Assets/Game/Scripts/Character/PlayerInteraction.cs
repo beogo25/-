@@ -25,7 +25,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Awake()
     {
-        player = FindObjectOfType<Player>();
+        player   = FindObjectOfType<Player>();
         keyImage = ItemUI.transform.GetChild(0).GetChild(1).GetComponent<Image>();
         ItemUI.SetActive(false);
     }

@@ -36,10 +36,10 @@ public class InteractionObject: MonoBehaviour, IInteraction
         }
     }
     [SerializeField]
-    private Texture2D objectImage;
-    public string objectName;
+    private   Texture2D objectImage;
+    public    string    objectName;
     [HideInInspector]
-    public Sprite imageSprite;
+    public    Sprite    imageSprite;
 
 
     [Tooltip("아이템 테이블")]

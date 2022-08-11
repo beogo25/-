@@ -37,11 +37,11 @@ public static class ExtensionMethod
     //카메라와 오브젝트를 비교해서 방향 구하기
     public static Vector3 GetDirectionByCamera(this Vector3 direction, Camera camera)
     {
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        Vector2 moveInput   = new Vector2 (Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        Vector3 lookForward = new Vector3(camera.transform.forward.x, 0f, camera.transform.forward.z).normalized;
-        Vector3 lookRight = new Vector3(camera.transform.right.x, 0f, camera.transform.right.z).normalized;
-        direction = lookForward * moveInput.y + lookRight * moveInput.x;
+        Vector3 lookForward = new Vector3 (camera.transform.forward.x, 0f, camera.transform.forward.z).normalized;
+        Vector3 lookRight   = new Vector3 (camera.transform.right.x  , 0f, camera.transform.right.z  ).normalized;
+        direction           = lookForward * moveInput.y + lookRight * moveInput.x;
 
         return direction.normalized;
     }
@@ -49,11 +49,11 @@ public static class ExtensionMethod
     //카메라와 오브젝트를 비교해서 방향 구하기(Raw값)
     public static Vector3 GetDirectionByCameraRaw(this Vector3 direction, Camera camera)
     {
-        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 moveInput   = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Vector3 lookForward = new Vector3(camera.transform.forward.x, 0f, camera.transform.forward.z).normalized;
-        Vector3 lookRight = new Vector3(camera.transform.right.x, 0f, camera.transform.right.z).normalized;
-        direction = lookForward * moveInput.y + lookRight * moveInput.x;
+        Vector3 lookForward = new Vector3 (camera.transform.forward.x, 0f, camera.transform.forward.z).normalized;
+        Vector3 lookRight   = new Vector3 (camera.transform.right.x,   0f, camera.transform.right.z  ).normalized;
+        direction           = lookForward * moveInput.y + lookRight * moveInput.x;
 
         return direction.normalized;
     }

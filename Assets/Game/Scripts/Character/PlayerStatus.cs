@@ -39,7 +39,7 @@ public class PlayerStatus : MonoBehaviour
     private WaitForFixedUpdate stamanaHealthDelay = new WaitForFixedUpdate();
     private const float buffDuration = 180;
 
-    private StatusAilment ailment=0;
+    private StatusAilment ailment = 0;
     public  Transform ailmentSprites;
 
     private Rigidbody rb;
@@ -98,7 +98,7 @@ public class PlayerStatus : MonoBehaviour
                 stamina = maxStamina;
             else
                 stamina = value;
-            staminaSlider.value = (float)stamina /maxStamina;
+            staminaSlider.value = (float)stamina / maxStamina;
         }
     }
     private void Awake()
@@ -106,8 +106,9 @@ public class PlayerStatus : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Hp = maxHp;
         Stamina = maxStamina;
-        player=FindObjectOfType<Player>();
-        player.rollDelegate += () => { 
+        player = FindObjectOfType<Player>();
+        player.rollDelegate += () =>
+        {
             Stamina -= 15;
             burnCount--;
         };
@@ -117,7 +118,7 @@ public class PlayerStatus : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.X))
             Hp -= 10;
     }
-    public void UseItemEffect(UseItemType useItemType, int value=0)
+    public void UseItemEffect(UseItemType useItemType, int value = 0)
     {
         switch (useItemType)
         {
