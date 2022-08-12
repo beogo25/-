@@ -29,11 +29,41 @@ public class GameManager : Singleton<GameManager>
         JoyPadCheck();
         ratio = (float)deviceWidth / (float)setWidth;
     }
-
-    public void LoadorNew(bool load)
+    
+    public void LoadorNew(int name)
     {
-        this.load = load;
-        SceneManager.LoadScene("Loading");
+        string sceneName = "";
+        switch(name)
+        {
+            case (int)SceneName.LOAD:
+                sceneName = "GameScene";
+                break;
+            case (int)SceneName.NEW:
+                sceneName = "Tutorial";
+                break;
+            case (int)SceneName.MAIN:
+                sceneName = "MainScene";
+                break;
+            default:
+                break;
+        }
+        if(sceneName != "")
+        {
+            SceneManager.LoadScene("Loading");
+            StartCoroutine(WaitSceneChange(sceneName));
+        }
+    }
+    IEnumerator WaitSceneChange(string sceneName)
+    {
+        while (true)
+        {
+            if (SceneManager.GetActiveScene().name == "Loading")
+                break;
+
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+        yield return new WaitForSecondsRealtime(1);
+        FindObjectOfType<Loading>().SceneName = sceneName;
     }
     public void SetPosition(GameObject selected)
     {

@@ -7,12 +7,17 @@ using UnityEngine.UI;
 public class Loading : MonoBehaviour
 {
     public string sceneName;
-    void Start()
-    {
-        StartCoroutine(LoadAsynSceneCoroutine());
-    }
 
-    IEnumerator LoadAsynSceneCoroutine()
+    public string SceneName
+    {
+        get { return sceneName; }   
+        set 
+        { 
+            sceneName = value;
+            StartCoroutine(LoadAsynSceneCoroutine(sceneName));
+        }  
+    }
+    IEnumerator LoadAsynSceneCoroutine(string sceneName)
     {
         yield return new WaitForSeconds(1);
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
