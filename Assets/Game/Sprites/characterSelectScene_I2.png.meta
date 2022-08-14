@@ -44,6 +44,9 @@ TextureImporter:
   - first:
       213: 9078003034529524164
     second: characterSelectScene_I2_13
+  - first:
+      213: -1373962283657719302
+    second: characterSelectScene_I2_14
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -139,9 +142,9 @@ TextureImporter:
         x: 0
         y: 376
         width: 437
-        height: 136
+        height: 67
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -162,7 +165,7 @@ TextureImporter:
         width: 210
         height: 68
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,7 +186,7 @@ TextureImporter:
         width: 435
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -199,12 +202,12 @@ TextureImporter:
       name: characterSelectScene_I2_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 174
-        width: 1003
-        height: 267
+        x: 9
+        y: 305
+        width: 429
+        height: 71
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,7 +228,7 @@ TextureImporter:
         width: 66
         height: 62
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -246,7 +249,7 @@ TextureImporter:
         width: 48
         height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -267,7 +270,7 @@ TextureImporter:
         width: 48
         height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -288,7 +291,7 @@ TextureImporter:
         width: 170
         height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -309,7 +312,7 @@ TextureImporter:
         width: 270
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -330,7 +333,7 @@ TextureImporter:
         width: 277
         height: 43
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -351,7 +354,7 @@ TextureImporter:
         width: 46
         height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -372,7 +375,7 @@ TextureImporter:
         width: 130
         height: 44
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -393,7 +396,7 @@ TextureImporter:
         width: 277
         height: 44
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -409,12 +412,12 @@ TextureImporter:
       name: characterSelectScene_I2_13
       rect:
         serializedVersion: 2
-        x: 286
-        y: 72
+        x: 285
+        y: 71
         width: 532
         height: 37
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -422,6 +425,27 @@ TextureImporter:
       bones: []
       spriteID: 4c9ec0f99ab8bfd70800000000000000
       internalID: 9078003034529524164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: characterSelectScene_I2_14
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 374
+        width: 434
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 2, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af11cc32594beece0800000000000000
+      internalID: -1373962283657719302
       vertices: []
       indices: 
       edges: []
