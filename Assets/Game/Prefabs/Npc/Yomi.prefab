@@ -2168,6 +2168,7 @@ MonoBehaviour:
   uiTypes: 05000000
   animator:
   - {fileID: 7923468854022862597}
+  minimapIcon: {fileID: 0}
 --- !u!1 &7027272710000814102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2617,8 +2618,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC694\uBBF8\n<color=white><size=80%><\uC0C1\uC778>\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 33a3ff5343c2bea4da3da40f94166062, type: 2}
-  m_sharedMaterial: {fileID: -337835541123388854, guid: 33a3ff5343c2bea4da3da40f94166062, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a168cc6c4d971fe449309f2d045e183a, type: 2}
+  m_sharedMaterial: {fileID: 4669429324168922062, guid: a168cc6c4d971fe449309f2d045e183a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

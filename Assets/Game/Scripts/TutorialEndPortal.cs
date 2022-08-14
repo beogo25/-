@@ -5,13 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class TutorialEndPortal : MonoBehaviour
 {
-    public string SceneName;
-
+    
 
     private void OnTriggerEnter(Collider other)
     {
-            Debug.Log("∏  ¿Ãµø");
-            SceneManager.LoadScene(SceneName);
-     
+        GameManager.instance.LoadorNew(0);
     }
 }

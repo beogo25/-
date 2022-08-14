@@ -2208,8 +2208,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uBBF8\uB9AC\uC6C0\n<color=white><size=80%><\uD018\uC2A4\uD2B8 \uC811\uC218\uC6D0>\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 33a3ff5343c2bea4da3da40f94166062, type: 2}
-  m_sharedMaterial: {fileID: -337835541123388854, guid: 33a3ff5343c2bea4da3da40f94166062, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a168cc6c4d971fe449309f2d045e183a, type: 2}
+  m_sharedMaterial: {fileID: 4669429324168922062, guid: a168cc6c4d971fe449309f2d045e183a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3328,6 +3328,7 @@ MonoBehaviour:
   animator:
   - {fileID: 3278156386607880157}
   - {fileID: 3278156386080688720}
+  minimapIcon: {fileID: 0}
 --- !u!65 &5220231859176020141
 BoxCollider:
   m_ObjectHideFlags: 0
