@@ -484,6 +484,7 @@ public class MonsterAction : MonoBehaviour
     IEnumerator RunToTartget()
     {
         animator.SetBool("Run", true);
+        momentTargetPosition = new Vector3(momentTargetPosition.x, 0, momentTargetPosition.z);      
         transform.LookAt(momentTargetPosition);
         Vector3 targetDir = (momentTargetPosition - transform.position).normalized;
         targetDir = new Vector3(targetDir.x, 0, targetDir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.

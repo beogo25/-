@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DruidHitable : MonsterHitablePart
 {
-
-
+    protected DruidAction[] druidAction = new DruidAction[2];
     public override float Hp
     {
         get { return currentHp; }
@@ -22,9 +21,12 @@ public class DruidHitable : MonsterHitablePart
                     skinRenderer.gameObject.SetActive(false);
                 }
 
-                if (!monsterAction.state.HasFlag(MONSTER_STATE.Stagger) && !monsterAction.state.HasFlag(MONSTER_STATE.Dead))    // 경직 및 사망상태가 아니면
+                Debug.Log(gameObject.name + ", 남은체력 : " + currentHp);
+                if (!((DruidStatus)monster).state.HasFlag(MONSTER_STATE.Stagger) && 
+                    !((DruidStatus)monster).state.HasFlag(MONSTER_STATE.Dead))    // 경직 및 사망상태가 아니면
                 {
-                    monsterAction.StartStaggerState();                      // 경직일으키기
+                    Debug.Log("경직 실행");
+                    ((Druid_InBattle)druidAction[1]).StartStaggerState();                      // 경직일으키기
                 }
 
                 currentHp = maxhp * 1.2f;   // 체력이 0이하 됐을시 최대체력의 20%를 늘려 체력부여
@@ -37,7 +39,8 @@ public class DruidHitable : MonsterHitablePart
     {
         player = FindObjectOfType<PlayerStatus>();
         monster = transform.GetComponentInParent<DruidStatus>();
-        monsterAction = transform.GetComponentInParent<MonsterAction>();
+        druidAction[0] = transform.GetComponentInParent<Druid_SerchingTarget>();
+        druidAction[1] = transform.GetComponentInParent<Druid_InBattle>();
         Hp = maxhp;
 
         //Debug.Log("monster name : " + monster.name + ", monsterAction : " + monsterAction.name);

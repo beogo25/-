@@ -38,7 +38,7 @@ public class DruidAttackablePart : MonsterAttackablePart
         {
             //Debug.Log(" µ¥¹ÌÁö : " + monster.Atk * damageMultiplier);
             isAttackAble = false;
-            other.transform.GetComponent<PlayerStatus>().PlayerHit(monster.Atk * damageMultiplier, 20, monster.transform.position);
+            other.GetComponent<PlayerStatus>().PlayerHit(monster.Atk * damageMultiplier, 20, monster.transform.position);
             myCollider.enabled = false;
         }
     }

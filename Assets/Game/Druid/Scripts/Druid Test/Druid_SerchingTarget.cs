@@ -34,7 +34,7 @@ public class Druid_SerchingTarget : DruidAction
         animator.SetBool("Walk", druidStatus.state.HasFlag(MONSTER_STATE.Walk));
 
         animator.SetFloat("Breath Speed", 1f);                      // Idle상태(숨쉬기)의 속도를 원래대로 재생
-        //serchingTargetState = SerchingTargetState.Rotation;         // 목적지로 방향전환상태
+        
         StartCoroutine(CoolTime(Random.Range(10f, 20f)));           // 랜덤애니메이션 쿨타임돌리기
         StartCoroutine(druidStatus.behaviorState.ToString());       // 드루이드 행동시작
     }
@@ -45,7 +45,7 @@ public class Druid_SerchingTarget : DruidAction
         if (FindTarget())
         {
             Debug.Log("적탐지완료");
-            //ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
+            ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
         }
 
     }
@@ -53,7 +53,7 @@ public class Druid_SerchingTarget : DruidAction
     bool FindTarget()
     {
         NavMeshHit hit;
-        Collider[] targets = Physics.OverlapSphere(transform.position, ViewRadius, 1 << LayerMask.NameToLayer("Player"));
+        Collider[] targets = Physics.OverlapSphere(transform.position, ViewRadius, 1 << LayerMask.NameToLayer("Character"));
 
         for (int i = 0; i < targets.Length; i++)
         {
@@ -81,14 +81,14 @@ public class Druid_SerchingTarget : DruidAction
 
 
     #endregion 타겟 감지
-    IEnumerator rotationCoroutine;
-
+    //IEnumerator rotationCoroutine;
     IEnumerator SerchingTarget()
     {
         float walkTime = 0;
 
         while (true)
         {
+
             walkTime = 0;
             if (druidStatus.state == MONSTER_STATE.Rotation)            // Rotation상태로 만들어줌 (상태가 바뀌었을때 한번만 실행되도록) 
             {
@@ -155,6 +155,55 @@ public class Druid_SerchingTarget : DruidAction
         }
         return false;
     }
+
+
+    IEnumerator WaitForAnimation(string name, float exitRatio, int layer = -1)
+    {
+        float playTime = 0;
+        //animator.Play(name, layer, 0);  // layer에 name이름을 가진 애니메이션을 0초부터 시작해라
+        animator.SetTrigger(name);
+
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(name))   // 애니메이션이 전환될때까지 대기
+            yield return null;
+
+        float exitTime = animator.GetCurrentAnimatorStateInfo(0).length * exitRatio;
+        while (playTime < exitTime)
+        {
+            playTime += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return null;
+    }
+    IEnumerator CoolTime(float cool)
+    {
+        while (cool > 0)
+        {
+            cool -= Time.deltaTime;
+            yield return null;
+        }
+
+        randomAnimationCoolTime = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!DebugMode) return;
+        Vector3 myPos = transform.position + Vector3.up * 0.5f;
+        Gizmos.DrawWireSphere(myPos, ViewRadius);
+
+        float lookingAngle = transform.eulerAngles.y;  //캐릭터가 바라보는 방향의 각도
+        Vector3 rightDir = AngleToDir(transform.eulerAngles.y + ViewAngle * 0.5f);
+        Vector3 leftDir = AngleToDir(transform.eulerAngles.y - ViewAngle * 0.5f);
+        Vector3 lookDir = AngleToDir(lookingAngle);
+
+        Debug.DrawRay(myPos, rightDir * ViewRadius, Color.blue);
+        Debug.DrawRay(myPos, leftDir * ViewRadius, Color.blue);
+        Debug.DrawRay(myPos, lookDir * ViewRadius, Color.green);
+    }
+}
+
+/*
     void SetDestinationDirection(Transform targetPos, float angleLimit = 0f)    // 목적지 방향을 보게 하는 함수
     {
         // 몬스터가 얼마나 회전할지 각도 구하기
@@ -227,33 +276,4 @@ public class Druid_SerchingTarget : DruidAction
         animator.SetInteger("Rotation", 0);
         rotationCoroutine = null;
     }
-
-    IEnumerator WaitForAnimation(string name, float exitRatio, int layer = -1)
-    {
-        float playTime = 0;
-        //animator.Play(name, layer, 0);  // layer에 name이름을 가진 애니메이션을 0초부터 시작해라
-        animator.SetTrigger(name);
-
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(name))   // 애니메이션이 전환될때까지 대기
-            yield return null;
-
-        float exitTime = animator.GetCurrentAnimatorStateInfo(0).length * exitRatio;
-        while (playTime < exitTime)
-        {
-            playTime += Time.deltaTime;
-            yield return null;
-        }
-
-        yield return null;
-    }
-    IEnumerator CoolTime(float cool)
-    {
-        while (cool > 0)
-        {
-            cool -= Time.deltaTime;
-            yield return null;
-        }
-
-        randomAnimationCoolTime = true;
-    }
-}
+ */
