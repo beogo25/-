@@ -10,11 +10,6 @@ public class DruidAttackablePart : MonsterAttackablePart
     {
         myCollider = GetComponent<Collider>();
         monster = transform.GetComponentInParent<DruidStatus>();
-
-        //if (myCollider is BoxCollider)
-        //    knockBackStandardPosition = ((BoxCollider)myCollider).bounds.center;
-        //else
-        //    knockBackStandardPosition = monster.transform.position;
     }
 
     public void Attack(bool isAttackStart)

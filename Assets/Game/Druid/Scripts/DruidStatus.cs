@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DruidStatus : MonsterStatus
+public class DruidStatus : MonsterStatus, IInteraction
 {
     [HideInInspector] public MONSTER_BEHAVIOR_STATE behaviorState = MONSTER_BEHAVIOR_STATE.SerchingTarget;
     [HideInInspector] public MONSTER_STATE state = MONSTER_STATE.Idle;
@@ -32,7 +32,7 @@ public class DruidStatus : MonsterStatus
             Debug.Log("남은체력 : " + currentHp);
             if (currentHp <= 0 && !state.HasFlag(MONSTER_STATE.Dead))     // 체력이 0이하가 되고 죽은상태가 아니면
             {
-                //monsterAction.Dead();
+                ((Druid_InBattle)druidAction[1]).Dead();
             }
         }
     }
@@ -41,13 +41,14 @@ public class DruidStatus : MonsterStatus
         druidAction[0] = GetComponent<Druid_SerchingTarget>();
         druidAction[1] = GetComponent<Druid_InBattle>();
 
-        maxHp = 20000;
+        maxHp = 1000;
         atk = 10;
         currentHp = maxHp;
     }
-    public void Start()
+
+
+    public void Interaction()
     {
-        
         
     }
 }

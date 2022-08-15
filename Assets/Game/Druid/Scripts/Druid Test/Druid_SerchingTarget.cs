@@ -48,7 +48,13 @@ public class Druid_SerchingTarget : DruidAction
             ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
         }
 
+        //if (Input.GetKeyDown(KeyCode.O)) // 테스트
+        //{
+        //    ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
+        //}
+
     }
+
     #region 타겟 감지
     bool FindTarget()
     {
@@ -81,14 +87,12 @@ public class Druid_SerchingTarget : DruidAction
 
 
     #endregion 타겟 감지
-    //IEnumerator rotationCoroutine;
     IEnumerator SerchingTarget()
     {
         float walkTime = 0;
 
         while (true)
         {
-
             walkTime = 0;
             if (druidStatus.state == MONSTER_STATE.Rotation)            // Rotation상태로 만들어줌 (상태가 바뀌었을때 한번만 실행되도록) 
             {

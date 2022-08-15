@@ -32,14 +32,20 @@ public class Druid_InBattle : DruidAction
     void Update()
     {
         if (druidStatus.behaviorState != MONSTER_BEHAVIOR_STATE.InBattle) return;     // InBattle 상태가 아닐경우 update 실행X
-        
-        //if (CheckTargetIsInArea())
-        //    ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
 
-        if(Input.GetKeyDown(KeyCode.P))
+        if (CheckTargetIsInArea())
+            ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
+
+        if (druidStatus.state == MONSTER_STATE.Dead)
+        {
+            
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log( "드루이드 상태 : "+druidStatus.state);
         }
+
     }
 
     float targetOutTime = 0;
@@ -75,12 +81,8 @@ public class Druid_InBattle : DruidAction
         StartCoroutine(CoolTime(Random.Range(2f, 4f)));   // 공격 쿨타임 돌기
         
         StartCoroutine(druidStatus.behaviorState.ToString());
-        //if (rotationCoroutine != null)        // 이전에는 SerchingTartget에서 회전중일때의 코루틴을 멈추기 위해 썻었음
-        //    StopCoroutine(rotationCoroutine);
-
-
     }
-    //IEnumerator rotationCoroutine;
+
     IEnumerator InBattle()
     {
         Debug.Log("InBattle 실행");
@@ -118,12 +120,14 @@ public class Druid_InBattle : DruidAction
                 }
                 else                            // 타겟과의 거리가 25f 이상일때 너무 멀어서 추격
                 {
-                    druidStatus.state |= MONSTER_STATE.Walk;
+                    if(!druidStatus.state.HasFlag(MONSTER_STATE.Walk))
+                        druidStatus.state |= MONSTER_STATE.Walk;
                 }
             }
             else if (!attackCoolTime)            // 스킬 쿨타임일때 추격
             {
-                druidStatus.state |= MONSTER_STATE.Walk;
+                if (!druidStatus.state.HasFlag(MONSTER_STATE.Walk))
+                    druidStatus.state |= MONSTER_STATE.Walk;
                 // yield return StartCoroutine(RunToTartget());
             }
 
@@ -212,7 +216,7 @@ public class Druid_InBattle : DruidAction
     MONSTER_ATTACK_TYPE DecideAttackType(float targetDistance, float randomValue)
     {
         if (attackType == MONSTER_ATTACK_TYPE.Run)
-            randomValue += 0.2f;
+            randomValue -= 0.2f;
 
         if (targetDistance < 6.5f)              // 거리가 6.5미만 일때 
         {
@@ -337,10 +341,8 @@ public class Druid_InBattle : DruidAction
     }
     void Roar()
     {
-        Debug.Log("Roar실행 " + druidStatus.state);
         if (druidStatus.state.HasFlag(MONSTER_STATE.Attack))
         {
-            Debug.Log("Roar 불뿜기");
             attackParticle.SetActive(true);
         }
     }
@@ -383,6 +385,15 @@ public class Druid_InBattle : DruidAction
         StopAllCoroutines();
         Debug.Log("StartStaggerState");
         StartCoroutine(WaitForAnimation("Stagger", 1f));
+    }
+
+    public void Dead()
+    {
+        druidStatus.state = MONSTER_STATE.Dead;
+        StopAllCoroutines();
+        animator.Play("Dead", -1, 0);
+
+        // 갈무리 코드 추가                                           
     }
 }
 
