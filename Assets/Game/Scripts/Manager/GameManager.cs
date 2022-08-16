@@ -12,26 +12,8 @@ public class GameManager : Singleton<GameManager>
     public  EventSystem eventSystem;
     public  bool        load        = false; //새로시작,로드에서 변경
     public  static bool isJoyPadOn;
-    private bool        isFullScreen;
+    public  static bool isFullScreen;
     public GameObject   checkBox;
-
-    public bool IsFullScreen
-    {
-        get { return isFullScreen; }
-        set
-        {
-            if(isFullScreen == true)
-            {
-                Screen.SetResolution(1920, 1080, true);
-                checkBox.SetActive(true);
-            }
-            else
-            {
-                Screen.SetResolution(1920, 1080, false);
-                checkBox.SetActive(false);
-            }
-        }
-    }
 
     public override void Awake()
     {
@@ -91,9 +73,20 @@ public class GameManager : Singleton<GameManager>
         Application.Quit();
     }
 
-    public void FullScreen()
+    public void SetFullScreen()
     {
-        IsFullScreen = !IsFullScreen;
+        if (isFullScreen == true)
+        {
+            Screen.SetResolution(1920, 1080, true);
+            checkBox.SetActive(true);
+            isFullScreen = false;
+        }
+        else
+        {
+            Screen.SetResolution(1920, 1080, false);
+            checkBox.SetActive(false);
+            isFullScreen = true;
+        }
     }
 
     private void JoyPadCheck()
