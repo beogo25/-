@@ -12,16 +12,32 @@ public class GameManager : Singleton<GameManager>
     public  EventSystem eventSystem;
     public  bool        load        = false; //새로시작,로드에서 변경
     public  static bool isJoyPadOn;
+    private bool        isFullScreen;
+    public GameObject   checkBox;
+
+    public bool IsFullScreen
+    {
+        get { return isFullScreen; }
+        set
+        {
+            if(isFullScreen == true)
+            {
+                Screen.SetResolution(1920, 1080, true);
+                checkBox.SetActive(true);
+            }
+            else
+            {
+                Screen.SetResolution(1920, 1080, false);
+                checkBox.SetActive(false);
+            }
+        }
+    }
 
     public override void Awake()
     {
         base.Awake();
         //해상도 60프레임 고정
         Application.targetFrameRate = 60;
-        //해상도 1920x1080으로 시작
-        //Screen.SetResolution(3840, 2160, true);
-        Screen.SetResolution(1920, 1080, true);
-        //해상도를 바꿀때도 UI가 일정한 간격으로 움직일 수 있게 해주는 비율을 받는다.
     }
 
     private void Update()
@@ -73,6 +89,11 @@ public class GameManager : Singleton<GameManager>
     public void ApplicationExit()
     {
         Application.Quit();
+    }
+
+    public void FullScreen()
+    {
+        IsFullScreen = !IsFullScreen;
     }
 
     private void JoyPadCheck()

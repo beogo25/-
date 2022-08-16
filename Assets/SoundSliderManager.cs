@@ -7,7 +7,7 @@ using FMODUnity;
 public class SoundSliderManager : MonoBehaviour
 {
     [SerializeField]
-    private Text field =null;
+    private Text field = null;
 
     [SerializeField]
     private Slider slider = null;
