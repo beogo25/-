@@ -36,14 +36,11 @@ public class Druid_InBattle : DruidAction
         if (CheckTargetIsInArea())
             ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
 
-        if (druidStatus.state == MONSTER_STATE.Dead)
-        {
-            
-        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log( "드루이드 상태 : "+druidStatus.state);
+            animator.SetTrigger("Dead");
         }
 
     }
@@ -91,7 +88,6 @@ public class Druid_InBattle : DruidAction
 
         if (startRoar)
         {
-            Debug.Log("startRoar");
             SetDestinationDirection(druidStatus.target.transform);
             yield return StartCoroutine(rotationCoroutine);
             yield return StartCoroutine(WaitForAnimation("Roar", 1f));  // 표효하기
@@ -205,8 +201,7 @@ public class Druid_InBattle : DruidAction
                 {
                     druidStatus.state &= ~MONSTER_STATE.Walk;
                     animator.SetBool("Walk", false);
-                    attackCoolTime = true;  // 가까워 졌으니 공격 ㄱㄱ
-                                            // 코루틴 멈추기?
+                    attackCoolTime = true;  // 가까워 졌으니 공격시작
                 }
             }
 
@@ -269,12 +264,12 @@ public class Druid_InBattle : DruidAction
         //transform.LookAt(momentTargetPosition); // 없으면 어색할까?
 
         Vector3 targetDir = (momentTargetPosition - transform.position).normalized;
-        targetDir = new Vector3(targetDir.x, 0, targetDir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
+        targetDir = new Vector3(targetDir.x, 0, targetDir.z);                           // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
 
         while (Vector3.Distance(momentTargetPosition, transform.position) >= 7f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetDir.normalized), 2f * Time.deltaTime);
-            transform.Translate(targetDir * 9 * Time.deltaTime, Space.World); // 타겟쪽으로 이동
+            transform.Translate(targetDir * 9 * Time.deltaTime, Space.World);           // 타겟쪽으로 이동
             yield return null;
         }
 
@@ -303,11 +298,9 @@ public class Druid_InBattle : DruidAction
         if (name == "Stagger")  // 경직상태 
         {
             yield return StartCoroutine(WaitForAnimation("Stand Up(Front Up)", 1));
-            Debug.Log("경직상태 해제");
             druidStatus.state &= ~MONSTER_STATE.Stagger;
             startRoar = false;
 
-            //ChangeState(MONSTER_BEHAVIOR_STATE.InBattle);
             Init();
         }
 
@@ -382,93 +375,20 @@ public class Druid_InBattle : DruidAction
     public void StartStaggerState()
     {
         druidStatus.state = MONSTER_STATE.Stagger;
+        animator.SetInteger("Rotation", 0);
         StopAllCoroutines();
-        Debug.Log("StartStaggerState");
+        
         StartCoroutine(WaitForAnimation("Stagger", 1f));
     }
 
     public void Dead()
     {
         druidStatus.state = MONSTER_STATE.Dead;
+        animator.SetInteger("Rotation", 0);
         StopAllCoroutines();
-        animator.Play("Dead", -1, 0);
+        
+        if (druidStatus.state != MONSTER_STATE.Stagger)     // 경직상태가 아니라면 죽는 애니메이션 실행
+            animator.SetTrigger("Dead");
 
-        // 갈무리 코드 추가                                           
     }
 }
-
-/*
-    void SetDestinationDirection(Transform targetPos, float angleLimit = 0f)    // 목적지 방향을 보게 하는 함수
-    {
-        // 몬스터가 얼마나 회전할지 각도 구하기
-        Vector3 dir = targetPos.position - transform.position;
-        dir = new Vector3(dir.x, 0, dir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
-        Quaternion targetRotation = Quaternion.LookRotation(dir.normalized);   // 내가 바라볼 방향
-        float angleDifference = Quaternion.Angle(transform.rotation, targetRotation);   // 내 방향과 목표 방향의 각도차이
-
-        if (angleDifference <= angleLimit)                          // angleLimit 이하의 각도는 돌지 않는다.
-        {
-            druidStatus.state &= ~MONSTER_STATE.Rotation;
-            rotationCoroutine = null;
-            return;
-        }
-
-        // 몬스터가 어떤 방향으로 회전할지 구하기 
-        Vector3 targetDir = targetPos.position - transform.position;                    // 타겟 방향으로 향하는 벡터를 구하기
-        Vector3 crossVec = Vector3.Cross(targetDir, this.transform.forward);            // foward와 외적
-        float dot = Vector3.Dot(crossVec, Vector3.up);                                  // 위방향과 내적
-        if (dot > 0) // 왼쪽
-        {
-            if (angleDifference > 60)
-            {
-                animator.SetInteger("Rotation", -2);
-                rotationCoroutine = Rotation("Turn Left", -angleDifference);
-            }
-            else
-            {
-                animator.SetInteger("Rotation", -1);
-                rotationCoroutine = Rotation("Turn Left Slow", -angleDifference);
-            }
-        }
-        else if (dot < 0) // 오른쪽
-        {
-            if (angleDifference >= 60)
-            {
-                animator.SetInteger("Rotation", 2);
-                rotationCoroutine = Rotation("Turn Right", angleDifference);
-            }
-            else
-            {
-                animator.SetInteger("Rotation", 1);
-                rotationCoroutine = Rotation("Turn Right Slow", angleDifference);
-            }
-        }
-        else // 가운데 (0일때)
-        {
-        }
-    }
-    IEnumerator Rotation(string name, float targetAngle)
-    {
-
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(name))
-            yield return null;
-
-        float playTime = 0f;
-        float exitTime = animator.GetCurrentAnimatorStateInfo(0).length;
-
-        if (targetAngle < 60)
-            exitTime = exitTime * 0.90f;    // 현재 실행된 회전 애니메이션의 90%시간동안 코루틴 실행(회전하는 모습이 어색하지 않도록)
-
-
-        while (playTime < exitTime)
-        {
-            playTime += 0.02f;
-            transform.Rotate(new Vector3(0, (targetAngle / (exitTime / 0.02f)), 0), Space.Self);
-
-            yield return new WaitForFixedUpdate();
-        }
-        
-        druidStatus.state &= ~MONSTER_STATE.Rotation;
-        animator.SetInteger("Rotation", 0);
-    }
- */

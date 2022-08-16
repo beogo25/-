@@ -130,9 +130,24 @@ public class PlayerInteraction : MonoBehaviour
                     }
 
                 }
+                // 몬스터와 상호작용
                 else if (nearestTarget.GetComponent<DruidStatus>().state == MONSTER_STATE.Dead)
                 {
+                    if (text.text != nearestTarget.transform.GetComponent<DruidStatus>().monsterName)
+                    {
+                        text.text = nearestTarget.transform.GetComponent<DruidStatus>().monsterName;
+                        image.sprite = nearestTarget.transform.GetComponent<DruidStatus>().druidIcon;
+                        if (GameManager.isJoyPadOn)
+                            keyImage.sprite = keySprite[2];
+                        else
+                            keyImage.sprite = keySprite[0];
+                    }
 
+                    if (Input.GetButtonDown("InteractionNpc") && player.isGround)
+                    {
+                        if (nearestTarget.transform.GetComponent<IInteraction>() != null)
+                            nearestTarget.transform.GetComponent<IInteraction>().Interaction();
+                    }
                 }
 
             }

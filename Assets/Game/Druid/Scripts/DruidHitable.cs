@@ -21,7 +21,7 @@ public class DruidHitable : MonsterHitablePart
                     skinRenderer.gameObject.SetActive(false);
                 }
 
-                Debug.Log(gameObject.name + ", 남은체력 : " + currentHp);
+                //Debug.Log(gameObject.name + ", 남은체력 : " + currentHp);
                 if (!((DruidStatus)monster).state.HasFlag(MONSTER_STATE.Stagger) && 
                     !((DruidStatus)monster).state.HasFlag(MONSTER_STATE.Dead))    // 경직 및 사망상태가 아니면
                 {

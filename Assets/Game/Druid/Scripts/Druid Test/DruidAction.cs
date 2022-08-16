@@ -44,23 +44,20 @@ public abstract class DruidAction : MonoBehaviour
     public abstract void Init();
     public void ChangeState(MONSTER_BEHAVIOR_STATE newState)
     {
-        
-        //StopCoroutine(druidStatus.behaviorState.ToString());
         StopAllCoroutines();
         this.enabled = false;
 
         druidStatus.behaviorState = newState;
         druidAction[(int)newState].enabled = true;
         druidAction[(int)newState].Init();
-        Debug.Log(newState + "로 상태전환");
     }
 
-    public void SetDestinationDirection(Transform targetPos, float angleLimit = 0f)    // 목표의 방향과 회전애니메이션을 정해줌
+    public void SetDestinationDirection(Transform targetPos, float angleLimit = 0f)     // 목표의 방향과 회전애니메이션을 정해줌
     {
         // 몬스터가 얼마나 회전할지 각도 구하기
         Vector3 dir = targetPos.position - transform.position;
         dir = new Vector3(dir.x, 0, dir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
-        Quaternion targetRotation = Quaternion.LookRotation(dir.normalized);   // 내가 바라볼 방향
+        Quaternion targetRotation = Quaternion.LookRotation(dir.normalized);            // 내가 바라볼 방향
         float angleDifference = Quaternion.Angle(transform.rotation, targetRotation);   // 내 방향과 목표 방향의 각도차이
 
         if (angleDifference <= angleLimit)                          // angleLimit 이하의 각도는 돌지 않는다.
