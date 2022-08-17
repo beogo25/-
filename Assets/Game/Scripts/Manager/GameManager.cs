@@ -65,7 +65,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void SetPosition(GameObject selected)
     {
-        if(selected != null)
+        if(selected != null && isJoyPadOn)
             eventSystem.SetSelectedGameObject(selected);
     }
     public void ApplicationExit()
