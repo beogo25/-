@@ -10,11 +10,6 @@ public class DruidAttackablePart : MonsterAttackablePart
     {
         myCollider = GetComponent<Collider>();
         monster = transform.GetComponentInParent<DruidStatus>();
-
-        //if (myCollider is BoxCollider)
-        //    knockBackStandardPosition = ((BoxCollider)myCollider).bounds.center;
-        //else
-        //    knockBackStandardPosition = monster.transform.position;
     }
 
     public void Attack(bool isAttackStart)
@@ -38,7 +33,7 @@ public class DruidAttackablePart : MonsterAttackablePart
         {
             //Debug.Log(" µ¥¹ÌÁö : " + monster.Atk * damageMultiplier);
             isAttackAble = false;
-            other.transform.GetComponent<PlayerStatus>().PlayerHit(monster.Atk * damageMultiplier, 20, monster.transform.position);
+            other.GetComponent<PlayerStatus>().PlayerHit(monster.Atk * damageMultiplier, 20, monster.transform.position);
             myCollider.enabled = false;
         }
     }

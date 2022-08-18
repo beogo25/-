@@ -53,13 +53,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject     battleInvetoryUI;
 
-    public  event Action   AttackStartDelegate;
-    public        Action   rollDelegate;
+    public   Action        rollDelegate;
 
     [SerializeField]
     private EventReference attackVoice;
     [SerializeField]
     private EventReference[] soundEffect;
+    [SerializeField]
+    private EventReference walkSound;
+    FMOD.Studio.EventInstance soundInstance;
 
 
     public bool TalkState
@@ -107,7 +109,9 @@ public class Player : MonoBehaviour
         playerRigidbody    = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator >();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
-
+        soundInstance      = RuntimeManager.CreateInstance(walkSound.Path);
+        soundInstance.start();
+        soundInstance.release();
 
         animator.SetBool("Land", true);
 
@@ -129,6 +133,11 @@ public class Player : MonoBehaviour
             Debug.Log("isGround : " + isGround + ", isMoveAble : " + isMoveAble);
         }
 
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop"))
+            soundInstance.setPaused(false);
+        else
+            soundInstance.setPaused(true);
     }
 
     private void FixedUpdate()
@@ -261,10 +270,6 @@ public class Player : MonoBehaviour
         StartCoroutine(AttackMove(-power));
         yield return new WaitForSeconds(3f);
         animator.SetBool("Down", false);
-    }
-    public void AttackStart()
-    {
-        //AttackStartDelegate();
     }
     public void ParticleInstantiate(GameObject attack)
     {
@@ -445,6 +450,7 @@ public class Player : MonoBehaviour
             yield return colorDelay;
         }
     }
-   
+
+
 }
 

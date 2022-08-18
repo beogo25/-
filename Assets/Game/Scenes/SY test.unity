@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -84563,11 +84563,11 @@ PrefabInstance:
     - target: {fileID: 7385985702688855638, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 50c18f52ee2a9c74a8ef511ce241dfc0, type: 2}
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7385985702688855638, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: -337835541123388854, guid: 50c18f52ee2a9c74a8ef511ce241dfc0, type: 2}
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7385985702804002184, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
       propertyPath: m_RootOrder
       value: 19
@@ -84616,6 +84616,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 7385985702804002187, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Path
+      value: event:/Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385985702804002187, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Guid.Data1
+      value: 42566214
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385985702804002187, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Guid.Data2
+      value: 1184173220
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385985702804002187, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Guid.Data3
+      value: -75713919
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385985702804002187, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Guid.Data4
+      value: -1040808482
+      objectReference: {fileID: 0}
     - target: {fileID: 7385985702867783951, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
       propertyPath: hpSlider
       value: 
@@ -84637,8 +84657,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 539512462}
     - target: {fileID: 7385985702867783952, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Path
+      value: event:/Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385985702867783952, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
       propertyPath: battleInvetoryUI
       value: 
       objectReference: {fileID: 1786645291}
+    - target: {fileID: 7385985702867783952, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Guid.Data1
+      value: 42566214
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385985702867783952, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Guid.Data2
+      value: 1184173220
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385985702867783952, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Guid.Data3
+      value: -75713919
+      objectReference: {fileID: 0}
+    - target: {fileID: 7385985702867783952, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}
+      propertyPath: walkSound.Guid.Data4
+      value: -1040808482
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3682de2a68326b046b068d6b76d53a22, type: 3}

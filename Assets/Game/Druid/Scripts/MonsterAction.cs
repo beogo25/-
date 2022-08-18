@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum MONSTER_BEHAVIOR_STATE
-{
-    SerchingTarget,
-    InBattle,
-}
+//public enum MONSTER_BEHAVIOR_STATE
+//{
+//    SerchingTarget,
+//    InBattle,
+//}
 
-public enum MONSTER_STATE
-{
-    Idle = 0,               // 0
-    Walk = 1 << 0,          // 1
-    Rotation = 1 << 1,      // 2
-    Attack = 1 << 2,        // 4
-    Stagger = 1 << 3,       // 8
-    Dead = 1 << 4,          // 16
+//public enum MONSTER_STATE
+//{
+//    Idle = 0,               // 0
+//    Walk = 1 << 0,          // 1
+//    Rotation = 1 << 1,      // 2
+//    Attack = 1 << 2,        // 4
+//    Stagger = 1 << 3,       // 8
+//    Dead = 1 << 4,          // 16
 
-    All = Walk | Rotation | Attack,
-}
+//    All = Walk | Rotation | Attack,
+//}
 public class MonsterAction : MonoBehaviour
 {
     private enum MONSTER_ATTACK_TYPE
@@ -484,6 +484,7 @@ public class MonsterAction : MonoBehaviour
     IEnumerator RunToTartget()
     {
         animator.SetBool("Run", true);
+        momentTargetPosition = new Vector3(momentTargetPosition.x, 0, momentTargetPosition.z);      
         transform.LookAt(momentTargetPosition);
         Vector3 targetDir = (momentTargetPosition - transform.position).normalized;
         targetDir = new Vector3(targetDir.x, 0, targetDir.z);                         // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
@@ -650,7 +651,6 @@ public class MonsterAction : MonoBehaviour
         behaviorState = newState;
         Debug.Log("ChangeState! 바뀔 상태 : " + newState);
         StartCoroutine(behaviorState.ToString());               // 변경된 상태로 코루틴 시작
-
     }
     IEnumerator WaitForAnimation(string name, float exitRatio, int layer = -1)
     {

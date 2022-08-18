@@ -160,7 +160,7 @@ public class PlayerStatus : MonoBehaviour
         Hp -= damage;
         rb.velocity = Vector3.zero;
         rb.AddForce((transform.position - position).normalized * knockBackPower, ForceMode.Impulse);
-        Debug.Log("knockBackPower : " + knockBackPower);
+        //Debug.Log("knockBackPower : " + knockBackPower);
         switch (attackType)
         {
             case AttackType.POISON:
@@ -195,7 +195,7 @@ public class PlayerStatus : MonoBehaviour
     {
         burnCount = 3;
         Ailment |= StatusAilment.BURN;
-        for (int i = 0; i < 60; i++)
+        for (int i = 0; i < 30; i++)
         {
             if (burnCount <= 0)
                 break;

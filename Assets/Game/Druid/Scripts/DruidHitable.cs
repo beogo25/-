@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DruidHitable : MonsterHitablePart
 {
-
-
+    protected DruidAction[] druidAction = new DruidAction[2];
     public override float Hp
     {
         get { return currentHp; }
@@ -22,9 +21,12 @@ public class DruidHitable : MonsterHitablePart
                     skinRenderer.gameObject.SetActive(false);
                 }
 
-                if (!monsterAction.state.HasFlag(MONSTER_STATE.Stagger) && !monsterAction.state.HasFlag(MONSTER_STATE.Dead))    // 경직 및 사망상태가 아니면
+                //Debug.Log(gameObject.name + ", 남은체력 : " + currentHp);
+                if (!((DruidStatus)monster).state.HasFlag(MONSTER_STATE.Stagger) && 
+                    !((DruidStatus)monster).state.HasFlag(MONSTER_STATE.Dead))    // 경직 및 사망상태가 아니면
                 {
-                    monsterAction.StartStaggerState();                      // 경직일으키기
+                    Debug.Log("경직 실행");
+                    ((Druid_InBattle)druidAction[1]).StartStaggerState();                      // 경직일으키기
                 }
 
                 currentHp = maxhp * 1.2f;   // 체력이 0이하 됐을시 최대체력의 20%를 늘려 체력부여
@@ -37,7 +39,8 @@ public class DruidHitable : MonsterHitablePart
     {
         player = FindObjectOfType<PlayerStatus>();
         monster = transform.GetComponentInParent<DruidStatus>();
-        monsterAction = transform.GetComponentInParent<MonsterAction>();
+        druidAction[0] = transform.GetComponentInParent<Druid_SerchingTarget>();
+        druidAction[1] = transform.GetComponentInParent<Druid_InBattle>();
         Hp = maxhp;
 
         //Debug.Log("monster name : " + monster.name + ", monsterAction : " + monsterAction.name);
@@ -51,13 +54,6 @@ public class DruidHitable : MonsterHitablePart
         Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp+ ", 전체체력 : " + monster.Hp +", 데미지 : "+ damage * damageMultiplier);
     }
 
-    public void OnCollisionEnter(Collision collision)       // 아마 공격할때 쓸듯,,
-    {
-        //if ()                 // 몬스터가 공격중일때만 충돌시 데미지 들어가도록
-        //{
-
-        //}
-    }
     // 체력 다 달았을시 경직 일어나는 함수 만들기, 부위별 경직모션 소/중/대/특대, 체력정하고, 데미지 배율
     // 플레이어 공격은 데미지가 고정값인가? -> 파티클에 스크립트를 넣는방식을 할건지? 
 
