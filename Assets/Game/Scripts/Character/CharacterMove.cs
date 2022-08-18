@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class CharacterMove : Singleton<CharacterMove>
 {
@@ -10,7 +11,7 @@ public class CharacterMove : Singleton<CharacterMove>
     private Rigidbody characterRigidbody;
     private Transform characterBody;
     private Player    player;
-
+    
     private void Start()
     {
         characterRigidbody = transform.GetChild(0).GetComponent<Rigidbody>();
@@ -30,11 +31,14 @@ public class CharacterMove : Singleton<CharacterMove>
         if (Player.isMoveAble)
         {
             transform.position += moveDir * Time.deltaTime * movementSpeed;
-
             if (moveDir.x == 0 && moveDir.z == 0)
+            {
                 characterBody.rotation = characterBody.rotation;
+            }
             else
+            {
                 characterBody.forward = moveDir;
+            }
         }
     }
     public void Jump()          

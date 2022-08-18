@@ -60,6 +60,9 @@ public class Player : MonoBehaviour
     private EventReference attackVoice;
     [SerializeField]
     private EventReference[] soundEffect;
+    [SerializeField]
+    private EventReference walkSound;
+    FMOD.Studio.EventInstance soundInstance;
 
 
     public bool TalkState
@@ -107,7 +110,9 @@ public class Player : MonoBehaviour
         playerRigidbody    = GetComponent<Rigidbody>();
         animator           = GetComponent<Animator >();
         attackDatas        = Resources.LoadAll<AttackData>("AttackData");
-
+        soundInstance      = RuntimeManager.CreateInstance(walkSound.Path);
+        soundInstance.start();
+        soundInstance.release();
 
         animator.SetBool("Land", true);
 
@@ -129,6 +134,11 @@ public class Player : MonoBehaviour
             Debug.Log("isGround : " + isGround + ", isMoveAble : " + isMoveAble);
         }
 
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop"))
+            soundInstance.setPaused(false);
+        else
+            soundInstance.setPaused(true);
     }
 
     private void FixedUpdate()
