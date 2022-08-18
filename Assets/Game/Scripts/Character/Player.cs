@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject     battleInvetoryUI;
 
-    public  event Action   AttackStartDelegate;
     public   Action        rollDelegate;
 
     [SerializeField]
@@ -272,10 +271,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(3f);
         animator.SetBool("Down", false);
     }
-    public void AttackStart()
-    {
-        //AttackStartDelegate();
-    }
     public void ParticleInstantiate(GameObject attack)
     {
         //Debug.Log(attack);
@@ -455,6 +450,7 @@ public class Player : MonoBehaviour
             yield return colorDelay;
         }
     }
-   
+
+
 }
 

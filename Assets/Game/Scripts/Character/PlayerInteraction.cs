@@ -38,7 +38,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractionFunc()
     {
-        Collider[] iconDisplay = Physics.OverlapSphere(transform.position, 3f, (1 << LayerMask.NameToLayer("Collective") | 1 << LayerMask.NameToLayer("Npc")));
+        Collider[] iconDisplay = Physics.OverlapSphere(transform.position, 3f, (1 << LayerMask.NameToLayer("Collective") | 1 << LayerMask.NameToLayer("Npc") | 1 << LayerMask.NameToLayer("Monster")));
         if (iconDisplay.Length > 0)
         {
             Transform nearestTarget = iconDisplay[0].transform;
@@ -130,7 +130,25 @@ public class PlayerInteraction : MonoBehaviour
                     }
 
                 }
+                // 몬스터와 상호작용
+                else if (nearestTarget.GetComponent<DruidStatus>().state == MONSTER_STATE.Dead)
+                {
+                    if (text.text != nearestTarget.transform.GetComponent<DruidStatus>().monsterName)
+                    {
+                        text.text = nearestTarget.transform.GetComponent<DruidStatus>().monsterName;
+                        image.sprite = nearestTarget.transform.GetComponent<DruidStatus>().druidIcon;
+                        if (GameManager.isJoyPadOn)
+                            keyImage.sprite = keySprite[2];
+                        else
+                            keyImage.sprite = keySprite[0];
+                    }
 
+                    if (Input.GetButtonDown("InteractionNpc") && player.isGround)
+                    {
+                        if (nearestTarget.transform.GetComponent<IInteraction>() != null)
+                            nearestTarget.transform.GetComponent<IInteraction>().Interaction();
+                    }
+                }
 
             }
         }
