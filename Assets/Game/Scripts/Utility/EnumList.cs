@@ -14,7 +14,12 @@ public enum EnumKey
     PUNCH,
     POWERPUNCH
 }
-
+public enum SceneName
+{
+    LOAD,
+    NEW,
+    MAIN
+}
 public enum ItemType
 {
     MATERIAL,

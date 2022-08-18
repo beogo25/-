@@ -62,7 +62,7 @@ public class CameraMove : MonoBehaviour
         }
     }
 
-    public IEnumerator CameraFocus(GameObject targetInput=null)
+    public IEnumerator CameraFocus(GameObject targetInput = null)
     {
         GameObject target = playerPoint.transform.parent.GetComponent<Player>().lockOnObject;           // 타겟 대상 선정
         isFocused = true;
