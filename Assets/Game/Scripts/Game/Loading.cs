@@ -32,10 +32,15 @@ public class Loading : MonoBehaviour
         yield return new WaitForSeconds(2);
         operation.allowSceneActivation = true;
 
-        CharacterMove.instance.gameObject.transform.localPosition = new Vector3(510, 20, 380);
-        CharacterMove.instance.gameObject.transform.GetChild(0).transform.localPosition = Vector3.zero;
-        CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().Attack_AirSlashStart();
-        if (CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().isGround == true)
-            CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().Attack_AirSlashEnd();
+        if(sceneName == "GameScene")
+        {
+            yield return new WaitForSeconds(0.5f);
+            CharacterMove.instance.gameObject.transform.localPosition = new Vector3(510, 20, 380);
+            CharacterMove.instance.gameObject.transform.GetChild(0).transform.localPosition = Vector3.zero;
+            CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().Attack_AirSlashStart();
+            if (CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().isGround == true)
+                CharacterMove.instance.gameObject.transform.GetChild(0).GetComponent<Player>().Attack_AirSlashEnd();
+        }
+        
     }
 }
