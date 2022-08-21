@@ -7,45 +7,44 @@ using FMODUnity;
 public class PlayerStatus : MonoBehaviour
 {
     [SerializeField]
-    private float     hp;
-    private float     stamina;
-    public  int       maxHp = 100;
-    public  float     maxStamina = 100;
+    private float              hp;
+    private float              stamina;
+    public  int                maxHp = 100;
+    public  float              maxStamina = 100;
 
-    private int       atk = 50;
-    private int       def = 0;
-    public static int gold = 10000;
+    private int                atk = 50;
+    private int                def = 0;
+    public static int          gold = 10000;
 
-    private int       burnCount;
+    private int                burnCount;
 
-    public  Slider    hpSlider;
-    public  Slider    staminaSlider;
+    public  Slider             hpSlider;
+    public  Slider             staminaSlider;
 
-    private int       buffAtk;
-    private int       buffDef;
+    private int                buffAtk;
+    private int                buffDef;
 
-    private IEnumerator atkIEnumerator    = null;
-    private IEnumerator defIEnumerator    = null;
+    private IEnumerator        atkIEnumerator    = null;
+    private IEnumerator        defIEnumerator    = null;
 
     [SerializeField]
-    private EventReference   itemUse;
+    private EventReference     itemUse;
     [SerializeField] 
-    private EventReference[] hitSound;
+    private EventReference[]   hitSound;
 
-    private IEnumerator poisonIEnumerator = null;
-    private IEnumerator burnIEnumerator   = null;
-    private IEnumerator staminaHealthIEnumerator;
+    private IEnumerator        poisonIEnumerator = null;
+    private IEnumerator        burnIEnumerator   = null;
+    private IEnumerator        staminaHealthIEnumerator;
 
-    private Player    player;
+    private Player             player;
     private WaitForFixedUpdate stamanaHealthDelay = new WaitForFixedUpdate();
-    private const float buffDuration = 180;
+    private const float        buffDuration = 180;
 
-    private bool isHitable = true;
-    private StatusAilment ailment = 0;
-    public  Transform ailmentSprites;
+    private StatusAilment      ailment = 0;
+    public  Transform          ailmentSprites;
 
-    private Rigidbody rb;
-    public StatusAilment Ailment
+    private Rigidbody          rb;
+    public  StatusAilment      Ailment
     {
         get { return ailment; }
         set 
@@ -159,22 +158,23 @@ public class PlayerStatus : MonoBehaviour
     }
     public void PlayerHit(float damage, float knockBackPower, Vector3 position, AttackType attackType = AttackType.NORMAL)
     {
-        if (!isHitable) return;         // 피격상태일 때 연속으로 맞는거 방지
-        
-        isHitable = false;
         Hp -= damage;
-        rb.velocity = Vector3.zero;
-        rb.AddForce((transform.position - position).normalized * knockBackPower, ForceMode.Impulse);
-        RuntimeManager.PlayOneShot(hitSound[0].Path);
-        player.HitDown();
+        if (damage > 0)
+        {
+            rb.velocity = Vector3.zero;
+            rb.AddForce((transform.position - position).normalized * knockBackPower, ForceMode.Impulse);
+            player.HitDown();
+            RuntimeManager.PlayOneShot(hitSound[0].Path);
+        }
+
 
         switch (attackType)
         {
             case AttackType.POISON:
-                if(poisonIEnumerator!=null)
+                if (poisonIEnumerator != null)
                     StopCoroutine(poisonIEnumerator);
                 poisonIEnumerator = Poison();
-                StartCoroutine(poisonIEnumerator);   
+                StartCoroutine(poisonIEnumerator);
                 break;
             case AttackType.BURN:
                 if (burnIEnumerator != null)
@@ -185,11 +185,6 @@ public class PlayerStatus : MonoBehaviour
             default:
                 break;
         }
-    }
-    public void OnHitAble()    // 애니메이션 이벤트 
-    {
-        Debug.Log("맞을수있는 상태");
-        isHitable = true;
     }
     public IEnumerator Poison()
     {   

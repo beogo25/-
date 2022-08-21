@@ -26,7 +26,8 @@ public class Rock : Projectile
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("HitAble")) return;
+        if (other.gameObject.layer == (1 << LayerMask.NameToLayer("HitAble") | 1 << LayerMask.NameToLayer("Monster")))
+            return;
         if (other.gameObject.GetComponent<PlayerStatus>() != null)
         {
             other.transform.GetComponent<PlayerStatus>().PlayerHit(damage, 15, transform.position);

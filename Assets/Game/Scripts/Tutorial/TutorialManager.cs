@@ -270,8 +270,8 @@ public class TutorialManager : MonoBehaviour
         if (!isProvided)
         {
             isProvided = true;
-            player.status.PlayerHit(1, 0, Vector3.zero, AttackType.BURN);
-            player.status.PlayerHit(1, 0, Vector3.zero, AttackType.POISON);
+            player.status.PlayerHit(0, 0, Vector3.zero, AttackType.BURN);
+            player.status.PlayerHit(0, 0, Vector3.zero, AttackType.POISON);
             InventoryManager.instance.AddItem(DataManager.instance.useItemDic["비약"]);
             InventoryManager.instance.AddItem(DataManager.instance.useItemDic["비약"]);
             InventoryManager.instance.AddItem(DataManager.instance.useItemDic["포션"]);
