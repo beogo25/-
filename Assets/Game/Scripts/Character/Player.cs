@@ -33,8 +33,8 @@ public class Player : MonoBehaviour
     private AttackData[]   attackDatas;
                            
     private Vector3        moveDir;
-    private bool           isClickAble;
-                           
+    private float          rollValue = 1;
+    private bool           isClickAble;                  
     private bool           talkState     = false;
     public  static bool    isRollAble    = true;
     public  bool           isCollectable = false;
@@ -283,13 +283,13 @@ public class Player : MonoBehaviour
         rollDelegate();
         StartCoroutine(combo.DelayCheck(0.2f));
         Vector3 rollDir = moveDir;
-        float rollSpeed = 0.04f;
+        float rollSpeed = 0.04f * rollValue;
         if (rollDir == Vector3.zero)
         {
             for (int i = 0; i < 30; i++)
             {
                 transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                rollSpeed -= 0.00065f;
+                rollSpeed -= 0.00065f * rollValue;
                 yield return new WaitForFixedUpdate();
             }
             if (animator.GetBool("Dash"))
@@ -297,7 +297,7 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < 20; i++)
                 {
                     transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                    rollSpeed -= 0.00065f;
+                    rollSpeed -= 0.00065f * rollValue;
                     yield return new WaitForFixedUpdate();
                 }
             }
@@ -308,7 +308,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < 30; i++)
             {
                 transform.position += rollDir * characterMove.movementSpeed * rollSpeed;
-                rollSpeed -= 0.00065f;
+                rollSpeed -= 0.00065f * rollValue;
                 yield return new WaitForFixedUpdate();
             }
             if (animator.GetBool("Dash"))
@@ -316,7 +316,7 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < 20; i++)
                 {
                     transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                    rollSpeed -= 0.00065f;
+                    rollSpeed -= 0.00065f * rollValue;
                     yield return new WaitForFixedUpdate();
                 }
             }
@@ -361,6 +361,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Fence"))
         {
             characterMove.movementSpeed = 3;
+            rollValue = 0;
         }
     }
 
@@ -369,6 +370,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("Fence"))
         {
             characterMove.movementSpeed = backupSpeed;
+            rollValue = 1;
         }
     }
     private void PlayerMove()
