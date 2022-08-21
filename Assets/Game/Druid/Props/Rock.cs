@@ -26,14 +26,12 @@ public class Rock : Projectile
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("HitAble")) return;
-        if (other.gameObject.GetComponent<PlayerStatus>() != null)
+        if (other.GetComponent<PlayerStatus>() != null)
         {
-            other.transform.GetComponent<PlayerStatus>().PlayerHit(damage, 15, transform.position);
+            other.transform.GetComponent<PlayerStatus>().PlayerHit(damage, 30, transform.position);
             RuntimeManager.PlayOneShot(hitSound.Path);
-            Debug.Log("돌맞음 데미지 : " + damage);
+            
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
 }

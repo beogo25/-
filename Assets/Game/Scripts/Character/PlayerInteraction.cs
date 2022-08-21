@@ -38,7 +38,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void InteractionFunc()
     {
-        Collider[] iconDisplay = Physics.OverlapSphere(transform.position, 3f, (1 << LayerMask.NameToLayer("Collective") | 1 << LayerMask.NameToLayer("Npc") | 1 << LayerMask.NameToLayer("Monster")));
+        Collider[] iconDisplay = Physics.OverlapSphere(transform.position, 3f, (1 << LayerMask.NameToLayer("Collective") | 1 << LayerMask.NameToLayer("Npc")));
         if (iconDisplay.Length > 0)
         {
             Transform nearestTarget = iconDisplay[0].transform;
@@ -131,13 +131,14 @@ public class PlayerInteraction : MonoBehaviour
 
                 }
                 // 몬스터와 상호작용
-                else if (nearestTarget.GetComponent<DruidStatus>().state == MONSTER_STATE.Dead)
+                else if (nearestTarget.GetComponentInParent<DruidStatus>().state == MONSTER_STATE.Dead)
                 {
+                    DruidStatus druidStatus = nearestTarget.GetComponentInParent<DruidStatus>();
                     player.isCollectable = true;
-                    if (text.text != nearestTarget.transform.GetComponent<DruidStatus>().monsterName)
+                    if (text.text != druidStatus.monsterName)
                     {
-                        text.text = nearestTarget.transform.GetComponent<DruidStatus>().monsterName;
-                        image.sprite = nearestTarget.transform.GetComponent<DruidStatus>().druidIcon;
+                        text.text = druidStatus.monsterName;
+                        image.sprite = druidStatus.druidIcon;
                         if (GameManager.isJoyPadOn)
                             keyImage.sprite = keySprite[1];
                         else
@@ -146,8 +147,7 @@ public class PlayerInteraction : MonoBehaviour
 
                     if (Input.GetButtonDown("InteractionObject") && player.isGround)
                     {
-                        if (nearestTarget.transform.GetComponent<IInteraction>() != null)
-                            nearestTarget.transform.GetComponent<IInteraction>().Interaction();
+                        druidStatus.Interaction();
                     }
                 }
 
