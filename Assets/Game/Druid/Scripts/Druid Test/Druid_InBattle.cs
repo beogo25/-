@@ -163,17 +163,17 @@ public class Druid_InBattle : DruidAction
                 attackCoolTime = false;
                 druidStatus.state &= ~MONSTER_STATE.Attack;
 
-                Debug.Log(attackType + " 후 상태 : " + druidStatus.state);
+                //Debug.Log(attackType + " 후 상태 : " + druidStatus.state);
 
                 randomValue = Random.value;
                 if (attackType == MONSTER_ATTACK_TYPE.Run)
                 {
-                    StartCoroutine(CoolTime(Random.Range(0.5f, 1.5f)));
+                    StartCoroutine(CoolTime(Random.Range(0.5f, 1f)));
                     yield return new WaitForSecondsRealtime(Random.Range(0.2f, 0.6f));
                 }
                 else
                 {
-                    StartCoroutine(CoolTime(Random.Range(5f, 9f)));
+                    StartCoroutine(CoolTime(Random.Range(4f, 8f)));
                     yield return new WaitForSecondsRealtime(0.2f);
 
                     if (randomValue < 0.3f)
@@ -182,7 +182,6 @@ public class Druid_InBattle : DruidAction
                         yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
                     else if(randomValue < 0.8f)
                     {
-                        Debug.Log("공격 후 타겟방향보기");
                         SetDestinationDirection(druidStatus.target.transform);
                         if (rotationCoroutine != null)
                             yield return StartCoroutine(rotationCoroutine);
@@ -217,18 +216,22 @@ public class Druid_InBattle : DruidAction
 
         if (targetDistance < 6.5f)              // 거리가 6.5미만 일때 
         {
-            if (randomValue <= 0.7f)            // 70% 확률로 밟기공격
+            if (randomValue <= 0.6f)            // 60% 확률로 밟기공격
                 return MONSTER_ATTACK_TYPE.Stomp;
-            else                                // 30% 확률로 손휘두르기공격
+            else if(randomValue <= 0.8f)        // 20% 확률로 손휘두르기공격
                 return MONSTER_ATTACK_TYPE.Swipe;
+            else 
+                return MONSTER_ATTACK_TYPE.JumpAttack;
 
         }
         else if (targetDistance < 8.5f)         // 거리가 8.5미만 일때 
         {
-            if (randomValue <= 0.65f)
+            if (randomValue <= 0.6f)
                 return MONSTER_ATTACK_TYPE.Swipe;
-            else
+            else if(randomValue <= 0.8f)
                 return MONSTER_ATTACK_TYPE.JumpAttack;
+            else 
+                return MONSTER_ATTACK_TYPE.Roar;
         }
         else if (targetDistance < 16)           // 거리가 16미만 일때 
         {
@@ -255,7 +258,7 @@ public class Druid_InBattle : DruidAction
         //transform.LookAt(target.transform); // 없으면 어색할까 ? 
         Vector3 targetDir = (druidStatus.target.transform.position - transform.position).normalized;
         targetDir = new Vector3(targetDir.x, 0, targetDir.z);                           // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetDir.normalized), 2f * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetDir.normalized), 3f * Time.deltaTime);
 
         transform.Translate(targetDir * moveSpeed * Time.deltaTime, Space.World);       // 타겟쪽으로 이동
     }
@@ -276,7 +279,6 @@ public class Druid_InBattle : DruidAction
         }
 
         animator.SetBool("Run", false);
-        Debug.Log("달리기 끝");
         yield return null;
     }
 
@@ -299,11 +301,23 @@ public class Druid_InBattle : DruidAction
         
         if (name == "Stagger")  // 경직상태 
         {
-            yield return StartCoroutine(WaitForAnimation("Stand Up(Front Up)", 1));
-            druidStatus.state &= ~MONSTER_STATE.Stagger;
-            startRoar = false;
+            //yield return StartCoroutine(WaitForAnimation("Stand Up", 1));
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Stand Up(Front Up)"))   // 애니메이션이 전환될때까지 대기
+            {
+                Debug.Log("경직->기상상태");
+                druidStatus.state &= ~MONSTER_STATE.Stagger;
+                yield return null;
+            }
 
-            Init();
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))   // 애니메이션이 전환될때까지 대기
+                yield return null;
+
+            if (druidStatus.state != MONSTER_STATE.Dead)
+            {
+                startRoar = false;
+                Init();
+            }
+            
         }
 
         yield return null;
@@ -385,12 +399,17 @@ public class Druid_InBattle : DruidAction
 
     public void Dead()
     {
+        //Debug.Log("Dead실행시 드루상태 : " + druidStatus.state);
+        animator.SetBool("Dead", true);
+        //if (druidStatus.state != MONSTER_STATE.Stagger)     // 경직상태가 아니라면 죽는 애니메이션 실행
+        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Stagger"))
+            animator.SetTrigger("DeadTrigger");
+
         druidStatus.state = MONSTER_STATE.Dead;
         animator.SetInteger("Rotation", 0);
         StopAllCoroutines();
         
-        if (druidStatus.state != MONSTER_STATE.Stagger)     // 경직상태가 아니라면 죽는 애니메이션 실행
-            animator.SetTrigger("Dead");
+ 
 
     }
 }

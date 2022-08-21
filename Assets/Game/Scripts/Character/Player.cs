@@ -128,12 +128,6 @@ public class Player : MonoBehaviour
 
         CheckOnGround();
 
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log("isGround : " + isGround + ", isMoveAble : " + isMoveAble);
-        }
-
-
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Dash_Loop"))
             soundInstance.setPaused(false);
         else
@@ -251,6 +245,7 @@ public class Player : MonoBehaviour
 
         playerRigidbody.AddForce(Vector3.down * 13, ForceMode.Impulse);
     }
+    
 
     // 애니메이션에서 사용합니다.
     IEnumerator AttackMove(float distance)
@@ -328,7 +323,10 @@ public class Player : MonoBehaviour
         }
     }
     #endregion 애니메이션 이벤트
-
+    public void HitDown()
+    {
+        animator.SetTrigger("DownTrigger");
+    }
     private void LockOn()
     {
         if (isLockedOn)
