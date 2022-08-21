@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class Rock : Projectile
 {
     MeshCollider meshCollider;
+    [SerializeField] private EventReference hitSound;
     public override void Init(Vector3 target, float damage, float speed)
     {
         meshCollider = GetComponent<MeshCollider>();
@@ -28,6 +30,7 @@ public class Rock : Projectile
         if (other.gameObject.GetComponent<PlayerStatus>() != null)
         {
             other.transform.GetComponent<PlayerStatus>().PlayerHit(damage, 15, transform.position);
+            RuntimeManager.PlayOneShot(hitSound.Path);
             Debug.Log("돌맞음 데미지 : " + damage);
         }
 

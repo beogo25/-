@@ -95,6 +95,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3034d3a7d5e49cb4f865773afaded761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSound:
+    Guid:
+      Data1: 1146282134
+      Data2: 1241141577
+      Data3: 1035510929
+      Data4: 1167214687
+    Path: event:/Monsterstoneget
 --- !u!64 &6400000
 MeshCollider:
   m_ObjectHideFlags: 0
