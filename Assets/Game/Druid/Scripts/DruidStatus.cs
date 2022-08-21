@@ -42,11 +42,23 @@ public class DruidStatus : MonsterStatus, IInteraction
             if (currentHp <= 0 && !state.HasFlag(MONSTER_STATE.Dead))       // 체력이 0이하가 되고 죽은상태가 아니면
             {
                 ((Druid_InBattle)druidAction[1]).Dead();
+                QuestSuccess();
                 StartCoroutine(OFFBattleBGM());
-
                 monsterInterActionCollider.enabled = true;                  // 상호작용할 Collider 켜기 (몬스터 갈무리용)
                 
-                //Destroy(gameObject, 25f);
+                Destroy(gameObject, 25f);
+            }
+        }
+    }
+    public void QuestSuccess()
+    {
+        if (player.orderQuest != null)
+        {
+            Quest quest = player.orderQuest ?? new Quest();
+            if (quest.target == monsterName)
+            {
+                if (player.questCount > 0)
+                    player.questCount--;
             }
         }
     }
@@ -58,42 +70,12 @@ public class DruidStatus : MonsterStatus, IInteraction
         soundInstance = RuntimeManager.CreateInstance(battleBGM.Path);
         player = FindObjectOfType<Player>();
         
-
         table.Set();
-        monsterName = "드루이드";
+        monsterName = "사슴";
         maxHp = 1000;
         atk = 10;
         currentHp = maxHp;
         collectNumber = collectNumberOrigin;
-    }
-
-    private void Update()
-    {
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            soundInstance.getVolume(out float volume);
-            Debug.Log("Volume : " + volume);
-            soundInstance.setVolume(volume - 0.1f);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            soundInstance.setVolume(1f);
-        }
-        //if (Input.GetKeyDown(KeyCode.J))
-        //{
-        //    int radomValue = Random.Range(0, 2);
-        //    Debug.Log(radomValue + " Hit sound");
-        //    PlayHitSound(radomValue);
-        //}
-        //if (Input.GetKeyDown(KeyCode.H))
-        //{
-        //    int radomValue = Random.Range(0, 6);
-        //    Debug.Log(radomValue + " Attack sound");
-        //    PlayAttackSound(radomValue);
-        //}
-
-
     }
 
     // 몬스터 갈무리 관련
@@ -146,27 +128,10 @@ public class DruidStatus : MonsterStatus, IInteraction
         monsterInterActionCollider.enabled = false;
     }
 
-    /*
-        battleBGM;
-        attackSound;
-        hitSound;
-        walkSound;
-
-     */
     #region 몬스터사운드
     IEnumerator OFFBattleBGM()
     {
-        //soundInstance.getVolume(out float volume);
-        //Debug.Log("OFFBattleBGM 실행");
-        //while (volume >= 0.1f)
-        //{
-        //    Debug.Log("volume : " + volume);
-        //    soundInstance.setVolume(volume - 0.1f);
-        //    yield return new WaitForSecondsRealtime(0.5f);
-        //    //soundInstance.getVolume(out float volume1);
-        //    //Debug.Log("volume : " + volume1);
-        //}
-        //Debug.Log("소리끄기");
+
         yield return new WaitForSecondsRealtime(0.5f);
         soundInstance.setPaused(true);
     }

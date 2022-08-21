@@ -265,8 +265,6 @@ public class Druid_InBattle : DruidAction
     IEnumerator RunToTartget()
     {
         animator.SetBool("Run", true);
-        //momentTargetPosition = new Vector3(momentTargetPosition.x, 0, momentTargetPosition.z);
-        //transform.LookAt(momentTargetPosition); // 없으면 어색할까?
 
         Vector3 targetDir = (momentTargetPosition - transform.position).normalized;
         targetDir = new Vector3(targetDir.x, 0, targetDir.z);                           // 목표지점은 네브메쉬(땅)이니깐 Y축을 0으로 함으로써 바닥을 보지 않도록 해줌.
@@ -314,6 +312,7 @@ public class Druid_InBattle : DruidAction
 
             if (druidStatus.state != MONSTER_STATE.Dead)
             {
+                Debug.Log("state : " + druidStatus.state);
                 startRoar = false;
                 Init();
             }
@@ -399,7 +398,7 @@ public class Druid_InBattle : DruidAction
 
     public void Dead()
     {
-        //Debug.Log("Dead실행시 드루상태 : " + druidStatus.state);
+        Debug.Log("Dead실행시 드루상태 : " + druidStatus.state);
         animator.SetBool("Dead", true);
         //if (druidStatus.state != MONSTER_STATE.Stagger)     // 경직상태가 아니라면 죽는 애니메이션 실행
         if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Stagger"))

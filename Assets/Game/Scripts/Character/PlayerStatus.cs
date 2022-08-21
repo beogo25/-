@@ -118,7 +118,7 @@ public class PlayerStatus : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.X))
-            Hp -= 10;
+            Debug.Log(player.questCount);
     }
     public void UseItemEffect(UseItemType useItemType, int value = 0)
     {
