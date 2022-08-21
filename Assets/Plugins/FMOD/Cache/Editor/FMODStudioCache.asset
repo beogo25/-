@@ -54,33 +54,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &-8882992627069725412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/DruidDead
-  m_EditorClassIdentifier: 
-  Path: event:/DruidDead
-  Guid:
-    Data1: 5620013
-    Data2: 1170648496
-    Data3: -357074022
-    Data4: 781959786
-  Banks:
-  - {fileID: 64527040341467664}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-8772629286585725170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,10 +150,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/sound/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637966981420567235
+  lastModified: 637966987476151475
   FileSizes:
   - Name: 
-    Value: 2898
+    Value: 2762
   Exists: 1
 --- !u!114 &-8510443598967146300
 MonoBehaviour:
@@ -235,7 +208,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 451
 --- !u!114 &-8258156661315900743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,33 +409,6 @@ MonoBehaviour:
   - Name: 
     Value: 2898
   Exists: 1
---- !u!114 &-7086931162686342458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/DruidRoar
-  m_EditorClassIdentifier: 
-  Path: event:/DruidRoar
-  Guid:
-    Data1: -755420688
-    Data2: 1263611898
-    Data3: 1822726801
-    Data4: 1509677383
-  Banks:
-  - {fileID: 64527040341467664}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 4572
 --- !u!114 &-6877396625271010962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1457,25 +1403,22 @@ MonoBehaviour:
   - {fileID: 3330684220685544200}
   - {fileID: -4299119986742635656}
   - {fileID: -3412165158882339428}
-  - {fileID: -8882992627069725412}
   - {fileID: -8510443598967146300}
   - {fileID: 4992574215055388954}
   - {fileID: 2612849266135260460}
   - {fileID: 535188979794881523}
   - {fileID: -6217228373903501284}
   - {fileID: -8343171215270718141}
-  - {fileID: 8127117468794135204}
   - {fileID: 2354335091417968286}
   - {fileID: 9214096204885719460}
   - {fileID: -3688711673841573277}
   - {fileID: -4944336923199769379}
-  - {fileID: -7086931162686342458}
   EditorParameters: []
   MasterBanks:
   - {fileID: 64527040341467664}
   StringsBanks:
   - {fileID: -8522567781931015301}
-  cacheTime: 637966981420567235
+  cacheTime: 637966987476151475
   cacheVersion: 131591
 --- !u!114 &53248124838900681
 MonoBehaviour:
@@ -1519,7 +1462,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/sound/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637966981420547233
+  lastModified: 637966987476102578
   FileSizes: []
   Exists: 1
 --- !u!114 &174616408514189818
@@ -2681,33 +2624,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &8127117468794135204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/DruidStagger
-  m_EditorClassIdentifier: 
-  Path: event:/DruidStagger
-  Guid:
-    Data1: -635917911
-    Data2: 1246720486
-    Data3: 614944701
-    Data4: 1962714186
-  Banks:
-  - {fileID: 64527040341467664}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 3000
 --- !u!114 &8220879928648100579
 MonoBehaviour:
   m_ObjectHideFlags: 0

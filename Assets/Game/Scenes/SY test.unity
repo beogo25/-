@@ -21502,6 +21502,7 @@ MonoBehaviour:
   ratio: 0
   eventSystem: {fileID: 1655345623}
   load: 0
+  checkBox: {fileID: 0}
 --- !u!4 &562936513
 Transform:
   m_ObjectHideFlags: 0
@@ -27312,7 +27313,7 @@ GameObject:
   - component: {fileID: 702983588}
   - component: {fileID: 702983587}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: FieldSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
