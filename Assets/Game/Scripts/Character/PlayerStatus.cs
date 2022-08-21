@@ -24,12 +24,13 @@ public class PlayerStatus : MonoBehaviour
     private int       buffAtk;
     private int       buffDef;
 
-
     private IEnumerator atkIEnumerator    = null;
     private IEnumerator defIEnumerator    = null;
 
     [SerializeField]
-    private EventReference itemUse;
+    private EventReference   itemUse;
+    [SerializeField] 
+    private EventReference[] hitSound;
 
     private IEnumerator poisonIEnumerator = null;
     private IEnumerator burnIEnumerator   = null;
@@ -39,6 +40,7 @@ public class PlayerStatus : MonoBehaviour
     private WaitForFixedUpdate stamanaHealthDelay = new WaitForFixedUpdate();
     private const float buffDuration = 180;
 
+    private bool isHitable = true;
     private StatusAilment ailment = 0;
     public  Transform ailmentSprites;
 
@@ -157,10 +159,15 @@ public class PlayerStatus : MonoBehaviour
     }
     public void PlayerHit(float damage, float knockBackPower, Vector3 position, AttackType attackType = AttackType.NORMAL)
     {
+        if (!isHitable) return;         // 피격상태일 때 연속으로 맞는거 방지
+        
+        isHitable = false;
         Hp -= damage;
         rb.velocity = Vector3.zero;
         rb.AddForce((transform.position - position).normalized * knockBackPower, ForceMode.Impulse);
-        //Debug.Log("knockBackPower : " + knockBackPower);
+        RuntimeManager.PlayOneShot(hitSound[0].Path);
+        player.HitDown();
+
         switch (attackType)
         {
             case AttackType.POISON:
@@ -178,9 +185,12 @@ public class PlayerStatus : MonoBehaviour
             default:
                 break;
         }
-        //³Ë¹é ³Ö±â
     }
-    
+    public void OnHitAble()    // 애니메이션 이벤트 
+    {
+        Debug.Log("맞을수있는 상태");
+        isHitable = true;
+    }
     public IEnumerator Poison()
     {   
         Ailment |= StatusAilment.POISON;

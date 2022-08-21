@@ -25,7 +25,6 @@ public class DruidHitable : MonsterHitablePart
                 if (!((DruidStatus)monster).state.HasFlag(MONSTER_STATE.Stagger) && 
                     !((DruidStatus)monster).state.HasFlag(MONSTER_STATE.Dead))    // 경직 및 사망상태가 아니면
                 {
-                    Debug.Log("경직 실행");
                     ((Druid_InBattle)druidAction[1]).StartStaggerState();                      // 경직일으키기
                 }
 

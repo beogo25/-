@@ -14,7 +14,6 @@ public class DruidAttackablePart : MonsterAttackablePart
 
     public void Attack(bool isAttackStart)
     {
-        Debug.Log("Attack ½ÇÇà : " + isAttackStart);
         if (isAttackStart)
         {
             myCollider.enabled = true;

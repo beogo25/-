@@ -16,6 +16,7 @@ public class DruidStatus : MonsterStatus, IInteraction
     [SerializeField] private EventReference[] hitSound;
     [SerializeField] private EventReference[] stateSound;
     [SerializeField] private EventReference walkSound;
+    private FMOD.Studio.EventInstance soundInstance;
 
     private Player player;
     public override float Hp
@@ -27,7 +28,6 @@ public class DruidStatus : MonsterStatus, IInteraction
             {
                 if (behaviorState != MONSTER_BEHAVIOR_STATE.InBattle)       // 플레이어가 선제공격시 전투모드가 아니면 전투모드
                 {
-                    Debug.Log("체력이 닳았다면 타겟잡고 전투모드로");
                     Collider[] targets = Physics.OverlapSphere(transform.position, 30f, 1 << LayerMask.NameToLayer("Character"));
                     for (int i = 0; i < targets.Length; i++)
                     {
@@ -42,6 +42,8 @@ public class DruidStatus : MonsterStatus, IInteraction
             if (currentHp <= 0 && !state.HasFlag(MONSTER_STATE.Dead))       // 체력이 0이하가 되고 죽은상태가 아니면
             {
                 ((Druid_InBattle)druidAction[1]).Dead();
+                StartCoroutine(OFFBattleBGM());
+
                 monsterInterActionCollider.enabled = true;                  // 상호작용할 Collider 켜기 (몬스터 갈무리용)
                 
                 //Destroy(gameObject, 25f);
@@ -53,7 +55,10 @@ public class DruidStatus : MonsterStatus, IInteraction
         druidAction[0] = GetComponent<Druid_SerchingTarget>();
         druidAction[1] = GetComponent<Druid_InBattle>();
         monsterInterActionCollider = GetComponent<CapsuleCollider>();
+        soundInstance = RuntimeManager.CreateInstance(battleBGM.Path);
         player = FindObjectOfType<Player>();
+        
+
         table.Set();
         monsterName = "드루이드";
         maxHp = 1000;
@@ -64,30 +69,29 @@ public class DruidStatus : MonsterStatus, IInteraction
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-         //   Debug.Log("walk sound 재생");
-            PlayWalkSound();
-        }
-
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Debug.Log("bgm sound 재생");
-            PlaybattleBGM();
+            soundInstance.getVolume(out float volume);
+            Debug.Log("Volume : " + volume);
+            soundInstance.setVolume(volume - 0.1f);
         }
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            int radomValue = Random.Range(0, 2);
-            Debug.Log(radomValue + " Hit sound");
-            PlayHitSound(radomValue);
+            soundInstance.setVolume(1f);
         }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            int radomValue = Random.Range(0, 6);
-            Debug.Log(radomValue + " Attack sound");
-            PlayAttackSound(radomValue);
-        }
+        //if (Input.GetKeyDown(KeyCode.J))
+        //{
+        //    int radomValue = Random.Range(0, 2);
+        //    Debug.Log(radomValue + " Hit sound");
+        //    PlayHitSound(radomValue);
+        //}
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    int radomValue = Random.Range(0, 6);
+        //    Debug.Log(radomValue + " Attack sound");
+        //    PlayAttackSound(radomValue);
+        //}
 
 
     }
@@ -150,20 +154,37 @@ public class DruidStatus : MonsterStatus, IInteraction
 
      */
     #region 몬스터사운드
+    IEnumerator OFFBattleBGM()
+    {
+        //soundInstance.getVolume(out float volume);
+        //Debug.Log("OFFBattleBGM 실행");
+        //while (volume >= 0.1f)
+        //{
+        //    Debug.Log("volume : " + volume);
+        //    soundInstance.setVolume(volume - 0.1f);
+        //    yield return new WaitForSecondsRealtime(0.5f);
+        //    //soundInstance.getVolume(out float volume1);
+        //    //Debug.Log("volume : " + volume1);
+        //}
+        //Debug.Log("소리끄기");
+        yield return new WaitForSecondsRealtime(0.5f);
+        soundInstance.setPaused(true);
+    }
+
     public void PlayAttackSound(int num)
     {
         RuntimeManager.PlayOneShot(attackSound[num].Path);
     }
     public void PlaybattleBGM()
     {
-        RuntimeManager.PlayOneShot(battleBGM.Path);
+        soundInstance.start();
+        soundInstance.release();
     }
     public void PlayRoarSound()
     {
         Debug.Log("로어 사운드 실행" + state);
         if (!state.HasFlag(MONSTER_STATE.Attack))
         {
-            
             RuntimeManager.PlayOneShot(attackSound[5].Path);
         }
     }
@@ -176,7 +197,6 @@ public class DruidStatus : MonsterStatus, IInteraction
     {
         if (Vector3.Distance(player.transform.position, transform.position) < 65f)
         {
-            Debug.Log("걷기 사운드 재생, 거리 : " + Vector3.Distance(player.transform.position, transform.position));
             RuntimeManager.PlayOneShot(walkSound.Path);
         }
 
