@@ -250,9 +250,9 @@ public class Player : MonoBehaviour
     // 애니메이션에서 사용합니다.
     IEnumerator AttackMove(float distance)
     {
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 20; i++)
         {
-            transform.Translate(transform.forward * distance / 50, Space.World);
+            transform.Translate(transform.forward * distance / 20, Space.World);
             yield return new WaitForFixedUpdate();
         }
     }
@@ -283,13 +283,13 @@ public class Player : MonoBehaviour
         rollDelegate();
         StartCoroutine(combo.DelayCheck(0.2f));
         Vector3 rollDir = moveDir;
-        float rollSpeed = 0.045f;
+        float rollSpeed = 0.04f;
         if (rollDir == Vector3.zero)
         {
             for (int i = 0; i < 30; i++)
             {
                 transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                rollSpeed -= 0.0005f;
+                rollSpeed -= 0.00065f;
                 yield return new WaitForFixedUpdate();
             }
             if (animator.GetBool("Dash"))
@@ -297,7 +297,7 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < 20; i++)
                 {
                     transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                    rollSpeed -= 0.0005f;
+                    rollSpeed -= 0.00065f;
                     yield return new WaitForFixedUpdate();
                 }
             }
@@ -308,7 +308,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < 30; i++)
             {
                 transform.position += rollDir * characterMove.movementSpeed * rollSpeed;
-                rollSpeed -= 0.0005f;
+                rollSpeed -= 0.00065f;
                 yield return new WaitForFixedUpdate();
             }
             if (animator.GetBool("Dash"))
@@ -316,7 +316,7 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < 20; i++)
                 {
                     transform.position += transform.forward * characterMove.movementSpeed * rollSpeed;
-                    rollSpeed -= 0.0005f;
+                    rollSpeed -= 0.00065f;
                     yield return new WaitForFixedUpdate();
                 }
             }
