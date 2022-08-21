@@ -14,9 +14,9 @@ public class Fly : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.position    = firstPosition;
-        randomAngleY          = Random.Range(-15, 15);
-        randomAngleX          = Random.Range(-10, 10);
+        transform.position     = firstPosition;
+        randomAngleY           = Random.Range(-15, 15);
+        randomAngleX           = Random.Range(-10, 10);
         transform.eulerAngles += new Vector3(randomAngleX, randomAngleY, 0);
     }
 
