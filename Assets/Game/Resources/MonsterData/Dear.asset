@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Dear
   m_EditorClassIdentifier: 
   monsterName: "\uC0AC\uC2B4"
-  monaterSprite: {fileID: 0}
+  monaterSprite: {fileID: 21300000, guid: 64cc62cd39087f345a6bf6f57dbf78d9, type: 3}
   monsterNum: 0
