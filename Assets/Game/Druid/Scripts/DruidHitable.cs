@@ -50,8 +50,13 @@ public class DruidHitable : MonsterHitablePart
     {
         Hp -= damage * damageMultiplier;
         monster.Hp -= damage * damageMultiplier;
+        //((DruidStatus)monster).PlayHitSound(Random.Range(0,2));
+        if(damage > 100)
+            ((DruidStatus)monster).PlayHitSound(1);
+        else
+            ((DruidStatus)monster).PlayHitSound(0);
 
-        Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp+ ", 전체체력 : " + monster.Hp +", 데미지 : "+ damage * damageMultiplier);
+        //Debug.Log(gameObject.name + "의 현재 체력 : " + currentHp+ ", 전체체력 : " + monster.Hp +", 데미지 : "+ damage * damageMultiplier);
     }
 
     // 체력 다 달았을시 경직 일어나는 함수 만들기, 부위별 경직모션 소/중/대/특대, 체력정하고, 데미지 배율

@@ -76,6 +76,9 @@ public class Druid_InBattle : DruidAction
         attackCoolTime = false;
         animator.SetFloat("Breath Speed", 3f);
         StartCoroutine(CoolTime(Random.Range(2f, 4f)));   // 공격 쿨타임 돌기
+
+        druidStatus.PlaybattleBGM();
+       
         
         StartCoroutine(druidStatus.behaviorState.ToString());
     }
@@ -128,7 +131,6 @@ public class Druid_InBattle : DruidAction
             }
 
 
-
             if (druidStatus.state == MONSTER_STATE.Attack)  // 공격실행
             {
                 switch (attackType)
@@ -172,13 +174,13 @@ public class Druid_InBattle : DruidAction
                 else
                 {
                     StartCoroutine(CoolTime(Random.Range(5f, 9f)));
-                    yield return new WaitForSecondsRealtime(Random.Range(0.2f, 0.6f));
+                    yield return new WaitForSecondsRealtime(0.2f);
 
                     if (randomValue < 0.3f)
                         yield return StartCoroutine(WaitForAnimation("Flexing Muscle", 1f));
                     else if (randomValue < 0.4f)
                         yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
-                    else if(randomValue < 0.7f)
+                    else if(randomValue < 0.8f)
                     {
                         Debug.Log("공격 후 타겟방향보기");
                         SetDestinationDirection(druidStatus.target.transform);
@@ -186,7 +188,7 @@ public class Druid_InBattle : DruidAction
                             yield return StartCoroutine(rotationCoroutine);
                     }
                     else
-                        yield return new WaitForSecondsRealtime(Random.Range(0.5f, 1.1f));
+                        yield return new WaitForSecondsRealtime(Random.Range(0.3f, 0.7f));
                 }
             }
    

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class DruidStatus : MonsterStatus, IInteraction
 {
@@ -8,7 +9,15 @@ public class DruidStatus : MonsterStatus, IInteraction
     [HideInInspector] public MONSTER_STATE state = MONSTER_STATE.Idle;
     [HideInInspector] public Collider target;
     private DruidAction[] druidAction = new DruidAction[2];
-    
+
+    // 사운드
+    [SerializeField] private EventReference battleBGM;
+    [SerializeField] private EventReference[] attackSound;
+    [SerializeField] private EventReference[] hitSound;
+    [SerializeField] private EventReference[] stateSound;
+    [SerializeField] private EventReference walkSound;
+
+    private Player player;
     public override float Hp
     {
         get { return currentHp; }
@@ -44,16 +53,44 @@ public class DruidStatus : MonsterStatus, IInteraction
         druidAction[0] = GetComponent<Druid_SerchingTarget>();
         druidAction[1] = GetComponent<Druid_InBattle>();
         monsterInterActionCollider = GetComponent<CapsuleCollider>();
-
+        player = FindObjectOfType<Player>();
         table.Set();
         monsterName = "드루이드";
-        maxHp = 200;
+        maxHp = 1000;
         atk = 10;
         currentHp = maxHp;
         collectNumber = collectNumberOrigin;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+         //   Debug.Log("walk sound 재생");
+            PlayWalkSound();
+        }
 
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("bgm sound 재생");
+            PlaybattleBGM();
+        }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            int radomValue = Random.Range(0, 2);
+            Debug.Log(radomValue + " Hit sound");
+            PlayHitSound(radomValue);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            int radomValue = Random.Range(0, 6);
+            Debug.Log(radomValue + " Attack sound");
+            PlayAttackSound(radomValue);
+        }
+
+
+    }
 
     // 몬스터 갈무리 관련
     [System.Serializable] 
@@ -105,5 +142,48 @@ public class DruidStatus : MonsterStatus, IInteraction
         monsterInterActionCollider.enabled = false;
     }
 
+    /*
+        battleBGM;
+        attackSound;
+        hitSound;
+        walkSound;
+
+     */
+    #region 몬스터사운드
+    public void PlayAttackSound(int num)
+    {
+        RuntimeManager.PlayOneShot(attackSound[num].Path);
+    }
+    public void PlaybattleBGM()
+    {
+        RuntimeManager.PlayOneShot(battleBGM.Path);
+    }
+    public void PlayRoarSound()
+    {
+        if (!state.HasFlag(MONSTER_STATE.Attack))
+        {
+            RuntimeManager.PlayOneShot(attackSound[5].Path);
+        }
+    }
+
+    public void PlayHitSound(int num)
+    {
+        RuntimeManager.PlayOneShot(hitSound[num].Path);
+    }
+    public void PlayWalkSound()
+    {
+        if (Vector3.Distance(player.transform.position, transform.position) < 65f)
+        {
+            Debug.Log("걷기 사운드 재생, 거리 : " + Vector3.Distance(player.transform.position, transform.position));
+            RuntimeManager.PlayOneShot(walkSound.Path);
+        }
+
+    }    
+public void PlayStateSound(int num)
+    {
+        RuntimeManager.PlayOneShot(stateSound[num].Path);
+    }
+    
+    #endregion
 
 }
