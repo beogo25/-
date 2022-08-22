@@ -68,6 +68,7 @@ public class OrderQuestUI : MonoBehaviour
         {
             clearButton.SetActive(false);
             targetImage.color = Color.clear;
+            targetNum.text = "";
             targetName.text = "";
             clearGold.text = "";
             questName.text = "";
@@ -78,8 +79,15 @@ public class OrderQuestUI : MonoBehaviour
     public void QuestClear()
     {
         Quest quest = player.orderQuest ?? new Quest();
-        WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[quest.target], quest.targetNum);
-        PlayerStatus.gold += quest.clearGold;
+        if (quest.collectionQuest == true)
+        {
+            WarehouseManager.instance.MinusItem(DataManager.instance.materialsDic[quest.target], quest.targetNum);
+            PlayerStatus.gold += quest.clearGold;
+        }
+        else
+        {
+            PlayerStatus.gold += quest.clearGold;
+        }
         player.orderQuest = null;
         MainCanvas.instance.Exit();
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.questClear.Path);

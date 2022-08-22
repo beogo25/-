@@ -70,7 +70,7 @@ public class BattleItemSystem : MonoBehaviour
     }
     private void OnEnable()
     {
-        selectNum = 0;
+        SelectNum = SelectNum;
     }
     private void Update()
     {

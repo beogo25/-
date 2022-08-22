@@ -9,8 +9,13 @@ public class TutorialEndPortal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        for(int i = 0; i < destroyObjects.Length; i++)
-            Destroy(destroyObjects[i]);
+        DestroyObjects();
         GameManager.instance.LoadorNew(0);
+    }
+
+    public void DestroyObjects()
+    {
+        for (int i = 0; i < destroyObjects.Length; i++)
+            Destroy(destroyObjects[i]);
     }
 }

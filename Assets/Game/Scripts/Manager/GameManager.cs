@@ -35,6 +35,7 @@ public class GameManager : Singleton<GameManager>
         {
             case (int)SceneName.LOAD:
                 sceneName = "GameScene";
+                load = true;
                 break;
             case (int)SceneName.NEW:
                 sceneName = "Tutorial";

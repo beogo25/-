@@ -1,1 +1,1 @@
-{"equipmentWarehouseItem":[],"useItemWarehouseItem":[],"useItemWarehouseItemNum":[],"materialWarehouseItem":[],"materialWarehouseItemNum":[],"equipInventoryItem":[],"inventoryItem":[],"inventoryItemNum":[],"gold":10000}
+{"equipmentWarehouseItem":["철검"],"useItemWarehouseItem":["포션"],"useItemWarehouseItemNum":[1],"materialWarehouseItem":["철광석","약초","해독초","골드라이트광석","사파이언광석","사슴가죽","사슴뼈"],"materialWarehouseItemNum":[2,2,2,1,1,3,2],"equipInventoryItem":["철검"],"inventoryItem":["비약","해독제","괴력약","인내약"],"inventoryItemNum":[2,1,3,3],"gold":2900}

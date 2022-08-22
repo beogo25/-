@@ -30,6 +30,11 @@ public class EquipmentCombinationSystem : MonoBehaviour
             GameManager.instance.eventSystem.SetSelectedGameObject(contents.transform.GetChild(0).transform.gameObject);
         MainCanvas.instance.PlaySoundOneShot(MainCanvas.instance.shop.Path);
         combinationButton.SetActive(false);
+        resultContents.text = "";
+        materialAName.text = "";
+        materialBName.text = "";
+        needGold.text = "";
+        playerGold.text = "보유 금액 : " + PlayerStatus.gold.ToString();
     }
     private void Awake()
     {
