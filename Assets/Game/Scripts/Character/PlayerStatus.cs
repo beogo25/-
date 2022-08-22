@@ -43,6 +43,7 @@ public class PlayerStatus : MonoBehaviour
     private StatusAilment      ailment = 0;
     public  Transform          ailmentSprites;
 
+
     private Rigidbody          rb;
     public  StatusAilment      Ailment
     {
@@ -159,14 +160,15 @@ public class PlayerStatus : MonoBehaviour
     public void PlayerHit(float damage, float knockBackPower, Vector3 position, AttackType attackType = AttackType.NORMAL)
     {
         Hp -= damage;
-        if (damage > 0)
+
+        if(damage > 0)
+
         {
             rb.velocity = Vector3.zero;
             rb.AddForce((transform.position - position).normalized * knockBackPower, ForceMode.Impulse);
             player.HitDown();
             RuntimeManager.PlayOneShot(hitSound[0].Path);
         }
-
 
         switch (attackType)
         {
@@ -176,6 +178,7 @@ public class PlayerStatus : MonoBehaviour
                 poisonIEnumerator = Poison();
                 StartCoroutine(poisonIEnumerator);
                 break;
+
             case AttackType.BURN:
                 if (burnIEnumerator != null)
                     StopCoroutine(burnIEnumerator);
@@ -186,6 +189,7 @@ public class PlayerStatus : MonoBehaviour
                 break;
         }
     }
+
     public IEnumerator Poison()
     {   
         Ailment |= StatusAilment.POISON;

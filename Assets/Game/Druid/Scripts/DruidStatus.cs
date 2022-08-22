@@ -66,7 +66,6 @@ public class DruidStatus : MonsterStatus, IInteraction
     {
         druidAction[0] = GetComponent<Druid_SerchingTarget>();
         druidAction[1] = GetComponent<Druid_InBattle>();
-        monsterInterActionCollider = GetComponent<CapsuleCollider>();
         soundInstance = RuntimeManager.CreateInstance(battleBGM.Path);
         player = FindObjectOfType<Player>();
         

@@ -37,10 +37,7 @@ public abstract class DruidAction : MonoBehaviour
         druidStatus = GetComponent<DruidStatus>();
         animator = GetComponent<Animator>();
     }
-    private void Start()
-    {
-        Debug.Log(druidStatus.behaviorState + ", " + animator);
-    }
+
     public abstract void Init();
     public void ChangeState(MONSTER_BEHAVIOR_STATE newState)
     {
