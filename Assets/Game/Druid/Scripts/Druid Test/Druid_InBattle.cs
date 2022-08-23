@@ -298,10 +298,8 @@ public class Druid_InBattle : DruidAction
             {
                 if (druidStatus.state == MONSTER_STATE.Dead)
                 {
-                    Debug.Log("@@@@@@@@@@@@");
                     animator.SetBool("Dead", true);
                 }
-                Debug.Log("!!!!!!!!!!!!!");
                 yield return null;
             }
 

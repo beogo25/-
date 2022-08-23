@@ -146,7 +146,6 @@ public class DruidStatus : MonsterStatus, IInteraction
     }
     public void PlayRoarSound()
     {
-        Debug.Log("로어 사운드 실행" + state);
         if (!state.HasFlag(MONSTER_STATE.Attack))
         {
             RuntimeManager.PlayOneShot(attackSound[5].Path);

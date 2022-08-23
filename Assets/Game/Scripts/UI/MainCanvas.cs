@@ -46,7 +46,6 @@ public class MainCanvas : Singleton<MainCanvas>
         {
             if (Input.GetButtonDown("Start") || Input.GetButtonDown("Cancel"))
             {
-                Debug.Log("ºí·¯");
                 Exit();
             }
         }
