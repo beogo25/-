@@ -153,7 +153,7 @@ public class Druid_InBattle : DruidAction
                         break;
 
                     case MONSTER_ATTACK_TYPE.Run:
-                        momentTargetPosition = druidStatus.target.transform.position;   // 달려갈 위치
+                        
                         yield return StartCoroutine(RunToTartget());
                         break;
                 }
@@ -230,18 +230,20 @@ public class Druid_InBattle : DruidAction
         }
         else if (targetDistance < 16)           // 거리가 16미만 일때 
         {
-            if (randomValue <= 0.4f)
+            if (randomValue <= 0.3f)
                 return MONSTER_ATTACK_TYPE.JumpAttack;
-            else if (randomValue <= 0.7f)
+            else if (randomValue <= 0.55f)
                 return MONSTER_ATTACK_TYPE.Roar;
+            else if (randomValue <= 0.8f)
+                return MONSTER_ATTACK_TYPE.Throw;
             else
                 return MONSTER_ATTACK_TYPE.Run;
         }
         else                                    // 거리가 16~30일때 
         {
-            if (randomValue <= 0.3f)
+            if (randomValue <= 0.25f)
                 return MONSTER_ATTACK_TYPE.Roar;
-            else if (randomValue <= 0.6f)
+            else if (randomValue <= 0.65f)
                 return MONSTER_ATTACK_TYPE.Throw;
             else
                 return MONSTER_ATTACK_TYPE.Run;
@@ -259,6 +261,7 @@ public class Druid_InBattle : DruidAction
     }
     IEnumerator RunToTartget()
     {
+        momentTargetPosition = druidStatus.target.transform.position;   // 달려갈 위치
         animator.SetBool("Run", true);
 
         Vector3 targetDir = (momentTargetPosition - transform.position).normalized;
