@@ -36,13 +36,10 @@ public class Druid_InBattle : DruidAction
         if (CheckTargetIsInArea())
             ChangeState(MONSTER_BEHAVIOR_STATE.SerchingTarget);
 
-
-        if (Input.GetKeyDown(KeyCode.P))
+        if(Input.GetKeyDown(KeyCode.L))
         {
-            Debug.Log( "드루이드 상태 : "+druidStatus.state);
-            animator.SetTrigger("Dead");
+            Debug.Log("state : " + druidStatus.state + ", ani state : " + animator.GetBool("Dead"));
         }
-
     }
 
     float targetOutTime = 0;
@@ -89,7 +86,7 @@ public class Druid_InBattle : DruidAction
         float targetDistance;
         float randomValue;
 
-        if (startRoar)
+        if (startRoar)                                                  // 첫 전투에만 동작
         {
             SetDestinationDirection(druidStatus.target.transform);
             yield return StartCoroutine(rotationCoroutine);
@@ -104,26 +101,26 @@ public class Druid_InBattle : DruidAction
 
             if (attackCoolTime && (druidStatus.state == MONSTER_STATE.Idle || druidStatus.state == MONSTER_STATE.Walk))
             {
-                if (targetDistance < 25)
+                if (targetDistance < 30)
                 {
                     druidStatus.state &= ~MONSTER_STATE.Walk;
                     animator.SetBool("Walk", false);
 
                     druidStatus.state |= MONSTER_STATE.Rotation | MONSTER_STATE.Attack;
-                    SetDestinationDirection(druidStatus.target.transform, 18);                  // 타겟방향찾기(각도, 몬스터기준 좌/우)
+                    SetDestinationDirection(druidStatus.target.transform, 18);      // 타겟방향찾기(각도, 몬스터기준 좌/우)
                     if (rotationCoroutine != null)
                         yield return StartCoroutine(rotationCoroutine);             // 타겟방향으로 회전
 
                     randomValue = Random.value;
                     attackType = DecideAttackType(targetDistance, randomValue);     // 거리에 따라 랜덤으로 공격패턴
                 }
-                else                            // 타겟과의 거리가 25f 이상일때 너무 멀어서 추격
+                else                                // 타겟과의 거리가 30f 이상일때 너무 멀어서 추격
                 {
                     if(!druidStatus.state.HasFlag(MONSTER_STATE.Walk))
                         druidStatus.state |= MONSTER_STATE.Walk;
                 }
             }
-            else if (!attackCoolTime)            // 스킬 쿨타임일때 추격
+            else if (!attackCoolTime)               // 스킬 쿨타임일때 추격
             {
                 if (!druidStatus.state.HasFlag(MONSTER_STATE.Walk))
                     druidStatus.state |= MONSTER_STATE.Walk;
@@ -180,12 +177,12 @@ public class Druid_InBattle : DruidAction
                         yield return StartCoroutine(WaitForAnimation("Flexing Muscle", 1f));
                     else if (randomValue < 0.4f)
                         yield return StartCoroutine(WaitForAnimation("Stretch", 1f));
-                    else if(randomValue < 0.8f)
-                    {
-                        SetDestinationDirection(druidStatus.target.transform);
-                        if (rotationCoroutine != null)
-                            yield return StartCoroutine(rotationCoroutine);
-                    }
+                    //else if(randomValue < 0.8f)
+                    //{
+                    //    SetDestinationDirection(druidStatus.target.transform);
+                    //    if (rotationCoroutine != null)
+                    //        yield return StartCoroutine(rotationCoroutine);
+                    //}
                     else
                         yield return new WaitForSecondsRealtime(Random.Range(0.3f, 0.7f));
                 }
@@ -226,12 +223,10 @@ public class Druid_InBattle : DruidAction
         }
         else if (targetDistance < 8.5f)         // 거리가 8.5미만 일때 
         {
-            if (randomValue <= 0.6f)
+            if (randomValue <= 0.65f)
                 return MONSTER_ATTACK_TYPE.Swipe;
-            else if(randomValue <= 0.8f)
-                return MONSTER_ATTACK_TYPE.JumpAttack;
             else 
-                return MONSTER_ATTACK_TYPE.Roar;
+                return MONSTER_ATTACK_TYPE.JumpAttack;
         }
         else if (targetDistance < 16)           // 거리가 16미만 일때 
         {
@@ -242,7 +237,7 @@ public class Druid_InBattle : DruidAction
             else
                 return MONSTER_ATTACK_TYPE.Run;
         }
-        else                                    // 거리가 16~25 일때 
+        else                                    // 거리가 16~30일때 
         {
             if (randomValue <= 0.3f)
                 return MONSTER_ATTACK_TYPE.Roar;
@@ -299,16 +294,14 @@ public class Druid_InBattle : DruidAction
         
         if (name == "Stagger")  // 경직상태 
         {
-            //yield return StartCoroutine(WaitForAnimation("Stand Up", 1));
-            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Stand Up(Front Up)"))   // 애니메이션이 전환될때까지 대기
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))   // 애니메이션이 전환될때까지 대기
             {
-                Debug.Log("경직->기상상태");
-                druidStatus.state &= ~MONSTER_STATE.Stagger;
+                if (druidStatus.state == MONSTER_STATE.Dead)
+                {
+                    animator.SetBool("Dead", true);
+                }
                 yield return null;
             }
-
-            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))   // 애니메이션이 전환될때까지 대기
-                yield return null;
 
             if (druidStatus.state != MONSTER_STATE.Dead)
             {
@@ -398,17 +391,15 @@ public class Druid_InBattle : DruidAction
 
     public void Dead()
     {
-        Debug.Log("Dead실행시 드루상태 : " + druidStatus.state);
         animator.SetBool("Dead", true);
-        //if (druidStatus.state != MONSTER_STATE.Stagger)     // 경직상태가 아니라면 죽는 애니메이션 실행
-        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Stagger"))
+
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Stagger"))
+        {
             animator.SetTrigger("DeadTrigger");
+        }
 
         druidStatus.state = MONSTER_STATE.Dead;
         animator.SetInteger("Rotation", 0);
         StopAllCoroutines();
-        
- 
-
     }
 }

@@ -66,7 +66,6 @@ public class DruidStatus : MonsterStatus, IInteraction
     {
         druidAction[0] = GetComponent<Druid_SerchingTarget>();
         druidAction[1] = GetComponent<Druid_InBattle>();
-        monsterInterActionCollider = GetComponent<CapsuleCollider>();
         soundInstance = RuntimeManager.CreateInstance(battleBGM.Path);
         player = FindObjectOfType<Player>();
         
@@ -147,7 +146,6 @@ public class DruidStatus : MonsterStatus, IInteraction
     }
     public void PlayRoarSound()
     {
-        Debug.Log("로어 사운드 실행" + state);
         if (!state.HasFlag(MONSTER_STATE.Attack))
         {
             RuntimeManager.PlayOneShot(attackSound[5].Path);

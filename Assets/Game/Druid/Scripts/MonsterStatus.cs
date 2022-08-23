@@ -4,10 +4,9 @@ using UnityEngine;
 using System;
 public class MonsterStatus : MonoBehaviour
 {
-    public Sprite druidIcon;
+    [SerializeField] protected Collider monsterInterActionCollider;
     [HideInInspector] public string monsterName;
-
-    protected Collider monsterInterActionCollider;
+    public Sprite druidIcon;
     protected float maxHp;
     protected float currentHp;
     protected float atk;
